@@ -1,619 +1,435 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Classement mondial des nations</title>
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 
 body{
+    font-family:Arial,sans-serif;
+    background:#ffffff;
     margin:0;
-    background:#f3f4f7;
-    font-family:Arial, Helvetica, sans-serif;
-    color:#1d2d5b;
+    padding:20px;
+    color:#222;
 }
 
 .container{
-    width:1400px;
+    max-width:1400px;
     margin:auto;
-    padding-top:30px;
 }
 
-.title{
+h1{
     text-align:center;
-    font-size:58px;
-    font-weight:800;
+    font-size:48px;
     margin-bottom:10px;
+    color:#16315c;
 }
 
 .subtitle{
     text-align:center;
-    font-size:24px;
-    color:#66718f;
+    font-size:20px;
+    color:#666;
     margin-bottom:30px;
 }
 
-.topCard{
-    background:white;
-    border-radius:24px;
-    border:3px solid #2a54ff;
-    padding:25px 35px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.franceTitle{
-    font-size:28px;
-    font-weight:800;
-    color:#1736b6;
-}
-
-.franceSub{
-    margin-top:8px;
-    color:#6d7893;
-    font-size:20px;
-}
-
-.stats{
-    display:flex;
-    gap:40px;
-}
-
-.stat{
-    text-align:center;
-}
-
-.statValue{
-    font-size:54px;
-    font-weight:800;
-    color:#ef3340;
-}
-
-.statLabel{
-    font-size:18px;
-    color:#6d7893;
-}
-
-.controls{
+.topbar{
     display:flex;
     justify-content:center;
-    gap:18px;
+    gap:10px;
+    flex-wrap:wrap;
     margin-bottom:25px;
 }
 
 button{
     border:none;
-    padding:14px 24px;
-    border-radius:30px;
+    padding:12px 18px;
+    border-radius:12px;
     cursor:pointer;
-    font-size:18px;
-    font-weight:700;
+    font-size:15px;
+    font-weight:bold;
+    background:#e7ecf5;
+    color:#16315c;
 }
 
-.btnPrimary{
-    background:linear-gradient(90deg,#1736b6,#ef3340);
+button.active{
+    background:#16315c;
     color:white;
-}
-
-.btnSecondary{
-    background:#e8ecf5;
-    color:#1d2d5b;
 }
 
 .main{
     display:flex;
-    gap:25px;
+    gap:20px;
+    align-items:flex-start;
 }
 
-.chartContainer{
+.chartBox{
     flex:1;
     background:white;
-    border-radius:24px;
+    border-radius:20px;
     padding:20px;
-    box-shadow:0 0 10px rgba(0,0,0,0.05);
+    box-shadow:0 0 15px rgba(0,0,0,0.08);
 }
 
-.sidePanel{
-    width:300px;
-    background:#1d3564;
-    border-radius:24px;
-    padding:30px;
+.side{
+    width:320px;
+    background:#16315c;
     color:white;
+    border-radius:20px;
+    padding:20px;
 }
 
-.sideTitle{
+.side h2{
     text-align:center;
-    letter-spacing:3px;
-    font-size:14px;
-    opacity:0.8;
+    margin-top:0;
+    margin-bottom:20px;
+    font-size:24px;
 }
 
-.sideYear{
-    text-align:center;
-    font-size:78px;
-    font-weight:800;
-    margin-top:15px;
-    margin-bottom:25px;
-    color:#b9dcb8;
-}
-
-.rankItem{
+.rankingItem{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:14px 16px;
-    border-radius:14px;
-    margin-bottom:12px;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:10px;
     background:rgba(255,255,255,0.08);
-    font-size:20px;
 }
 
-.rankFrance{
-    background:linear-gradient(90deg,#243d9c,#9b304c);
-    border:2px solid rgba(255,255,255,0.4);
+.rankingItem.france{
+    background:#e63946;
 }
 
-.footer{
+.rankLeft{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+canvas{
+    width:100% !important;
+    height:700px !important;
+}
+
+.info{
     margin-top:20px;
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    color:#5d6785;
-    font-size:18px;
-}
-
-svg{
-    width:100%;
-    height:700px;
-}
-
-.axis text{
-    fill:#6d7893;
-    font-size:14px;
-}
-
-.axis line,
-.axis path{
-    stroke:#d9dfea;
+    padding:18px;
+    background:#f2f4f8;
+    border-radius:12px;
+    font-size:15px;
+    line-height:1.5;
 }
 
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-    <div class="title">
-        Classement mondial des nations
-    </div>
+<h1>Classement mondial des nations</h1>
 
-    <div class="subtitle">
-        Coupe du Monde de ski alpin · top 10 actuel sur 57 saisons (1970 - 2026)
-    </div>
+<div class="subtitle">
+Coupe du Monde de ski alpin • évolution historique des nations
+</div>
 
-    <div class="topCard">
+<div class="topbar">
 
-        <div>
-            <div class="franceTitle">
-                🇫🇷 FRANCE - Focus de l'analyse
-            </div>
+<button class="active" onclick="changeDataset('global',this)">GLOBAL</button>
+<button onclick="changeDataset('men',this)">HOMMES</button>
+<button onclick="changeDataset('women',this)">DAMES</button>
 
-            <div class="franceSub">
-                Evolution historique dynamique du classement mondial
-            </div>
-        </div>
+<button onclick="changeMode('rank',this)">PAR RANG</button>
+<button onclick="changeMode('points',this)">PAR POINTS</button>
 
-        <div class="stats">
+<button onclick="changeSpeed(1200,this)">NORMAL</button>
+<button onclick="changeSpeed(300,this)">RAPIDE</button>
 
-            <div class="stat">
-                <div class="statValue">6e</div>
-                <div class="statLabel">Rang 2026</div>
-            </div>
+</div>
 
-            <div class="stat">
-                <div class="statValue">4177</div>
-                <div class="statLabel">Points 2026</div>
-            </div>
+<div class="main">
 
-            <div class="stat">
-                <div class="statValue">1er</div>
-                <div class="statLabel">Meilleur</div>
-            </div>
+<div class="chartBox">
+<canvas id="chart"></canvas>
+</div>
 
-            <div class="stat">
-                <div class="statValue">8e</div>
-                <div class="statLabel">Pire</div>
-            </div>
+<div class="side">
 
-        </div>
+<h2>Classement 2026</h2>
 
-    </div>
+<div id="ranking"></div>
 
-    <div class="controls">
+</div>
 
-        <button class="btnPrimary" onclick="restartAnimation()">
-            ▶ Rejouer l'animation
-        </button>
+</div>
 
-        <button class="btnSecondary" onclick="setMode('rank')">
-            Par rang
-        </button>
-
-        <button class="btnSecondary" onclick="setMode('points')">
-            Par points
-        </button>
-
-        <button class="btnSecondary" onclick="setSpeed('normal')">
-            Vitesse normale
-        </button>
-
-        <button class="btnSecondary" onclick="setSpeed('fast')">
-            Vitesse rapide
-        </button>
-
-    </div>
-
-    <div class="main">
-
-        <div class="chartContainer">
-            <svg></svg>
-        </div>
-
-        <div class="sidePanel">
-
-            <div class="sideTitle">
-                CLASSEMENT FINAL
-            </div>
-
-            <div class="sideYear">
-                2026
-            </div>
-
-            <div id="rankingList"></div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-        <b>Comment lire :</b>
-        Le graphique trace l’évolution des meilleures nations du ski alpin
-        entre 1970 et 2026. La France est volontairement mise en avant.
-    </div>
+<div class="info">
+Les autres nations sont volontairement atténuées pour mettre la France en valeur.
+</div>
 
 </div>
 
 <script>
 
-let mode = "rank";
-let speed = 350;
-let timer;
+let currentMode='rank';
+let animationSpeed=1200;
 
-function setMode(newMode){
-
-    mode = newMode;
-
-    currentYear = 1970;
-
-    update(currentYear);
-
-}
-
-function setSpeed(type){
-
-    speed = type === "fast"
-        ? 90
-        : 350;
-
-    restartAnimation();
-
-}
-
-function restartAnimation(){
-
-    clearInterval(timer);
-
-    currentYear = 1970;
-
-    update(currentYear);
-
-    startAnimation();
-
-}
-
-const svg = d3.select("svg");
-
-const width = 1000;
-const height = 700;
-
-const margin = {
-    top:30,
-    right:120,
-    bottom:60,
-    left:80
+const nationColors={
+    FRA:'#0057b8',
+    AUT:'#d62828',
+    SUI:'#2a9d8f',
+    ITA:'#2b9348',
+    USA:'#6c757d',
+    NOR:'#8d99ae',
+    GER:'#000000',
+    CAN:'#ff8800',
+    SWE:'#c77dff'
 };
 
-const chartWidth =
-    width - margin.left - margin.right;
+let chart;
 
-const chartHeight =
-    height - margin.top - margin.bottom;
+async function loadData(type){
 
-const g = svg.append("g")
-    .attr(
-        "transform",
-        `translate(${margin.left},${margin.top})`
-    );
+    let men=await fetch('data M.json').then(r=>r.json());
+    let women=await fetch('data W.json').then(r=>r.json());
 
-fetch("./data.json")
+    let data=[];
 
-.then(r => r.json())
+    if(type==='men') data=men;
+    else if(type==='women') data=women;
+    else{
 
-.then(data => {
+        const map={};
 
-    data.forEach(d => {
+        [...men,...women].forEach(d=>{
 
-        d.Season = +d.Season;
-        d.NationRank = +d.NationRank;
-        d.NationPoints = +d.NationPoints;
+            const key=d.Season+'_'+d.Nation;
 
-    });
+            if(!map[key]){
+                map[key]={
+                    Season:d.Season,
+                    Nation:d.Nation,
+                    NationPoints:0
+                };
+            }
 
-    const nations =
-        [...new Set(data.map(d => d.Nation))];
+            map[key].NationPoints+=d.NationPoints;
 
-    const seasons =
-        [...new Set(data.map(d => d.Season))]
-        .sort((a,b)=>a-b);
+        });
 
-    const ranking2026 =
-        data
-        .filter(d => d.Season === 2026)
-        .sort((a,b)=>a.NationRank-b.NationRank);
+        data=Object.values(map);
 
-    document.getElementById("rankingList")
-        .innerHTML =
-            ranking2026.map(d => `
+        const seasons=[...new Set(data.map(d=>d.Season))];
 
-                <div class="rankItem ${d.Nation === 'FRA' ? 'rankFrance' : ''}">
+        let final=[];
 
-                    <div>
-                        ${d.NationRank}. ${d.Nation}
-                    </div>
+        seasons.forEach(season=>{
 
-                    <div>
-                        ${d.NationPoints}
-                    </div>
+            let rows=data
+                .filter(d=>d.Season===season)
+                .sort((a,b)=>b.NationPoints-a.NationPoints);
 
-                </div>
+            rows.forEach((r,i)=>{
+                r.NationRank=i+1;
+                final.push(r);
+            });
 
-            `).join("");
+        });
 
-    const x = d3.scaleLinear()
-        .domain([1970,2026])
-        .range([0, chartWidth]);
-
-    let y = d3.scaleLinear()
-        .domain([10,1])
-        .range([chartHeight,0]);
-
-    const line = d3.line()
-        .defined(d => d.value !== null)
-        .x(d => x(d.Season))
-        .y(d => y(d.value))
-        .curve(d3.curveMonotoneX);
-
-    const xAxis = g.append("g")
-        .attr(
-            "transform",
-            `translate(0,${chartHeight})`
-        )
-        .attr("class","axis");
-
-    const yAxis = g.append("g")
-        .attr("class","axis");
-
-    function drawAxes(){
-
-        xAxis.call(
-            d3.axisBottom(x)
-            .tickFormat(d3.format("d"))
-        );
-
-        yAxis.call(
-            d3.axisLeft(y)
-        );
-
+        data=final;
     }
 
-    drawAxes();
+    buildChart(data);
 
-    const nationData = nations.map(nation => {
+}
 
-        return {
+function buildChart(data){
 
-            nation,
+    const seasons=[...new Set(data.map(d=>d.Season))].sort();
 
-            values: seasons.map(season => {
+    const nations=[...new Set(data.map(d=>d.Nation))];
 
-                const found = data.find(d =>
+    const datasets=nations.map(nation=>{
 
-                    d.Nation === nation &&
-                    d.Season === season
+        const rows=data.filter(d=>d.Nation===nation);
 
-                );
+        const color=nationColors[nation] || '#999';
 
-                return {
+        return{
+            label:nation,
+            data:seasons.map(season=>{
 
-                    Season: season,
+                const found=rows.find(r=>r.Season===season);
 
-                    rank: found
-                        ? found.NationRank
-                        : null,
+                if(!found) return null;
 
-                    points: found
-                        ? found.NationPoints
-                        : null
+                return currentMode==='rank'
+                    ? found.NationRank
+                    : found.NationPoints;
 
-                };
-
-            })
-
+            }),
+            borderColor:color,
+            backgroundColor:color,
+            borderWidth:nation==='FRA'?6:2,
+            pointRadius:nation==='FRA'?5:1,
+            pointHoverRadius:nation==='FRA'?7:2,
+            tension:0.25,
+            fill:false,
+            borderDash:nation==='FRA'?[]:[4,4],
+            opacity:nation==='FRA'?1:0.25
         };
 
     });
 
-    const paths = g.selectAll(".line")
-        .data(nationData)
-        .enter()
-        .append("path")
-        .attr("fill","none")
-        .attr("stroke", d =>
+    if(chart) chart.destroy();
 
-            d.nation === "FRA"
-                ? "#0f5cc0"
-                : "#cdd5e8"
+    chart=new Chart(document.getElementById('chart'),{
 
-        )
-        .attr("stroke-width", d =>
+        type:'line',
 
-            d.nation === "FRA"
-                ? 6
-                : 2
+        data:{
+            labels:seasons,
+            datasets:datasets
+        },
 
-        );
+        options:{
 
-    const labels = g.selectAll(".label")
-        .data(nationData)
-        .enter()
-        .append("text")
-        .attr("font-weight","700")
-        .attr("fill", d =>
+            responsive:true,
 
-            d.nation === "FRA"
-                ? "#0f5cc0"
-                : "#aeb9d3"
+            animation:{
+                duration:animationSpeed
+            },
 
-        )
-        .attr("font-size", d =>
+            interaction:{
+                intersect:false,
+                mode:'nearest'
+            },
 
-            d.nation === "FRA"
-                ? "24px"
-                : "16px"
+            plugins:{
+                legend:{
+                    labels:{
+                        generateLabels(chart){
 
-        )
-        .text(d => d.nation);
+                            const labels=
+                            Chart.defaults.plugins.legend.labels.generateLabels(chart);
 
-    window.currentYear = 1970;
+                            labels.forEach(l=>{
 
-    function update(year){
+                                l.fillStyle=nationColors[l.text] || '#999';
+                                l.strokeStyle=nationColors[l.text] || '#999';
 
-        if(mode === "rank"){
+                            });
 
-            y = d3.scaleLinear()
-                .domain([10,1])
-                .range([chartHeight,0]);
+                            return labels;
+                        }
+                    }
+                }
+            },
 
-        }else{
+            scales:{
 
-            y = d3.scaleLinear()
-                .domain([
-                    0,
-                    d3.max(data,d=>d.NationPoints)
-                ])
-                .range([chartHeight,0]);
+                y:{
 
-        }
+                    reverse:currentMode==='rank',
 
-        drawAxes();
+                    title:{
+                        display:true,
+                        text:currentMode==='rank'
+                        ? 'Rang mondial'
+                        : 'Points'
+                    }
 
-        paths.attr("d", d => {
-
-            const filtered =
-                d.values
-                .filter(v => v.Season <= year)
-                .map(v => ({
-
-                    Season: v.Season,
-
-                    value:
-                        mode === "rank"
-                        ? v.rank
-                        : v.points
-
-                }));
-
-            return line(filtered);
-
-        });
-
-        labels
-            .attr("x", d => {
-
-                const point =
-                    d.values.find(v =>
-                        v.Season === year
-                    );
-
-                return point
-                    ? x(point.Season) + 10
-                    : -999;
-
-            })
-            .attr("y", d => {
-
-                const point =
-                    d.values.find(v =>
-                        v.Season === year
-                    );
-
-                if(!point) return -999;
-
-                return y(
-
-                    mode === "rank"
-                    ? point.rank
-                    : point.points
-
-                );
-
-            });
-
-    }
-
-    function startAnimation(){
-
-        timer = setInterval(() => {
-
-            currentYear++;
-
-            if(currentYear > 2026){
-
-                clearInterval(timer);
-
-                return;
+                }
 
             }
 
-            update(currentYear);
+        }
 
-        }, speed);
+    });
 
-    }
+    updateRanking(data);
 
-    update(1970);
+}
 
-    startAnimation();
+function updateRanking(data){
 
-});
+    const season=2026;
+
+    const ranking=data
+        .filter(d=>d.Season===season)
+        .sort((a,b)=>a.NationRank-b.NationRank)
+        .slice(0,10);
+
+    const container=document.getElementById('ranking');
+
+    container.innerHTML='';
+
+    ranking.forEach(r=>{
+
+        const div=document.createElement('div');
+
+        div.className='rankingItem';
+
+        if(r.Nation==='FRA') div.classList.add('france');
+
+        div.innerHTML=`
+            <div class="rankLeft">
+                <strong>${r.NationRank}</strong>
+                <span style="color:${nationColors[r.Nation] || '#fff'}">
+                    ${r.Nation}
+                </span>
+            </div>
+
+            <div>
+                ${r.NationPoints.toLocaleString()}
+            </div>
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+function changeDataset(type,btn){
+
+    document.querySelectorAll('.topbar button')
+        .forEach(b=>b.classList.remove('active'));
+
+    btn.classList.add('active');
+
+    loadData(type);
+
+}
+
+function changeMode(mode){
+
+    currentMode=mode;
+
+    loadData(currentDataset);
+
+}
+
+function changeSpeed(speed){
+
+    animationSpeed=speed;
+
+}
+
+let currentDataset='global';
+
+function changeDataset(type){
+
+    currentDataset=type;
+
+    loadData(type);
+
+}
+
+loadData('global');
 
 </script>
 
