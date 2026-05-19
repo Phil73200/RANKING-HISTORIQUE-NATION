@@ -188,6 +188,10 @@ Hommes
 Dames
 </button>
 
+<button id="btnReplay">
+Rejouer animation
+</button>
+
 </div>
 
 <div class="main-layout">
@@ -250,6 +254,8 @@ const nationFlags={
     BRA:'🇧🇷'
 };
 
+let fullData=[];
+
 async function loadData(){
 
     let file='data.json';
@@ -267,17 +273,20 @@ async function loadData(){
     return await response.json();
 }
 
-async function buildChart(){
+async function init(){
 
-    const data=await loadData();
+    fullData=await loadData();
+
+    animateChart();
+
+    buildRanking(fullData);
+}
+
+function animateChart(){
 
     const nations=[
-        ...new Set(data.map(d=>d.Nation))
+        ...new Set(fullData.map(d=>d.Nation))
     ];
-
-    const seasons=[
-        ...new Set(data.map(d=>d.Season))
-    ].sort((a,b)=>a-b);
 
     const traces=[];
 
@@ -287,45 +296,43 @@ async function buildChart(){
             return;
         }
 
-        const rows=data.filter(
-            d=>d.Nation===nation
-        );
+        const rows=fullData
+            .filter(d=>d.Nation===nation)
+            .sort((a,b)=>a.Season-b.Season);
 
-        const x=rows.map(r=>r.Season);
+        const x=[];
+        const y=[];
 
-        const y=rows.map(r=>
-            currentMode==='rank'
-            ? r.NationRank
-            : r.NationPoints
-        );
+        rows.forEach(r=>{
 
-        const lastRow=rows[rows.length-1];
+            x.push(r.Season);
+
+            y.push(
+                currentMode==='rank'
+                ? r.NationRank
+                : r.NationPoints
+            );
+        });
 
         traces.push({
 
-            x:x,
-
-            y:y,
+            x:[],
+            y:[],
 
             mode:'lines+text',
 
-            name:nation,
-
-            text:[
-                ...new Array(x.length-1).fill(''),
-                `${nationFlags[nation] || ''} ${nation}`
-            ],
+            text:[],
 
             textposition:'middle right',
 
             textfont:{
-                size:nation==='FRA' ? 18 : 13,
-                color:nationColors[nation] || '#999'
+                size:nation==='FRA' ? 20 : 16,
+                color:nationColors[nation]
             },
 
             line:{
-                color:nationColors[nation] || '#999',
-                width:nation==='FRA' ? 6 : 2
+                color:nationColors[nation],
+                width:nation==='FRA' ? 7 : 2.5
             },
 
             opacity:
@@ -333,18 +340,22 @@ async function buildChart(){
                 ? 1
                 : franceOnly
                     ? 0
-                    : 0.35,
+                    : 0.55,
 
             hovertemplate:
-                '<b>%{fullData.name}</b><br>' +
-                'Saison %{x}<br>' +
+                '<b>'+nation+'</b><br>'+
+                'Saison %{x}<br>'+
                 (
                     currentMode==='rank'
                     ? 'Rang %{y}'
                     : 'Points %{y}'
-                ) +
+                )+
                 '<extra></extra>'
         });
+
+        traces[traces.length-1].fullX=x;
+        traces[traces.length-1].fullY=y;
+        traces[traces.length-1].nation=nation;
     });
 
     const layout={
@@ -354,7 +365,7 @@ async function buildChart(){
 
         margin:{
             l:80,
-            r:120,
+            r:170,
             t:20,
             b:60
         },
@@ -405,7 +416,54 @@ async function buildChart(){
         }
     );
 
-    buildRanking(data);
+    let frame=0;
+
+    const maxLength=Math.max(
+        ...traces.map(t=>t.fullX.length)
+    );
+
+    const interval=setInterval(()=>{
+
+        const update={
+
+            x:[],
+            y:[],
+            text:[]
+        };
+
+        traces.forEach(trace=>{
+
+            const xData=trace.fullX.slice(0,frame+1);
+
+            const yData=trace.fullY.slice(0,frame+1);
+
+            let textArray=
+                new Array(xData.length).fill('');
+
+            if(frame >= trace.fullX.length-1){
+
+                textArray[textArray.length-1]=
+                    `${nationFlags[trace.nation]} ${trace.nation}`;
+            }
+
+            update.x.push(xData);
+            update.y.push(yData);
+            update.text.push(textArray);
+        });
+
+        Plotly.update(
+            'chart',
+            update
+        );
+
+        frame++;
+
+        if(frame>maxLength){
+
+            clearInterval(interval);
+        }
+
+    },70);
 }
 
 function buildRanking(data){
@@ -439,7 +497,7 @@ function buildRanking(data){
                 <strong>${row.NationRank}</strong>
 
                 <span>
-                    ${nationFlags[row.Nation] || ''}
+                    ${nationFlags[row.Nation]}
                     ${row.Nation}
                 </span>
 
@@ -479,7 +537,7 @@ document.getElementById('btnRank').onclick=()=>{
         ['btnRank','btnPoints']
     );
 
-    buildChart();
+    animateChart();
 };
 
 document.getElementById('btnPoints').onclick=()=>{
@@ -491,7 +549,7 @@ document.getElementById('btnPoints').onclick=()=>{
         ['btnRank','btnPoints']
     );
 
-    buildChart();
+    animateChart();
 };
 
 document.getElementById('btnAll').onclick=()=>{
@@ -503,7 +561,7 @@ document.getElementById('btnAll').onclick=()=>{
         ['btnAll','btnFrance']
     );
 
-    buildChart();
+    animateChart();
 };
 
 document.getElementById('btnFrance').onclick=()=>{
@@ -515,10 +573,10 @@ document.getElementById('btnFrance').onclick=()=>{
         ['btnAll','btnFrance']
     );
 
-    buildChart();
+    animateChart();
 };
 
-document.getElementById('btnOverall').onclick=()=>{
+document.getElementById('btnOverall').onclick=async()=>{
 
     currentGender='overall';
 
@@ -527,10 +585,10 @@ document.getElementById('btnOverall').onclick=()=>{
         ['btnOverall','btnMen','btnLadies']
     );
 
-    buildChart();
+    await init();
 };
 
-document.getElementById('btnMen').onclick=()=>{
+document.getElementById('btnMen').onclick=async()=>{
 
     currentGender='men';
 
@@ -539,10 +597,10 @@ document.getElementById('btnMen').onclick=()=>{
         ['btnOverall','btnMen','btnLadies']
     );
 
-    buildChart();
+    await init();
 };
 
-document.getElementById('btnLadies').onclick=()=>{
+document.getElementById('btnLadies').onclick=async()=>{
 
     currentGender='ladies';
 
@@ -551,10 +609,15 @@ document.getElementById('btnLadies').onclick=()=>{
         ['btnOverall','btnMen','btnLadies']
     );
 
-    buildChart();
+    await init();
 };
 
-buildChart();
+document.getElementById('btnReplay').onclick=()=>{
+
+    animateChart();
+};
+
+init();
 
 </script>
 
