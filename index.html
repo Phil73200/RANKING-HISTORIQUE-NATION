@@ -26,13 +26,15 @@ body{
 
 h1{
     text-align:center;
-    margin-bottom:10px;
+    font-size:34px;
+    margin-bottom:8px;
 }
 
 .subtitle{
     text-align:center;
     color:#666;
-    margin-bottom:20px;
+    margin-bottom:25px;
+    font-size:16px;
 }
 
 .controls{
@@ -40,15 +42,21 @@ h1{
     justify-content:center;
     gap:10px;
     margin-bottom:20px;
+    flex-wrap:wrap;
 }
 
 button{
-    padding:10px 16px;
+    padding:10px 18px;
     border:none;
     border-radius:8px;
     cursor:pointer;
     background:#e9ecef;
     font-size:14px;
+    transition:0.2s;
+}
+
+button:hover{
+    opacity:0.9;
 }
 
 button.active{
@@ -57,7 +65,7 @@ button.active{
 }
 
 .chart-container{
-    height:80vh;
+    height:82vh;
 }
 
 </style>
@@ -67,20 +75,20 @@ button.active{
 
 <div class="container">
 
-<h1>FIS Alpine Nations Ranking</h1>
+    <h1>FIS Alpine Nations Ranking</h1>
 
-<div class="subtitle">
-Evolution des meilleures nations alpines de 1970 à 2026
-</div>
+    <div class="subtitle">
+        Evolution des meilleures nations alpines de 1970 à 2026
+    </div>
 
-<div class="controls">
-    <button id="btnRank" class="active">Classement</button>
-    <button id="btnPoints">Points</button>
-</div>
+    <div class="controls">
+        <button id="btnRank" class="active">Classement</button>
+        <button id="btnPoints">Points</button>
+    </div>
 
-<div class="chart-container">
-    <canvas id="chart"></canvas>
-</div>
+    <div class="chart-container">
+        <canvas id="chart"></canvas>
+    </div>
 
 </div>
 
@@ -89,6 +97,7 @@ Evolution des meilleures nations alpines de 1970 à 2026
 let currentMode='rank';
 
 const nationColors={
+
     FRA:'#0057b8',
     AUT:'#d62828',
     SUI:'#2a9d8f',
@@ -114,23 +123,19 @@ async function buildChart(){
 
     const data=await loadData();
 
-    const filtered=data.filter(
-        d=>d.Nation!=='FIN'
-    );
-
     const nations=[
-        ...new Set(filtered.map(d=>d.Nation))
+        ...new Set(data.map(d=>d.Nation))
     ];
 
     const seasons=[
-        ...new Set(filtered.map(d=>d.Season))
+        ...new Set(data.map(d=>d.Season))
     ].sort((a,b)=>a-b);
 
     const datasets=nations.map(nation=>{
 
         const values=seasons.map(season=>{
 
-            const found=filtered.find(
+            const found=data.find(
                 d=>
                     d.Season===season
                     && d.Nation===nation
@@ -187,9 +192,37 @@ async function buildChart(){
 
                 animation:false,
 
+                interaction:{
+                    mode:'nearest',
+                    intersect:false
+                },
+
                 plugins:{
+
                     legend:{
-                        position:'right'
+                        position:'right',
+                        labels:{
+                            font:{
+                                size:13
+                            }
+                        }
+                    },
+
+                    tooltip:{
+                        callbacks:{
+
+                            label:function(context){
+
+                                const nation=context.dataset.label;
+                                const value=context.raw;
+
+                                if(currentMode==='rank'){
+                                    return nation + ' : Rank ' + value;
+                                }
+
+                                return nation + ' : ' + value + ' pts';
+                            }
+                        }
                     }
                 },
 
@@ -204,8 +237,31 @@ async function buildChart(){
                             : undefined,
 
                         max:currentMode==='rank'
-                            ? 10
-                            : undefined
+                            ? 20
+                            : undefined,
+
+                        ticks:{
+
+                            stepSize:1,
+
+                            color:'#444'
+                        },
+
+                        grid:{
+                            color:'#e5e5e5'
+                        }
+                    },
+
+                    x:{
+
+                        ticks:{
+                            color:'#444',
+                            maxTicksLimit:20
+                        },
+
+                        grid:{
+                            color:'#f3f3f3'
+                        }
                     }
                 }
             }
