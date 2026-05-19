@@ -20,7 +20,7 @@ body{
 
 .wrapper{
     width:96%;
-    max-width:1700px;
+    max-width:1750px;
     margin:auto;
     padding:20px;
 }
@@ -28,8 +28,8 @@ body{
 h1{
     text-align:center;
     font-size:54px;
-    margin-bottom:8px;
     margin-top:10px;
+    margin-bottom:8px;
 }
 
 .subtitle{
@@ -42,14 +42,14 @@ h1{
 .buttons{
     display:flex;
     justify-content:center;
-    gap:12px;
     flex-wrap:wrap;
+    gap:12px;
     margin-bottom:25px;
 }
 
 button{
     border:none;
-    padding:14px 24px;
+    padding:14px 22px;
     border-radius:14px;
     cursor:pointer;
     font-size:16px;
@@ -57,10 +57,6 @@ button{
     background:#dbe3f0;
     color:#1d2a44;
     transition:.2s;
-}
-
-button:hover{
-    transform:translateY(-1px);
 }
 
 button.active{
@@ -129,7 +125,7 @@ canvas{
     }
 
     canvas{
-        height:600px !important;
+        height:620px !important;
     }
 
 }
@@ -141,57 +137,65 @@ canvas{
 
 <div class="wrapper">
 
-    <h1>Classement mondial des nations</h1>
+<h1>Classement mondial des nations</h1>
 
-    <div class="subtitle">
-        Coupe du Monde de ski alpin • Evolution historique des meilleures nations
-    </div>
+<div class="subtitle">
+Coupe du Monde de ski alpin • Evolution historique des meilleures nations
+</div>
 
-    <div class="buttons">
+<div class="buttons">
 
-        <button id="overallBtn" class="active">
-            Overall
-        </button>
+<button id="overallBtn" class="active">
+Overall
+</button>
 
-        <button id="menBtn">
-            Hommes
-        </button>
+<button id="menBtn">
+Hommes
+</button>
 
-        <button id="womenBtn">
-            Dames
-        </button>
+<button id="womenBtn">
+Dames
+</button>
 
-        <button id="focusBtn">
-            Focus France
-        </button>
+<button id="rankBtn" class="active">
+Par rang
+</button>
 
-        <button id="replayBtn">
-            Rejouer animation
-        </button>
+<button id="pointsBtn">
+Par points
+</button>
 
-    </div>
+<button id="focusBtn">
+Focus France
+</button>
 
-    <div class="main">
+<button id="replayBtn">
+Rejouer animation
+</button>
 
-        <div class="chartCard">
-            <canvas id="chart"></canvas>
-        </div>
+</div>
 
-        <div class="side">
+<div class="main">
 
-            <div class="sideTitle">
-                CLASSEMENT FINAL
-            </div>
+<div class="chartCard">
+<canvas id="chart"></canvas>
+</div>
 
-            <div class="bigYear">
-                2026
-            </div>
+<div class="side">
 
-            <div id="ranking"></div>
+<div class="sideTitle">
+CLASSEMENT FINAL
+</div>
 
-        </div>
+<div class="bigYear">
+2026
+</div>
 
-    </div>
+<div id="ranking"></div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -228,6 +232,8 @@ let menData = [];
 let womenData = [];
 
 let currentMode = "overall";
+let currentDisplay = "rank";
+
 let focusFrance = false;
 
 let chart;
@@ -284,9 +290,13 @@ function buildChart(animated=true){
                     d.Nation===nation
             );
 
-            return found
+            if(!found){
+                return null;
+            }
+
+            return currentDisplay==="rank"
                 ? found.NationRank
-                : null;
+                : found.NationPoints;
 
         });
 
@@ -356,7 +366,12 @@ function buildChart(animated=true){
 
                                 return (
                                     LABELS[ctx.dataset.label] +
-                                    " • Rang " +
+                                    " • " +
+                                    (
+                                        currentDisplay==="rank"
+                                        ? "Rang "
+                                        : "Points "
+                                    ) +
                                     ctx.parsed.y
                                 );
 
@@ -370,24 +385,40 @@ function buildChart(animated=true){
 
                     y:{
 
-                        reverse:true,
+                        reverse:
+                            currentDisplay==="rank",
 
-                        suggestedMin:1,
-                        suggestedMax:12,
+                        suggestedMin:
+                            currentDisplay==="rank"
+                            ? 1
+                            : 0,
+
+                        suggestedMax:
+                            currentDisplay==="rank"
+                            ? 12
+                            : undefined,
 
                         ticks:{
-                            stepSize:1,
+
                             color:"#111",
+
                             font:{
                                 size:18,
                                 weight:"bold"
                             }
+
                         },
 
                         title:{
                             display:true,
-                            text:"Rang mondial",
+
+                            text:
+                                currentDisplay==="rank"
+                                ? "Rang mondial"
+                                : "Points Coupe du Monde",
+
                             color:"#111",
+
                             font:{
                                 size:26,
                                 weight:"bold"
@@ -450,8 +481,7 @@ function buildChart(animated=true){
                 afterDraw(chart){
 
                     const {
-                        ctx,
-                        chartArea:{right}
+                        ctx
                     } = chart;
 
                     ctx.save();
@@ -489,7 +519,7 @@ function buildChart(animated=true){
 
                         ctx.fillText(
                             LABELS[dataset.label],
-                            right + 35,
+                            point.x + 20,
                             point.y + 6
                         );
 
@@ -550,16 +580,30 @@ function buildRanking(){
 
 }
 
-function activate(id){
+function refreshButtons(){
 
     document
-        .querySelectorAll(".buttons button")
-        .forEach(b=>
-            b.classList.remove("active")
+        .querySelectorAll("button")
+        .forEach(btn=>
+            btn.classList.remove("active")
         );
 
     document
-        .getElementById(id)
+        .getElementById(
+            currentMode==="overall"
+            ? "overallBtn"
+            : currentMode==="men"
+            ? "menBtn"
+            : "womenBtn"
+        )
+        .classList.add("active");
+
+    document
+        .getElementById(
+            currentDisplay==="rank"
+            ? "rankBtn"
+            : "pointsBtn"
+        )
         .classList.add("active");
 
     if(focusFrance){
@@ -578,9 +622,9 @@ document
 
     currentMode="overall";
 
-    activate("overallBtn");
+    refreshButtons();
 
-    buildChart(false);
+    buildChart(true);
 
 };
 
@@ -590,9 +634,9 @@ document
 
     currentMode="men";
 
-    activate("menBtn");
+    refreshButtons();
 
-    buildChart(false);
+    buildChart(true);
 
 };
 
@@ -602,9 +646,33 @@ document
 
     currentMode="women";
 
-    activate("womenBtn");
+    refreshButtons();
 
-    buildChart(false);
+    buildChart(true);
+
+};
+
+document
+.getElementById("rankBtn")
+.onclick = ()=>{
+
+    currentDisplay="rank";
+
+    refreshButtons();
+
+    buildChart(true);
+
+};
+
+document
+.getElementById("pointsBtn")
+.onclick = ()=>{
+
+    currentDisplay="points";
+
+    refreshButtons();
+
+    buildChart(true);
 
 };
 
@@ -614,11 +682,9 @@ document
 
     focusFrance = !focusFrance;
 
-    document
-        .getElementById("focusBtn")
-        .classList.toggle("active");
+    refreshButtons();
 
-    buildChart(false);
+    buildChart(true);
 
 };
 
