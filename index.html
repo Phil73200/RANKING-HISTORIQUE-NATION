@@ -19,7 +19,7 @@ body{
 }
 
 .container{
-    max-width:1500px;
+    max-width:1550px;
     margin:auto;
 }
 
@@ -121,7 +121,7 @@ button.active{
 
 canvas{
     width:100% !important;
-    height:720px !important;
+    height:760px !important;
 }
 
 .info{
@@ -187,7 +187,8 @@ PAR POINTS
 </div>
 
 <div class="info">
-Les autres nations sont volontairement atténuées afin de mettre la France davantage en valeur dans la visualisation.
+Visualisation historique des meilleures nations de Coupe du Monde.
+La France est volontairement mise davantage en évidence.
 </div>
 
 </div>
@@ -196,53 +197,119 @@ Les autres nations sont volontairement atténuées afin de mettre la France dava
 
 let chart;
 
-let currentDataset = 'global';
-let currentMode = 'rank';
+let currentDataset='global';
+let currentMode='rank';
 
-const nationColors = {
+const nationColors={
     FRA:'#0057b8',
     AUT:'#d62828',
     SUI:'#2a9d8f',
     ITA:'#2b9348',
     USA:'#7b8794',
     NOR:'#8d99ae',
-    GER:'#000000',
+    GER:'#111111',
     CAN:'#ff8800',
     SWE:'#9d4edd',
     BRA:'#2dc653'
 };
 
+const nationFlags={
+    FRA:'🇫🇷',
+    AUT:'🇦🇹',
+    SUI:'🇨🇭',
+    ITA:'🇮🇹',
+    USA:'🇺🇸',
+    NOR:'🇳🇴',
+    GER:'🇩🇪',
+    CAN:'🇨🇦',
+    SWE:'🇸🇪',
+    BRA:'🇧🇷'
+};
+
+const endLabelsPlugin={
+
+    id:'endLabels',
+
+    afterDatasetsDraw(chart,args,pluginOptions){
+
+        const {ctx}=chart;
+
+        chart.data.datasets.forEach((dataset,i)=>{
+
+            const meta=chart.getDatasetMeta(i);
+
+            if(!meta.data.length) return;
+
+            const lastPoint=
+                meta.data[meta.data.length-1];
+
+            if(!lastPoint) return;
+
+            const x=lastPoint.x + 12;
+            const y=lastPoint.y;
+
+            ctx.save();
+
+            ctx.font=
+                dataset.label==='FRA'
+                ? 'bold 18px Arial'
+                : '13px Arial';
+
+            ctx.fillStyle=dataset.borderColor;
+
+            ctx.textBaseline='middle';
+
+            const flag=
+                nationFlags[dataset.label] || '';
+
+            ctx.fillText(
+                flag + ' ' + dataset.label,
+                x,
+                y
+            );
+
+            ctx.restore();
+
+        });
+
+    }
+
+};
+
+Chart.register(endLabelsPlugin);
+
 async function loadData(type){
 
-    const men =
+    const men=
         await fetch('data M.json')
-        .then(r => r.json());
+        .then(r=>r.json());
 
-    const women =
+    const women=
         await fetch('data W.json')
-        .then(r => r.json());
+        .then(r=>r.json());
 
-    let data = [];
+    let data=[];
 
-    if(type === 'men'){
+    if(type==='men'){
 
-        data = men;
+        data=men;
 
-    }else if(type === 'women'){
+    }else if(type==='women'){
 
-        data = women;
+        data=women;
 
     }else{
 
-        const map = {};
+        const map={};
 
-        [...men, ...women].forEach(d => {
+        [...men,...women].forEach(d=>{
 
-            const key = d.Season + '_' + d.Nation;
+            const key=
+                d.Season+'_'+d.Nation;
 
             if(!map[key]){
 
-                map[key] = {
+                map[key]={
                     Season:d.Season,
                     Nation:d.Nation,
                     NationPoints:0
@@ -250,27 +317,27 @@ async function loadData(type){
 
             }
 
-            map[key].NationPoints += d.NationPoints;
+            map[key].NationPoints+=d.NationPoints;
 
         });
 
-        data = Object.values(map);
+        data=Object.values(map);
 
-        const seasons =
-            [...new Set(data.map(d => d.Season))];
+        const seasons=
+            [...new Set(data.map(d=>d.Season))];
 
-        let rebuilt = [];
+        let rebuilt=[];
 
-        seasons.forEach(season => {
+        seasons.forEach(season=>{
 
-            let rows =
+            let rows=
                 data
-                .filter(d => d.Season === season)
+                .filter(d=>d.Season===season)
                 .sort((a,b)=>b.NationPoints-a.NationPoints);
 
             rows.forEach((r,i)=>{
 
-                r.NationRank = i + 1;
+                r.NationRank=i+1;
 
                 rebuilt.push(r);
 
@@ -278,7 +345,7 @@ async function loadData(type){
 
         });
 
-        data = rebuilt;
+        data=rebuilt;
 
     }
 
@@ -288,33 +355,33 @@ async function loadData(type){
 
 function buildChart(data){
 
-    const seasons =
+    const seasons=
         [...new Set(data.map(d=>d.Season))]
         .sort((a,b)=>a-b);
 
-    const nations =
+    const nations=
         [...new Set(data.map(d=>d.Nation))];
 
-    const datasets = nations.map(nation => {
+    const datasets=nations.map(nation=>{
 
-        const rows =
+        const rows=
             data.filter(d=>d.Nation===nation);
 
-        const color =
+        const color=
             nationColors[nation] || '#999';
 
-        return {
+        return{
 
             label:nation,
 
-            data:seasons.map(season => {
+            data:seasons.map(season=>{
 
-                const found =
+                const found=
                     rows.find(r=>r.Season===season);
 
                 if(!found) return null;
 
-                return currentMode === 'rank'
+                return currentMode==='rank'
                     ? found.NationRank
                     : found.NationPoints;
 
@@ -324,17 +391,24 @@ function buildChart(data){
 
             backgroundColor:color,
 
-            borderWidth:nation==='FRA' ? 7 : 2,
+            borderWidth:
+                nation==='FRA'
+                ? 6
+                : 2,
 
-            pointRadius:nation==='FRA' ? 5 : 1,
+            pointRadius:
+                nation==='FRA'
+                ? 4
+                : 0,
 
-            pointHoverRadius:nation==='FRA' ? 8 : 2,
+            pointHoverRadius:
+                nation==='FRA'
+                ? 7
+                : 3,
 
             tension:0.25,
 
-            fill:false,
-
-            borderDash:nation==='FRA' ? [] : [5,5]
+            fill:false
 
         };
 
@@ -346,7 +420,7 @@ function buildChart(data){
 
     }
 
-    chart = new Chart(
+    chart=new Chart(
         document.getElementById('chart'),
         {
 
@@ -362,7 +436,7 @@ function buildChart(data){
             responsive:true,
 
             animation:{
-                duration:1200
+                duration:1000
             },
 
             interaction:{
@@ -370,33 +444,16 @@ function buildChart(data){
                 mode:'nearest'
             },
 
+            layout:{
+                padding:{
+                    right:120
+                }
+            },
+
             plugins:{
 
                 legend:{
-
-                    labels:{
-
-                        generateLabels(chart){
-
-                            const labels =
-                                Chart.defaults.plugins.legend.labels.generateLabels(chart);
-
-                            labels.forEach(l=>{
-
-                                l.fillStyle =
-                                    nationColors[l.text] || '#999';
-
-                                l.strokeStyle =
-                                    nationColors[l.text] || '#999';
-
-                            });
-
-                            return labels;
-
-                        }
-
-                    }
-
+                    display:false
                 }
 
             },
@@ -405,7 +462,8 @@ function buildChart(data){
 
                 y:{
 
-                    reverse:currentMode==='rank',
+                    reverse:
+                        currentMode==='rank',
 
                     title:{
                         display:true,
@@ -429,20 +487,20 @@ function buildChart(data){
 
 function updateRanking(data){
 
-    const ranking =
+    const ranking=
         data
         .filter(d=>d.Season===2026)
         .sort((a,b)=>a.NationRank-b.NationRank)
         .slice(0,10);
 
-    const container =
+    const container=
         document.getElementById('ranking');
 
     container.innerHTML='';
 
     ranking.forEach(r=>{
 
-        const div =
+        const div=
             document.createElement('div');
 
         div.className='rankingItem';
@@ -463,6 +521,7 @@ function updateRanking(data){
                 class="rankNation"
                 style="color:${nationColors[r.Nation] || '#fff'}"
             >
+                ${nationFlags[r.Nation] || ''}
                 ${r.Nation}
             </span>
 
@@ -488,9 +547,9 @@ function clearActiveButtons(){
 
 }
 
-function changeDataset(type, btn){
+function changeDataset(type,btn){
 
-    currentDataset = type;
+    currentDataset=type;
 
     loadData(type);
 
@@ -500,9 +559,9 @@ function changeDataset(type, btn){
 
 }
 
-function changeMode(mode, btn){
+function changeMode(mode,btn){
 
-    currentMode = mode;
+    currentMode=mode;
 
     loadData(currentDataset);
 
