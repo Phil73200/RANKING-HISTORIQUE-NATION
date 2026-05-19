@@ -2,88 +2,99 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>World Cup Nations Ranking 1970-2026</title>
+<title>WC Nations Ranking</title>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
 <style>
-    body{
-        margin:0;
-        background:#111;
-        color:white;
-        font-family:Arial, Helvetica, sans-serif;
-        overflow:hidden;
-    }
 
-    #title{
-        position:absolute;
-        top:20px;
-        left:40px;
-        font-size:32px;
-        font-weight:bold;
-    }
+body{
+    margin:0;
+    background:#111;
+    color:white;
+    font-family:Arial;
+    overflow:hidden;
+}
 
-    #year{
-        position:absolute;
-        top:20px;
-        right:40px;
-        font-size:64px;
-        color:#666;
-        font-weight:bold;
-    }
+#year{
+    position:absolute;
+    top:20px;
+    right:40px;
+    font-size:70px;
+    color:#666;
+}
 
-    svg{
-        width:100vw;
-        height:100vh;
-    }
+#error{
+    position:absolute;
+    top:20px;
+    left:20px;
+    color:red;
+    font-size:20px;
+    z-index:999;
+}
 
-    .line{
-        fill:none;
-        stroke-width:4;
-        opacity:0.9;
-    }
+svg{
+    width:100vw;
+    height:100vh;
+}
 
-    .label{
-        font-size:18px;
-        dominant-baseline:middle;
-        font-weight:bold;
-    }
+.line{
+    fill:none;
+    stroke-width:4;
+}
+
+.label{
+    font-size:16px;
+    font-weight:bold;
+}
 
 </style>
 </head>
 
 <body>
 
-<div id="title">ALPINE SKI WORLD CUP NATIONS</div>
 <div id="year">1970</div>
+<div id="error"></div>
 
 <svg></svg>
 
 <script>
 
-const svg = d3.select("svg");
+const errorDiv = document.getElementById("error");
 
-const width = window.innerWidth;
-const height = window.innerHeight;
+fetch("./data.json")
+.then(response => {
 
-const margin = {
-    top:100,
-    right:150,
-    bottom:50,
-    left:80
-};
+    if(!response.ok){
+        throw new Error("Impossible de charger data.json");
+    }
 
-const chartWidth = width - margin.left - margin.right;
-const chartHeight = height - margin.top - margin.bottom;
+    return response.json();
 
-const g = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-const colors = d3.scaleOrdinal(d3.schemeTableau10);
-
-fetch("data.json")
-.then(r => r.json())
+})
 .then(data => {
+
+    console.log(data);
+
+    const svg = d3.select("svg");
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const margin = {
+        top:100,
+        right:120,
+        bottom:50,
+        left:80
+    };
+
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    const g = svg.append("g")
+        .attr("transform",
+            `translate(${margin.left},${margin.top})`
+        );
 
     data.forEach(d => {
         d.Season = +d.Season;
@@ -96,97 +107,93 @@ fetch("data.json")
         .sort((a,b)=>a-b);
 
     const x = d3.scaleLinear()
-        .domain([1970, 2026])
+        .domain([1970,2026])
         .range([0, chartWidth]);
 
     const y = d3.scaleLinear()
         .domain([10,1])
         .range([chartHeight,0]);
 
+    const colors = d3.scaleOrdinal(d3.schemeTableau10);
+
     const line = d3.line()
-        .defined(d => d.NationRank !== null)
+        .defined(d => d.NationRank)
         .x(d => x(d.Season))
         .y(d => y(d.NationRank))
         .curve(d3.curveMonotoneX);
 
-    // AXES
+    // axes
 
     g.append("g")
-        .attr("transform", `translate(0,${chartHeight})`)
+        .attr("transform",
+            `translate(0,${chartHeight})`
+        )
         .call(
             d3.axisBottom(x)
-                .tickFormat(d3.format("d"))
-        )
-        .selectAll("text")
-        .style("fill","white");
+            .tickFormat(d3.format("d"))
+        );
 
     g.append("g")
-        .call(
-            d3.axisLeft(y)
-                .ticks(10)
-        )
-        .selectAll("text")
-        .style("fill","white");
+        .call(d3.axisLeft(y));
 
-    g.selectAll(".domain,line")
-        .style("stroke","#666");
+    g.selectAll("text")
+        .attr("fill","white");
 
-    // PREP DATA
+    g.selectAll("line,path")
+        .attr("stroke","#666");
 
     const nationData = nations.map(nation => {
 
-        const values = seasons.map(season => {
-
-            const found = data.find(d =>
-                d.Nation === nation &&
-                d.Season === season
-            );
-
-            return {
-                Season: season,
-                NationRank: found ? found.NationRank : null
-            };
-
-        });
-
         return {
             nation,
-            values
+            values: seasons.map(season => {
+
+                const found = data.find(d =>
+                    d.Nation === nation &&
+                    d.Season === season
+                );
+
+                return {
+                    Season: season,
+                    NationRank: found
+                        ? found.NationRank
+                        : null
+                };
+
+            })
         };
+
     });
 
-    // LINES
-
-    const paths = g.selectAll(".nationLine")
+    const paths = g.selectAll(".path")
         .data(nationData)
         .enter()
         .append("path")
         .attr("class","line")
-        .attr("stroke",(d,i)=>colors(i))
-        .datum(d=>d.values)
-        .attr("d", line);
+        .attr("stroke",(d,i)=>colors(i));
 
-    // LABELS
-
-    const labels = g.selectAll(".nationLabel")
+    const labels = g.selectAll(".label")
         .data(nationData)
         .enter()
         .append("text")
         .attr("class","label")
-        .style("fill",(d,i)=>colors(i))
+        .attr("fill",(d,i)=>colors(i))
         .text(d=>d.nation);
-
-    // ANIMATION
 
     let currentYear = 1970;
 
     function update(year){
 
-        d3.select("#year").text(year);
+        document.getElementById("year")
+            .innerText = year;
 
         paths.attr("d", d => {
 
-            const filtered = d.filter(v => v.Season <= year);
+            const filtered =
+                d.values.filter(v =>
+                    v.Season <= year &&
+                    v.NationRank
+                );
 
             return line(filtered);
 
@@ -195,16 +202,22 @@ fetch("data.json")
         labels
             .attr("x", d => {
 
-                const point = d.values.find(v => v.Season === year);
+                const point = d.values.find(v =>
+                    v.Season === year &&
+                    v.NationRank
+                );
 
                 return point
-                    ? x(point.Season) + 10
+                    ? x(point.Season) + 8
                     : -999;
 
             })
             .attr("y", d => {
 
-                const point = d.values.find(v => v.Season === year);
+                const point = d.values.find(v =>
+                    v.Season === year &&
+                    v.NationRank
+                );
 
                 return point
                     ? y(point.NationRank)
@@ -214,7 +227,7 @@ fetch("data.json")
 
     }
 
-    update(1970);
+    update(currentYear);
 
     setInterval(() => {
 
@@ -226,7 +239,15 @@ fetch("data.json")
 
         update(currentYear);
 
-    }, 1200);
+    }, 1000);
+
+})
+.catch(err => {
+
+    console.error(err);
+
+    errorDiv.innerHTML =
+        "ERREUR : " + err.message;
 
 });
 
