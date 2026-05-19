@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Classement mondial des nations</title>
 
@@ -11,23 +11,23 @@
 <style>
 
 body{
-    font-family:Arial,sans-serif;
-    background:#ffffff;
     margin:0;
     padding:20px;
+    background:#ffffff;
+    font-family:Arial,sans-serif;
     color:#222;
 }
 
 .container{
-    max-width:1400px;
+    max-width:1500px;
     margin:auto;
 }
 
 h1{
     text-align:center;
-    font-size:48px;
+    font-size:52px;
     margin-bottom:10px;
-    color:#16315c;
+    color:#17345c;
 }
 
 .subtitle{
@@ -40,8 +40,8 @@ h1{
 .topbar{
     display:flex;
     justify-content:center;
-    gap:10px;
     flex-wrap:wrap;
+    gap:10px;
     margin-bottom:25px;
 }
 
@@ -50,14 +50,19 @@ button{
     padding:12px 18px;
     border-radius:12px;
     cursor:pointer;
-    font-size:15px;
+    background:#e9eef6;
+    color:#17345c;
     font-weight:bold;
-    background:#e7ecf5;
-    color:#16315c;
+    font-size:14px;
+    transition:0.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
 }
 
 button.active{
-    background:#16315c;
+    background:#17345c;
     color:white;
 }
 
@@ -70,16 +75,16 @@ button.active{
 .chartBox{
     flex:1;
     background:white;
-    border-radius:20px;
+    border-radius:22px;
     padding:20px;
-    box-shadow:0 0 15px rgba(0,0,0,0.08);
+    box-shadow:0 0 20px rgba(0,0,0,0.08);
 }
 
 .side{
     width:320px;
-    background:#16315c;
+    background:#17345c;
     color:white;
-    border-radius:20px;
+    border-radius:22px;
     padding:20px;
 }
 
@@ -87,7 +92,7 @@ button.active{
     text-align:center;
     margin-top:0;
     margin-bottom:20px;
-    font-size:24px;
+    font-size:28px;
 }
 
 .rankingItem{
@@ -106,26 +111,31 @@ button.active{
 
 .rankLeft{
     display:flex;
-    gap:10px;
+    gap:12px;
     align-items:center;
+}
+
+.rankNation{
+    font-weight:bold;
 }
 
 canvas{
     width:100% !important;
-    height:700px !important;
+    height:720px !important;
 }
 
 .info{
-    margin-top:20px;
+    margin-top:25px;
+    background:#f4f6fa;
+    border-radius:14px;
     padding:18px;
-    background:#f2f4f8;
-    border-radius:12px;
-    font-size:15px;
     line-height:1.5;
+    color:#555;
 }
 
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -138,15 +148,33 @@ Coupe du Monde de ski alpin • évolution historique des nations
 
 <div class="topbar">
 
-<button class="active" onclick="changeDataset('global',this)">GLOBAL</button>
-<button onclick="changeDataset('men',this)">HOMMES</button>
-<button onclick="changeDataset('women',this)">DAMES</button>
+<button class="active" onclick="changeDataset('global', this)">
+GLOBAL
+</button>
 
-<button onclick="changeMode('rank',this)">PAR RANG</button>
-<button onclick="changeMode('points',this)">PAR POINTS</button>
+<button onclick="changeDataset('men', this)">
+HOMMES
+</button>
 
-<button onclick="changeSpeed(1200,this)">NORMAL</button>
-<button onclick="changeSpeed(300,this)">RAPIDE</button>
+<button onclick="changeDataset('women', this)">
+DAMES
+</button>
+
+<button onclick="changeMode('rank', this)">
+PAR RANG
+</button>
+
+<button onclick="changeMode('points', this)">
+PAR POINTS
+</button>
+
+<button onclick="changeSpeed(1200, this)">
+VITESSE NORMALE
+</button>
+
+<button onclick="changeSpeed(300, this)">
+VITESSE RAPIDE
+</button>
 
 </div>
 
@@ -167,79 +195,100 @@ Coupe du Monde de ski alpin • évolution historique des nations
 </div>
 
 <div class="info">
-Les autres nations sont volontairement atténuées pour mettre la France en valeur.
+Les autres nations sont volontairement atténuées afin de mettre la France davantage en valeur dans la visualisation.
 </div>
 
 </div>
 
 <script>
 
-let currentMode='rank';
-let animationSpeed=1200;
+let chart;
 
-const nationColors={
+let currentDataset = 'global';
+let currentMode = 'rank';
+let animationSpeed = 1200;
+
+const nationColors = {
     FRA:'#0057b8',
     AUT:'#d62828',
     SUI:'#2a9d8f',
     ITA:'#2b9348',
-    USA:'#6c757d',
+    USA:'#7b8794',
     NOR:'#8d99ae',
     GER:'#000000',
     CAN:'#ff8800',
-    SWE:'#c77dff'
+    SWE:'#9d4edd',
+    BRA:'#2dc653'
 };
-
-let chart;
 
 async function loadData(type){
 
-    let men=await fetch('data M.json').then(r=>r.json());
-    let women=await fetch('data W.json').then(r=>r.json());
+    const men =
+        await fetch('data M.json')
+        .then(r => r.json());
 
-    let data=[];
+    const women =
+        await fetch('data W.json')
+        .then(r => r.json());
 
-    if(type==='men') data=men;
-    else if(type==='women') data=women;
-    else{
+    let data = [];
 
-        const map={};
+    if(type === 'men'){
 
-        [...men,...women].forEach(d=>{
+        data = men;
 
-            const key=d.Season+'_'+d.Nation;
+    }else if(type === 'women'){
+
+        data = women;
+
+    }else{
+
+        const map = {};
+
+        [...men, ...women].forEach(d => {
+
+            const key = d.Season + '_' + d.Nation;
 
             if(!map[key]){
-                map[key]={
+
+                map[key] = {
                     Season:d.Season,
                     Nation:d.Nation,
                     NationPoints:0
                 };
+
             }
 
-            map[key].NationPoints+=d.NationPoints;
+            map[key].NationPoints += d.NationPoints;
 
         });
 
-        data=Object.values(map);
+        data = Object.values(map);
 
-        const seasons=[...new Set(data.map(d=>d.Season))];
+        const seasons =
+            [...new Set(data.map(d => d.Season))];
 
-        let final=[];
+        let rebuilt = [];
 
-        seasons.forEach(season=>{
+        seasons.forEach(season => {
 
-            let rows=data
-                .filter(d=>d.Season===season)
+            let rows =
+                data
+                .filter(d => d.Season === season)
                 .sort((a,b)=>b.NationPoints-a.NationPoints);
 
             rows.forEach((r,i)=>{
-                r.NationRank=i+1;
-                final.push(r);
+
+                r.NationRank = i + 1;
+
+                rebuilt.push(r);
+
             });
 
         });
 
-        data=final;
+        data = rebuilt;
+
     }
 
     buildChart(data);
@@ -248,45 +297,69 @@ async function loadData(type){
 
 function buildChart(data){
 
-    const seasons=[...new Set(data.map(d=>d.Season))].sort();
+    const seasons =
+        [...new Set(data.map(d=>d.Season))]
+        .sort((a,b)=>a-b);
 
-    const nations=[...new Set(data.map(d=>d.Nation))];
+    const nations =
+        [...new Set(data.map(d=>d.Nation))];
 
-    const datasets=nations.map(nation=>{
+    const datasets = nations.map(nation => {
 
-        const rows=data.filter(d=>d.Nation===nation);
+        const rows =
+            data.filter(d=>d.Nation===nation);
 
-        const color=nationColors[nation] || '#999';
+        const color =
+            nationColors[nation] || '#999';
 
-        return{
+        return {
+
             label:nation,
-            data:seasons.map(season=>{
 
-                const found=rows.find(r=>r.Season===season);
+            data:seasons.map(season => {
+
+                const found =
+                    rows.find(r=>r.Season===season);
 
                 if(!found) return null;
 
-                return currentMode==='rank'
+                return currentMode === 'rank'
                     ? found.NationRank
                     : found.NationPoints;
 
             }),
+
             borderColor:color,
+
             backgroundColor:color,
-            borderWidth:nation==='FRA'?6:2,
-            pointRadius:nation==='FRA'?5:1,
-            pointHoverRadius:nation==='FRA'?7:2,
+
+            borderWidth:nation==='FRA' ? 7 : 2,
+
+            pointRadius:nation==='FRA' ? 5 : 1,
+
+            pointHoverRadius:nation==='FRA' ? 8 : 2,
+
             tension:0.25,
+
             fill:false,
-            borderDash:nation==='FRA'?[]:[4,4],
-            opacity:nation==='FRA'?1:0.25
+
+            borderDash:nation==='FRA' ? [] : [5,5],
+
+            opacity:nation==='FRA' ? 1 : 0.2
+
         };
 
     });
 
-    if(chart) chart.destroy();
+    if(chart){
 
-    chart=new Chart(document.getElementById('chart'),{
+        chart.destroy();
+
+    }
+
+    chart = new Chart(
+        document.getElementById('chart'),
+        {
 
         type:'line',
 
@@ -309,24 +382,34 @@ function buildChart(data){
             },
 
             plugins:{
+
                 legend:{
+
                     labels:{
+
                         generateLabels(chart){
 
-                            const labels=
-                            Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                            const labels =
+                                Chart.defaults.plugins.legend.labels.generateLabels(chart);
 
                             labels.forEach(l=>{
 
-                                l.fillStyle=nationColors[l.text] || '#999';
-                                l.strokeStyle=nationColors[l.text] || '#999';
+                                l.fillStyle =
+                                    nationColors[l.text] || '#999';
+
+                                l.strokeStyle =
+                                    nationColors[l.text] || '#999';
 
                             });
 
                             return labels;
+
                         }
+
                     }
+
                 }
+
             },
 
             scales:{
@@ -337,7 +420,8 @@ function buildChart(data){
 
                     title:{
                         display:true,
-                        text:currentMode==='rank'
+                        text:
+                        currentMode==='rank'
                         ? 'Rang mondial'
                         : 'Points'
                     }
@@ -356,36 +440,49 @@ function buildChart(data){
 
 function updateRanking(data){
 
-    const season=2026;
-
-    const ranking=data
-        .filter(d=>d.Season===season)
+    const ranking =
+        data
+        .filter(d=>d.Season===2026)
         .sort((a,b)=>a.NationRank-b.NationRank)
         .slice(0,10);
 
-    const container=document.getElementById('ranking');
+    const container =
+        document.getElementById('ranking');
 
     container.innerHTML='';
 
     ranking.forEach(r=>{
 
-        const div=document.createElement('div');
+        const div =
+            document.createElement('div');
 
         div.className='rankingItem';
 
-        if(r.Nation==='FRA') div.classList.add('france');
+        if(r.Nation==='FRA'){
+
+            div.classList.add('france');
+
+        }
 
         div.innerHTML=`
-            <div class="rankLeft">
-                <strong>${r.NationRank}</strong>
-                <span style="color:${nationColors[r.Nation] || '#fff'}">
-                    ${r.Nation}
-                </span>
-            </div>
 
-            <div>
-                ${r.NationPoints.toLocaleString()}
-            </div>
+        <div class="rankLeft">
+
+            <strong>${r.NationRank}</strong>
+
+            <span
+                class="rankNation"
+                style="color:${nationColors[r.Nation] || '#fff'}"
+            >
+                ${r.Nation}
+            </span>
+
+        </div>
+
+        <div>
+            ${r.NationPoints.toLocaleString()}
+        </div>
+
         `;
 
         container.appendChild(div);
@@ -394,38 +491,45 @@ function updateRanking(data){
 
 }
 
-function changeDataset(type,btn){
+function clearActiveButtons(){
 
-    document.querySelectorAll('.topbar button')
+    document
+        .querySelectorAll('.topbar button')
         .forEach(b=>b.classList.remove('active'));
+
+}
+
+function changeDataset(type, btn){
+
+    currentDataset = type;
+
+    loadData(type);
+
+    clearActiveButtons();
 
     btn.classList.add('active');
 
-    loadData(type);
-
 }
 
-function changeMode(mode){
+function changeMode(mode, btn){
 
-    currentMode=mode;
+    currentMode = mode;
 
     loadData(currentDataset);
 
-}
+    clearActiveButtons();
 
-function changeSpeed(speed){
-
-    animationSpeed=speed;
+    btn.classList.add('active');
 
 }
 
-let currentDataset='global';
+function changeSpeed(speed, btn){
 
-function changeDataset(type){
+    animationSpeed = speed;
 
-    currentDataset=type;
+    clearActiveButtons();
 
-    loadData(type);
+    btn.classList.add('active');
 
 }
 
