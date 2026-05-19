@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Classement mondial des nations</title>
@@ -19,40 +19,40 @@ body{
 
 .wrapper{
     width:96%;
-    max-width:1650px;
+    max-width:1600px;
     margin:auto;
-    padding:10px 20px 30px;
+    padding:10px 20px 25px;
 }
 
 h1{
     text-align:center;
-    font-size:58px;
-    margin:10px 0 5px;
+    font-size:52px;
+    margin:5px 0;
     color:#1f2d52;
 }
 
 .subtitle{
     text-align:center;
     color:#667085;
-    font-size:22px;
-    margin-bottom:22px;
+    font-size:20px;
+    margin-bottom:20px;
 }
 
 .controls{
     display:flex;
     justify-content:center;
     gap:12px;
-    margin-bottom:22px;
+    margin-bottom:18px;
     flex-wrap:wrap;
 }
 
 button{
     border:none;
-    padding:14px 26px;
-    border-radius:16px;
+    padding:12px 22px;
+    border-radius:14px;
     background:#dfe5f1;
     color:#1f2d52;
-    font-size:18px;
+    font-size:16px;
     font-weight:700;
     cursor:pointer;
     transition:0.2s;
@@ -65,21 +65,21 @@ button.active{
 
 .main{
     display:grid;
-    grid-template-columns:1fr 320px;
-    gap:24px;
+    grid-template-columns:1fr 290px;
+    gap:20px;
 }
 
 .chartBox{
     background:white;
     border-radius:24px;
-    padding:25px;
+    padding:20px;
     box-shadow:0 4px 16px rgba(0,0,0,0.08);
 }
 
 .side{
     background:#17315f;
     border-radius:24px;
-    padding:24px;
+    padding:22px;
     color:white;
 }
 
@@ -88,25 +88,26 @@ button.active{
     letter-spacing:2px;
     opacity:0.8;
     margin-top:6px;
+    font-size:14px;
 }
 
 .bigYear{
     text-align:center;
-    font-size:68px;
+    font-size:62px;
     font-weight:800;
     color:#c8ddb5;
-    margin:10px 0 25px;
+    margin:8px 0 22px;
 }
 
 .rankItem{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:13px 16px;
+    padding:12px 14px;
     margin-bottom:10px;
     border-radius:14px;
     background:rgba(255,255,255,0.08);
-    font-size:20px;
+    font-size:18px;
 }
 
 .rankItem.fr{
@@ -115,7 +116,7 @@ button.active{
 }
 
 canvas{
-    height:620px !important;
+    height:500px !important;
 }
 
 @media(max-width:1200px){
@@ -125,7 +126,7 @@ canvas{
     }
 
     canvas{
-        height:520px !important;
+        height:420px !important;
     }
 
 }
@@ -260,17 +261,7 @@ function switchMode(mode){
 
     currentMode = mode;
 
-    document.querySelectorAll(".controls button")
-        .forEach(btn=>btn.classList.remove("active"));
-
-    document.getElementById("btn-" + mode)
-        .classList.add("active");
-
-    document.getElementById(
-        currentDisplay==="rank"
-        ? "btn-rank"
-        : "btn-points"
-    ).classList.add("active");
+    updateButtons();
 
     if(mode==="overall"){
         buildChart(overallData);
@@ -290,22 +281,7 @@ function switchDisplay(type){
 
     currentDisplay = type;
 
-    document.querySelectorAll(".controls button")
-        .forEach(btn=>btn.classList.remove("active"));
-
-    document.getElementById(
-        currentMode==="overall"
-        ? "btn-overall"
-        : currentMode==="men"
-        ? "btn-men"
-        : "btn-women"
-    ).classList.add("active");
-
-    document.getElementById(
-        type==="rank"
-        ? "btn-rank"
-        : "btn-points"
-    ).classList.add("active");
+    updateButtons();
 
     if(currentMode==="overall"){
         buildChart(overallData);
@@ -321,17 +297,19 @@ function switchDisplay(type){
 
 }
 
-function getCurrentData(){
+function updateButtons(){
 
-    if(currentMode==="men"){
-        return menData;
-    }
+    document.querySelectorAll(".controls button")
+        .forEach(btn=>btn.classList.remove("active"));
 
-    if(currentMode==="women"){
-        return womenData;
-    }
+    document.getElementById("btn-" + currentMode)
+        .classList.add("active");
 
-    return overallData;
+    document.getElementById(
+        currentDisplay==="rank"
+        ? "btn-rank"
+        : "btn-points"
+    ).classList.add("active");
 
 }
 
@@ -372,13 +350,13 @@ function buildChart(data){
             borderColor:COLORS[nation],
 
             borderWidth:
-                france ? 6 : 3,
+                france ? 5 : 2.5,
 
             pointRadius:
-                france ? 5 : 2,
+                france ? 4 : 1.5,
 
             pointHoverRadius:
-                france ? 7 : 4,
+                france ? 6 : 3,
 
             pointBackgroundColor:
                 france ? "#ef4444" : COLORS[nation],
@@ -419,13 +397,13 @@ function buildChart(data){
                 maintainAspectRatio:false,
 
                 animation:{
-                    duration:1600,
+                    duration:1500,
                     easing:"easeOutQuart"
                 },
 
                 layout:{
                     padding:{
-                        right:180
+                        right:160
                     }
                 },
 
@@ -462,7 +440,7 @@ function buildChart(data){
                             color:"#333",
 
                             font:{
-                                size:16,
+                                size:14,
                                 weight:"bold"
                             }
 
@@ -479,7 +457,7 @@ function buildChart(data){
                             color:"#333",
 
                             font:{
-                                size:22,
+                                size:18,
                                 weight:"bold"
                             }
                         },
@@ -508,7 +486,7 @@ function buildChart(data){
                             },
 
                             font:{
-                                size:14
+                                size:12
                             }
 
                         },
@@ -519,7 +497,7 @@ function buildChart(data){
                             color:"#333",
 
                             font:{
-                                size:22,
+                                size:18,
                                 weight:"bold"
                             }
                         },
@@ -540,9 +518,7 @@ function buildChart(data){
 
                 afterDraw(chart){
 
-                    const {
-                        ctx
-                    } = chart;
+                    const { ctx } = chart;
 
                     ctx.save();
 
@@ -565,8 +541,8 @@ function buildChart(data){
 
                         ctx.font =
                             france
-                            ? "bold 32px Arial"
-                            : "bold 16px Arial";
+                            ? "bold 22px Arial"
+                            : "bold 14px Arial";
 
                         ctx.fillStyle =
                             COLORS[dataset.label];
@@ -575,8 +551,8 @@ function buildChart(data){
 
                         ctx.fillText(
                             LABELS[dataset.label],
-                            point.x + 20,
-                            point.y + 6
+                            point.x + 18,
+                            point.y + 5
                         );
 
                     });
