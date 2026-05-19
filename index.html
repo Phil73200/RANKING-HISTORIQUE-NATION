@@ -13,14 +13,14 @@
 
 body{
     margin:0;
-    background:#f3f5fa;
+    background:#f4f6fb;
     font-family:Arial, Helvetica, sans-serif;
     color:#1d2a44;
 }
 
 .wrapper{
     width:96%;
-    max-width:1750px;
+    max-width:1700px;
     margin:auto;
     padding:20px;
 }
@@ -39,17 +39,17 @@ h1{
     margin-bottom:25px;
 }
 
-.buttons{
+.controls{
     display:flex;
     justify-content:center;
-    flex-wrap:wrap;
     gap:12px;
-    margin-bottom:25px;
+    flex-wrap:wrap;
+    margin-bottom:24px;
 }
 
 button{
     border:none;
-    padding:14px 22px;
+    padding:14px 24px;
     border-radius:14px;
     cursor:pointer;
     font-size:16px;
@@ -143,35 +143,19 @@ canvas{
 Coupe du Monde de ski alpin • Evolution historique des meilleures nations
 </div>
 
-<div class="buttons">
+<div class="controls">
 
-<button id="overallBtn" class="active">
-Overall
-</button>
+    <button onclick="switchData('overall')" class="active" id="btn-overall">
+        Overall
+    </button>
 
-<button id="menBtn">
-Hommes
-</button>
+    <button onclick="switchData('men')" id="btn-men">
+        Hommes
+    </button>
 
-<button id="womenBtn">
-Dames
-</button>
-
-<button id="rankBtn" class="active">
-Par rang
-</button>
-
-<button id="pointsBtn">
-Par points
-</button>
-
-<button id="focusBtn">
-Focus France
-</button>
-
-<button id="replayBtn">
-Rejouer animation
-</button>
+    <button onclick="switchData('women')" id="btn-women">
+        Dames
+    </button>
 
 </div>
 
@@ -227,50 +211,51 @@ const LABELS = {
     BRA:"🇧🇷 Brésil"
 };
 
+let chart;
+
 let overallData = [];
 let menData = [];
 let womenData = [];
 
-let currentMode = "overall";
-let currentDisplay = "rank";
-
-let focusFrance = false;
-
-let chart;
-
-async function loadData(){
+async function loadAllData() {
 
     overallData =
         await fetch("data.json")
-        .then(r=>r.json());
+        .then(r => r.json());
 
     menData =
         await fetch("data M.json")
-        .then(r=>r.json());
+        .then(r => r.json());
 
     womenData =
         await fetch("data W.json")
-        .then(r=>r.json());
+        .then(r => r.json());
 
-    buildChart(true);
+    buildChart(overallData);
 }
 
-function getData(){
+function switchData(mode) {
 
-    if(currentMode==="men"){
-        return menData;
+    document.querySelectorAll(".controls button")
+        .forEach(btn => btn.classList.remove("active"));
+
+    document.getElementById("btn-" + mode)
+        .classList.add("active");
+
+    if(mode === "overall") {
+        buildChart(overallData);
     }
 
-    if(currentMode==="women"){
-        return womenData;
+    if(mode === "men") {
+        buildChart(menData);
     }
 
-    return overallData;
+    if(mode === "women") {
+        buildChart(womenData);
+    }
 }
 
-function buildChart(animated=true){
-
-    const data = getData();
+function buildChart(data){
 
     const years = [...new Set(
         data.map(d=>d.Season)
@@ -290,13 +275,9 @@ function buildChart(animated=true){
                     d.Nation===nation
             );
 
-            if(!found){
-                return null;
-            }
-
-            return currentDisplay==="rank"
+            return found
                 ? found.NationRank
-                : found.NationPoints;
+                : null;
 
         });
 
@@ -311,6 +292,8 @@ function buildChart(animated=true){
             borderColor:
                 COLORS[nation] || "#999",
 
+            backgroundColor:"transparent",
+
             borderWidth:
                 france ? 6 : 2,
 
@@ -320,10 +303,7 @@ function buildChart(animated=true){
 
             fill:false,
 
-            spanGaps:false,
-
-            hidden:
-                focusFrance && !france
+            spanGaps:false
 
         };
 
@@ -349,34 +329,15 @@ function buildChart(animated=true){
                 responsive:true,
                 maintainAspectRatio:false,
 
-                animation: animated ? {
+                animation:{
                     duration:1800,
                     easing:"easeOutQuart"
-                } : false,
+                },
 
                 plugins:{
 
                     legend:{
                         display:false
-                    },
-
-                    tooltip:{
-                        callbacks:{
-                            label:(ctx)=>{
-
-                                return (
-                                    LABELS[ctx.dataset.label] +
-                                    " • " +
-                                    (
-                                        currentDisplay==="rank"
-                                        ? "Rang "
-                                        : "Points "
-                                    ) +
-                                    ctx.parsed.y
-                                );
-
-                            }
-                        }
                     }
 
                 },
@@ -385,40 +346,24 @@ function buildChart(animated=true){
 
                     y:{
 
-                        reverse:
-                            currentDisplay==="rank",
+                        reverse:true,
 
-                        suggestedMin:
-                            currentDisplay==="rank"
-                            ? 1
-                            : 0,
-
-                        suggestedMax:
-                            currentDisplay==="rank"
-                            ? 12
-                            : undefined,
+                        suggestedMin:1,
+                        suggestedMax:12,
 
                         ticks:{
-
+                            stepSize:1,
                             color:"#111",
-
                             font:{
                                 size:18,
                                 weight:"bold"
                             }
-
                         },
 
                         title:{
                             display:true,
-
-                            text:
-                                currentDisplay==="rank"
-                                ? "Rang mondial"
-                                : "Points Coupe du Monde",
-
+                            text:"Rang mondial",
                             color:"#111",
-
                             font:{
                                 size:26,
                                 weight:"bold"
@@ -488,10 +433,6 @@ function buildChart(animated=true){
 
                     chart.data.datasets.forEach((dataset,i)=>{
 
-                        if(dataset.hidden){
-                            return;
-                        }
-
                         const meta =
                             chart.getDatasetMeta(i);
 
@@ -534,13 +475,11 @@ function buildChart(animated=true){
         }
     );
 
-    buildRanking();
+    buildRanking(data);
 
 }
 
-function buildRanking(){
-
-    const data = getData();
+function buildRanking(data){
 
     const final = data
         .filter(d=>d.Season===2026)
@@ -580,123 +519,7 @@ function buildRanking(){
 
 }
 
-function refreshButtons(){
-
-    document
-        .querySelectorAll("button")
-        .forEach(btn=>
-            btn.classList.remove("active")
-        );
-
-    document
-        .getElementById(
-            currentMode==="overall"
-            ? "overallBtn"
-            : currentMode==="men"
-            ? "menBtn"
-            : "womenBtn"
-        )
-        .classList.add("active");
-
-    document
-        .getElementById(
-            currentDisplay==="rank"
-            ? "rankBtn"
-            : "pointsBtn"
-        )
-        .classList.add("active");
-
-    if(focusFrance){
-
-        document
-            .getElementById("focusBtn")
-            .classList.add("active");
-
-    }
-
-}
-
-document
-.getElementById("overallBtn")
-.onclick = ()=>{
-
-    currentMode="overall";
-
-    refreshButtons();
-
-    buildChart(true);
-
-};
-
-document
-.getElementById("menBtn")
-.onclick = ()=>{
-
-    currentMode="men";
-
-    refreshButtons();
-
-    buildChart(true);
-
-};
-
-document
-.getElementById("womenBtn")
-.onclick = ()=>{
-
-    currentMode="women";
-
-    refreshButtons();
-
-    buildChart(true);
-
-};
-
-document
-.getElementById("rankBtn")
-.onclick = ()=>{
-
-    currentDisplay="rank";
-
-    refreshButtons();
-
-    buildChart(true);
-
-};
-
-document
-.getElementById("pointsBtn")
-.onclick = ()=>{
-
-    currentDisplay="points";
-
-    refreshButtons();
-
-    buildChart(true);
-
-};
-
-document
-.getElementById("focusBtn")
-.onclick = ()=>{
-
-    focusFrance = !focusFrance;
-
-    refreshButtons();
-
-    buildChart(true);
-
-};
-
-document
-.getElementById("replayBtn")
-.onclick = ()=>{
-
-    buildChart(true);
-
-};
-
-loadData();
+loadAllData();
 
 </script>
 
