@@ -254,6 +254,20 @@ const nationFlags={
     BRA:'🇧🇷'
 };
 
+const fullNames = {
+
+    FRA:'France',
+    AUT:'Autriche',
+    SUI:'Suisse',
+    ITA:'Italie',
+    USA:'États-Unis',
+    NOR:'Norvège',
+    GER:'Allemagne',
+    CAN:'Canada',
+    SWE:'Suède',
+    BRA:'Brésil'
+};
+
 let fullData=[];
 
 async function loadData(){
@@ -320,7 +334,7 @@ function animateChart(){
             textposition:'middle right',
 
             textfont:{
-                size:nation==='FRA' ? 20 : 16,
+                size:nation==='FRA' ? 24 : 20,
                 color:nationColors[nation],
                 family:'Arial Black'
             },
@@ -336,7 +350,7 @@ function animateChart(){
                 ? 1
                 : franceOnly
                     ? 0
-                    : 0.55,
+                    : 0.60,
 
             hovertemplate:
                 '<b>'+nation+'</b><br>'+
@@ -361,7 +375,7 @@ function animateChart(){
 
         margin:{
             l:80,
-            r:190,
+            r:240,
             t:20,
             b:60
         },
@@ -439,7 +453,7 @@ function animateChart(){
             if(frame >= trace.fullX.length-1){
 
                 textArray[textArray.length-1]=
-                    `${nationFlags[trace.nation]} ${trace.nation}`;
+                    `${nationFlags[trace.nation]} ${fullNames[trace.nation]}`;
             }
 
             update.x.push(xData);
@@ -494,7 +508,7 @@ function buildRanking(data){
 
                 <span>
                     ${nationFlags[row.Nation]}
-                    ${row.Nation}
+                    ${fullNames[row.Nation]}
                 </span>
 
             </div>
