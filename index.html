@@ -1,58 +1,66 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Classement mondial des nations</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 body{
     margin:0;
+    background:#f3f5fa;
     font-family:Arial, Helvetica, sans-serif;
-    background:#f4f6fb;
     color:#1d2a44;
 }
 
 .wrapper{
-    width:95%;
-    max-width:1600px;
+    width:96%;
+    max-width:1700px;
     margin:auto;
     padding:20px;
 }
 
 h1{
     text-align:center;
-    font-size:48px;
-    margin-bottom:5px;
+    font-size:54px;
+    margin-bottom:8px;
+    margin-top:10px;
 }
 
 .subtitle{
     text-align:center;
+    font-size:20px;
     color:#6b7280;
     margin-bottom:25px;
-    font-size:18px;
 }
 
-.topbar{
+.buttons{
     display:flex;
     justify-content:center;
     gap:12px;
-    margin-bottom:20px;
     flex-wrap:wrap;
+    margin-bottom:25px;
 }
 
 button{
     border:none;
-    padding:12px 22px;
+    padding:14px 24px;
     border-radius:14px;
     cursor:pointer;
+    font-size:16px;
     font-weight:700;
-    font-size:15px;
     background:#dbe3f0;
     color:#1d2a44;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
 }
 
 button.active{
@@ -63,37 +71,35 @@ button.active{
 .main{
     display:grid;
     grid-template-columns:1fr 320px;
-    gap:20px;
-    align-items:start;
+    gap:24px;
 }
 
 .chartCard{
     background:white;
     border-radius:24px;
     padding:25px;
-    box-shadow:0 4px 18px rgba(0,0,0,0.08);
+    box-shadow:0 4px 16px rgba(0,0,0,.08);
 }
 
 .side{
     background:#132a58;
     color:white;
     border-radius:24px;
-    padding:25px;
-    position:sticky;
-    top:20px;
-}
-
-.side h2{
-    margin-top:0;
-    text-align:center;
-    font-size:52px;
+    padding:24px;
 }
 
 .sideTitle{
     text-align:center;
     letter-spacing:2px;
     opacity:.8;
-    margin-bottom:10px;
+    margin-bottom:5px;
+}
+
+.bigYear{
+    text-align:center;
+    font-size:62px;
+    font-weight:bold;
+    margin-bottom:25px;
 }
 
 .rankItem{
@@ -101,34 +107,33 @@ button.active{
     justify-content:space-between;
     align-items:center;
     padding:12px 14px;
-    margin-bottom:10px;
     border-radius:12px;
+    margin-bottom:10px;
     background:rgba(255,255,255,.08);
     font-size:18px;
 }
 
 .rankItem.fr{
-    background:linear-gradient(90deg,#1d4ed8,#dc2626);
+    background:linear-gradient(90deg,#1358c8,#dc2626);
     font-weight:bold;
 }
 
 canvas{
-    height:780px !important;
+    height:820px !important;
 }
 
 @media(max-width:1200px){
+
     .main{
         grid-template-columns:1fr;
-    }
-
-    .side{
-        position:relative;
     }
 
     canvas{
         height:600px !important;
     }
+
 }
+
 </style>
 </head>
 
@@ -142,12 +147,28 @@ canvas{
         Coupe du Monde de ski alpin • Evolution historique des meilleures nations
     </div>
 
-    <div class="topbar">
-        <button id="btnOverall" class="active">Overall</button>
-        <button id="btnMen">Hommes</button>
-        <button id="btnWomen">Dames</button>
-        <button id="btnFrance">Focus France</button>
-        <button id="btnReplay">Rejouer animation</button>
+    <div class="buttons">
+
+        <button id="overallBtn" class="active">
+            Overall
+        </button>
+
+        <button id="menBtn">
+            Hommes
+        </button>
+
+        <button id="womenBtn">
+            Dames
+        </button>
+
+        <button id="focusBtn">
+            Focus France
+        </button>
+
+        <button id="replayBtn">
+            Rejouer animation
+        </button>
+
     </div>
 
     <div class="main">
@@ -157,10 +178,17 @@ canvas{
         </div>
 
         <div class="side">
-            <div class="sideTitle">CLASSEMENT FINAL</div>
-            <h2>2026</h2>
+
+            <div class="sideTitle">
+                CLASSEMENT FINAL
+            </div>
+
+            <div class="bigYear">
+                2026
+            </div>
 
             <div id="ranking"></div>
+
         </div>
 
     </div>
@@ -182,7 +210,7 @@ const COLORS = {
     BRA:"#84cc16"
 };
 
-const FLAGS = {
+const LABELS = {
     FRA:"🇫🇷 France",
     AUT:"🇦🇹 Autriche",
     SUI:"🇨🇭 Suisse",
@@ -195,163 +223,213 @@ const FLAGS = {
     BRA:"🇧🇷 Brésil"
 };
 
+let overallData = [];
+let menData = [];
+let womenData = [];
+
 let currentMode = "overall";
 let focusFrance = false;
 
 let chart;
-let allData = [];
-let menData = [];
-let womenData = [];
 
 async function loadData(){
 
-    const overall = await fetch("data.json").then(r=>r.json());
-    const men = await fetch("dataM.json").then(r=>r.json());
-    const women = await fetch("dataW.json").then(r=>r.json());
+    overallData =
+        await fetch("data.json")
+        .then(r=>r.json());
 
-    allData = overall;
-    menData = men;
-    womenData = women;
+    menData =
+        await fetch("data M.json")
+        .then(r=>r.json());
+
+    womenData =
+        await fetch("data W.json")
+        .then(r=>r.json());
 
     buildChart();
 }
 
-function getCurrentData(){
-    if(currentMode==="men") return menData;
-    if(currentMode==="women") return womenData;
-    return allData;
+function getData(){
+
+    if(currentMode==="men"){
+        return menData;
+    }
+
+    if(currentMode==="women"){
+        return womenData;
+    }
+
+    return overallData;
 }
 
 function buildChart(){
 
-    const data = getCurrentData();
+    const data = getData();
 
-    const years = [...new Set(data.map(d=>d.Season))];
+    const years = [...new Set(
+        data.map(d=>d.Season)
+    )];
 
-    const nations = [...new Set(data.map(d=>d.Nation))];
+    const nations = [...new Set(
+        data.map(d=>d.Nation)
+    )];
 
     const datasets = nations.map(nation=>{
 
-        const nationData = years.map(year=>{
+        const values = years.map(year=>{
+
             const found = data.find(
-                d=>d.Season===year && d.Nation===nation
+                d =>
+                    d.Season===year &&
+                    d.Nation===nation
             );
 
-            return found ? found.NationRank : null;
+            return found
+                ? found.NationRank
+                : null;
+
         });
 
-        const isFrance = nation==="FRA";
+        const france = nation==="FRA";
 
         return {
-            label: nation,
-            data: nationData,
-            borderColor: COLORS[nation] || "#999",
-            backgroundColor:"transparent",
-            borderWidth: isFrance ? 6 : 2,
-            tension:0.35,
+
+            label:nation,
+
+            data:values,
+
+            borderColor:
+                COLORS[nation] || "#999",
+
+            borderWidth:
+                france ? 6 : 2,
+
             pointRadius:0,
-            borderCapStyle:'round',
-            borderJoinStyle:'round',
-            hidden: focusFrance && !isFrance,
-            animation:{
-                duration:2000
-            }
+
+            tension:0.35,
+
+            fill:false,
+
+            hidden:
+                focusFrance && !france
+
         };
+
     });
 
-    if(chart) chart.destroy();
+    if(chart){
+        chart.destroy();
+    }
 
     chart = new Chart(
         document.getElementById("chart"),
         {
+
             type:"line",
+
             data:{
                 labels:years,
                 datasets
             },
+
             options:{
+
                 responsive:true,
                 maintainAspectRatio:false,
-
-                interaction:{
-                    mode:"nearest",
-                    intersect:false
-                },
-
-                plugins:{
-                    legend:{
-                        display:false
-                    },
-                    tooltip:{
-                        callbacks:{
-                            title:(ctx)=>{
-                                return "Saison " + ctx[0].label;
-                            },
-                            label:(ctx)=>{
-                                return FLAGS[ctx.dataset.label] +
-                                    " • Rang " + ctx.parsed.y;
-                            }
-                        }
-                    }
-                },
-
-                scales:{
-                    y:{
-                        reverse:true,
-                        min:1,
-                        max:10,
-                        ticks:{
-                            stepSize:1,
-                            color:"#111",
-                            font:{
-                                size:20,
-                                weight:"bold"
-                            }
-                        },
-                        title:{
-                            display:true,
-                            text:"Rang mondial",
-                            color:"#222",
-                            font:{
-                                size:24,
-                                weight:"bold"
-                            }
-                        },
-                        grid:{
-                            color:"rgba(0,0,0,.08)"
-                        }
-                    },
-
-                    x:{
-                        ticks:{
-                            color:"#111",
-                            font:{
-                                size:16
-                            }
-                        },
-                        title:{
-                            display:true,
-                            text:"Saison",
-                            color:"#222",
-                            font:{
-                                size:24,
-                                weight:"bold"
-                            }
-                        },
-                        grid:{
-                            color:"rgba(0,0,0,.06)"
-                        }
-                    }
-                },
 
                 animation:{
                     duration:2200,
                     easing:"easeOutQuart"
+                },
+
+                plugins:{
+
+                    legend:{
+                        display:false
+                    },
+
+                    tooltip:{
+                        callbacks:{
+                            label:(ctx)=>{
+
+                                return (
+                                    LABELS[ctx.dataset.label] +
+                                    " • Rang " +
+                                    ctx.parsed.y
+                                );
+
+                            }
+                        }
+                    }
+
+                },
+
+                scales:{
+
+                    y:{
+
+                        reverse:true,
+
+                        min:1,
+                        max:10,
+
+                        ticks:{
+                            stepSize:1,
+                            color:"#111",
+                            font:{
+                                size:18,
+                                weight:"bold"
+                            }
+                        },
+
+                        title:{
+                            display:true,
+                            text:"Rang mondial",
+                            color:"#111",
+                            font:{
+                                size:26,
+                                weight:"bold"
+                            }
+                        },
+
+                        grid:{
+                            color:"rgba(0,0,0,.08)"
+                        }
+
+                    },
+
+                    x:{
+
+                        ticks:{
+                            color:"#111",
+                            font:{
+                                size:15
+                            }
+                        },
+
+                        title:{
+                            display:true,
+                            text:"Saison",
+                            color:"#111",
+                            font:{
+                                size:24,
+                                weight:"bold"
+                            }
+                        },
+
+                        grid:{
+                            color:"rgba(0,0,0,.05)"
+                        }
+
+                    }
+
                 }
+
             },
 
             plugins:[{
-                id:"labels",
+
+                id:"endLabels",
 
                 afterDraw(chart){
 
@@ -364,57 +442,75 @@ function buildChart(){
 
                     chart.data.datasets.forEach((dataset,i)=>{
 
-                        if(dataset.hidden) return;
+                        if(dataset.hidden){
+                            return;
+                        }
 
-                        const meta = chart.getDatasetMeta(i);
+                        const meta =
+                            chart.getDatasetMeta(i);
 
-                        const lastPoint =
-                            meta.data[meta.data.length-1];
+                        const point =
+                            meta.data[
+                                meta.data.length - 1
+                            ];
 
-                        if(!lastPoint) return;
+                        if(!point){
+                            return;
+                        }
+
+                        const france =
+                            dataset.label==="FRA";
 
                         ctx.font =
-                            dataset.label==="FRA"
-                            ? "bold 28px Arial"
-                            : "bold 22px Arial";
+                            france
+                            ? "bold 26px Arial"
+                            : "bold 18px Arial";
 
                         ctx.fillStyle =
                             COLORS[dataset.label];
 
-                        ctx.textAlign="left";
+                        ctx.textAlign = "left";
 
                         ctx.fillText(
-                            FLAGS[dataset.label],
+                            LABELS[dataset.label],
                             right + 35,
-                            lastPoint.y + 8
+                            point.y + 6
                         );
 
                     });
 
                     ctx.restore();
+
                 }
+
             }]
+
         }
     );
 
     buildRanking();
+
 }
 
 function buildRanking(){
 
-    const data = getCurrentData();
+    const data = getData();
 
     const final = data
         .filter(d=>d.Season===2026)
-        .sort((a,b)=>a.NationRank-b.NationRank);
+        .sort((a,b)=>
+            a.NationRank-b.NationRank
+        );
 
-    const ranking = document.getElementById("ranking");
+    const container =
+        document.getElementById("ranking");
 
-    ranking.innerHTML="";
+    container.innerHTML = "";
 
     final.forEach(row=>{
 
-        const div = document.createElement("div");
+        const div =
+            document.createElement("div");
 
         div.className =
             row.Nation==="FRA"
@@ -423,7 +519,8 @@ function buildRanking(){
 
         div.innerHTML = `
             <div>
-                ${row.NationRank}. ${FLAGS[row.Nation]}
+                ${row.NationRank}.
+                ${LABELS[row.Nation]}
             </div>
 
             <div>
@@ -431,74 +528,91 @@ function buildRanking(){
             </div>
         `;
 
-        ranking.appendChild(div);
+        container.appendChild(div);
+
     });
+
 }
-
-document.getElementById("btnOverall")
-.onclick = ()=>{
-
-    currentMode="overall";
-
-    activate("btnOverall");
-
-    buildChart();
-};
-
-document.getElementById("btnMen")
-.onclick = ()=>{
-
-    currentMode="men";
-
-    activate("btnMen");
-
-    buildChart();
-};
-
-document.getElementById("btnWomen")
-.onclick = ()=>{
-
-    currentMode="women";
-
-    activate("btnWomen");
-
-    buildChart();
-};
-
-document.getElementById("btnFrance")
-.onclick = ()=>{
-
-    focusFrance = !focusFrance;
-
-    document
-        .getElementById("btnFrance")
-        .classList.toggle("active");
-
-    buildChart();
-};
-
-document.getElementById("btnReplay")
-.onclick = ()=>{
-
-    buildChart();
-};
 
 function activate(id){
 
     document
         .querySelectorAll("button")
-        .forEach(b=>b.classList.remove("active"));
+        .forEach(b=>
+            b.classList.remove("active")
+        );
 
     document
         .getElementById(id)
         .classList.add("active");
 
     if(focusFrance){
+
         document
-            .getElementById("btnFrance")
+            .getElementById("focusBtn")
             .classList.add("active");
+
     }
+
 }
+
+document
+.getElementById("overallBtn")
+.onclick = ()=>{
+
+    currentMode="overall";
+
+    activate("overallBtn");
+
+    buildChart();
+
+};
+
+document
+.getElementById("menBtn")
+.onclick = ()=>{
+
+    currentMode="men";
+
+    activate("menBtn");
+
+    buildChart();
+
+};
+
+document
+.getElementById("womenBtn")
+.onclick = ()=>{
+
+    currentMode="women";
+
+    activate("womenBtn");
+
+    buildChart();
+
+};
+
+document
+.getElementById("focusBtn")
+.onclick = ()=>{
+
+    focusFrance = !focusFrance;
+
+    document
+        .getElementById("focusBtn")
+        .classList.toggle("active");
+
+    buildChart();
+
+};
+
+document
+.getElementById("replayBtn")
+.onclick = ()=>{
+
+    buildChart();
+
+};
 
 loadData();
 
