@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,16 +19,14 @@ body{
 }
 
 .container{
-    width:96%;
-    max-width:1700px;
+    width:95%;
     margin:auto;
     padding:20px;
 }
 
 h1{
     text-align:center;
-    font-size:34px;
-    margin-bottom:5px;
+    margin-bottom:10px;
 }
 
 .subtitle{
@@ -41,16 +40,15 @@ h1{
     justify-content:center;
     gap:10px;
     margin-bottom:20px;
-    flex-wrap:wrap;
 }
 
 button{
-    padding:10px 18px;
+    padding:10px 16px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
     cursor:pointer;
-    font-size:15px;
     background:#e9ecef;
+    font-size:14px;
 }
 
 button.active{
@@ -59,8 +57,7 @@ button.active{
 }
 
 .chart-container{
-    position:relative;
-    height:78vh;
+    height:80vh;
 }
 
 </style>
@@ -70,31 +67,26 @@ button.active{
 
 <div class="container">
 
-    <h1>FIS Alpine Nations Ranking</h1>
+<h1>FIS Alpine Nations Ranking</h1>
 
-    <div class="subtitle">
-        Evolution des meilleures nations alpines de 1970 à 2026
-    </div>
+<div class="subtitle">
+Evolution des meilleures nations alpines de 1970 à 2026
+</div>
 
-    <div class="controls">
-        <button id="btnRank" class="active">Classement</button>
-        <button id="btnPoints">Points</button>
+<div class="controls">
+    <button id="btnRank" class="active">Classement</button>
+    <button id="btnPoints">Points</button>
+</div>
 
-        <button id="btnAll" class="active">Overall</button>
-        <button id="btnMen">Men</button>
-        <button id="btnLadies">Ladies</button>
-    </div>
-
-    <div class="chart-container">
-        <canvas id="chart"></canvas>
-    </div>
+<div class="chart-container">
+    <canvas id="chart"></canvas>
+</div>
 
 </div>
 
 <script>
 
 let currentMode='rank';
-let currentGender='overall';
 
 const nationColors={
     FRA:'#0057b8',
@@ -109,32 +101,9 @@ const nationColors={
     BRA:'#2dc653'
 };
 
-const nationFlags={
-    FRA:'🇫🇷',
-    AUT:'🇦🇹',
-    SUI:'🇨🇭',
-    ITA:'🇮🇹',
-    USA:'🇺🇸',
-    NOR:'🇳🇴',
-    GER:'🇩🇪',
-    CAN:'🇨🇦',
-    SWE:'🇸🇪',
-    BRA:'🇧🇷'
-};
-
 async function loadData(){
 
-    let file='data_overall.json';
-
-    if(currentGender==='men'){
-        file='data_men.json';
-    }
-
-    if(currentGender==='ladies'){
-        file='data_ladies.json';
-    }
-
-    const response=await fetch(file);
+    const response=await fetch('data_overall.json');
 
     return await response.json();
 }
@@ -145,23 +114,23 @@ async function buildChart(){
 
     const data=await loadData();
 
+    const filtered=data.filter(
+        d=>d.Nation!=='FIN'
+    );
+
     const nations=[
-        ...new Set(
-            data
-            .map(d=>d.Nation)
-            .filter(n=>n!=='FIN')
-        )
+        ...new Set(filtered.map(d=>d.Nation))
     ];
 
     const seasons=[
-        ...new Set(data.map(d=>d.Season))
+        ...new Set(filtered.map(d=>d.Season))
     ].sort((a,b)=>a-b);
 
     const datasets=nations.map(nation=>{
 
         const values=seasons.map(season=>{
 
-            const found=data.find(
+            const found=filtered.find(
                 d=>
                     d.Season===season
                     && d.Nation===nation
@@ -190,7 +159,7 @@ async function buildChart(){
 
             pointRadius:0,
 
-            tension:0.25,
+            tension:0.2,
 
             spanGaps:false
         };
@@ -200,125 +169,48 @@ async function buildChart(){
         chart.destroy();
     }
 
-    const ctx=document.getElementById('chart');
+    chart=new Chart(
+        document.getElementById('chart'),
+        {
 
-    chart=new Chart(ctx,{
+            type:'line',
 
-        type:'line',
-
-        data:{
-            labels:seasons,
-            datasets:datasets
-        },
-
-        options:{
-
-            responsive:true,
-            maintainAspectRatio:false,
-
-            animation:false,
-
-            interaction:{
-                mode:'nearest',
-                intersect:false
+            data:{
+                labels:seasons,
+                datasets:datasets
             },
 
-            plugins:{
+            options:{
 
-                legend:{
-                    display:false
+                responsive:true,
+                maintainAspectRatio:false,
+
+                animation:false,
+
+                plugins:{
+                    legend:{
+                        position:'right'
+                    }
                 },
 
-                tooltip:{
-                    callbacks:{
-                        label:function(context){
+                scales:{
 
-                            const nation=context.dataset.label;
-                            const value=context.raw;
+                    y:{
 
-                            if(currentMode==='rank'){
-                                return nation+' : rank '+value;
-                            }
+                        reverse:currentMode==='rank',
 
-                            return nation+' : '+value+' pts';
-                        }
-                    }
-                }
-            },
+                        min:currentMode==='rank'
+                            ? 1
+                            : undefined,
 
-            scales:{
-
-                y:{
-
-                    reverse:currentMode==='rank',
-
-                    min:currentMode==='rank' ? 1 : undefined,
-
-                    max:currentMode==='rank' ? 10 : undefined,
-
-                    ticks:{
-                        stepSize:1
+                        max:currentMode==='rank'
+                            ? 10
+                            : undefined
                     }
                 }
             }
-        },
-
-        plugins:[{
-
-            id:'nationLabels',
-
-            afterDraw(chart){
-
-                const ctx=chart.ctx;
-
-                ctx.save();
-
-                chart.data.datasets.forEach((dataset,i)=>{
-
-                    const meta=chart.getDatasetMeta(i);
-
-                    if(!meta || !meta.data || meta.data.length===0){
-                        return;
-                    }
-
-                    let lastValidPoint=null;
-
-                    for(let j=meta.data.length-1;j>=0;j--){
-
-                        const point=meta.data[j];
-
-                        if(point && point.y !== undefined){
-                            lastValidPoint=point;
-                            break;
-                        }
-                    }
-
-                    if(!lastValidPoint){
-                        return;
-                    }
-
-                    const nation=dataset.label;
-
-                    ctx.fillStyle=dataset.borderColor;
-
-                    ctx.font=
-                        nation==='FRA'
-                        ? 'bold 18px Arial'
-                        : '13px Arial';
-
-                    ctx.textAlign='left';
-
-                    ctx.fillText(
-                        `${nationFlags[nation] || ''} ${nation}`,
-                        lastValidPoint.x + 10,
-                        lastValidPoint.y + 4
-                    );
-                });
-
-                ctx.restore();
-            }
-        }]
-    });
+        }
+    );
 }
 
 document.getElementById('btnRank').onclick=()=>{
@@ -342,54 +234,6 @@ document.getElementById('btnPoints').onclick=()=>{
         .classList.add('active');
 
     document.getElementById('btnRank')
-        .classList.remove('active');
-
-    buildChart();
-};
-
-document.getElementById('btnAll').onclick=()=>{
-
-    currentGender='overall';
-
-    document.getElementById('btnAll')
-        .classList.add('active');
-
-    document.getElementById('btnMen')
-        .classList.remove('active');
-
-    document.getElementById('btnLadies')
-        .classList.remove('active');
-
-    buildChart();
-};
-
-document.getElementById('btnMen').onclick=()=>{
-
-    currentGender='men';
-
-    document.getElementById('btnMen')
-        .classList.add('active');
-
-    document.getElementById('btnAll')
-        .classList.remove('active');
-
-    document.getElementById('btnLadies')
-        .classList.remove('active');
-
-    buildChart();
-};
-
-document.getElementById('btnLadies').onclick=()=>{
-
-    currentGender='ladies';
-
-    document.getElementById('btnLadies')
-        .classList.add('active');
-
-    document.getElementById('btnAll')
-        .classList.remove('active');
-
-    document.getElementById('btnMen')
         .classList.remove('active');
 
     buildChart();
