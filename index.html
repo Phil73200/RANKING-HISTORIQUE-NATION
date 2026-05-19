@@ -300,19 +300,13 @@ function animateChart(){
             .filter(d=>d.Nation===nation)
             .sort((a,b)=>a.Season-b.Season);
 
-        const x=[];
-        const y=[];
+        const x=rows.map(r=>r.Season);
 
-        rows.forEach(r=>{
-
-            x.push(r.Season);
-
-            y.push(
-                currentMode==='rank'
-                ? r.NationRank
-                : r.NationPoints
-            );
-        });
+        const y=rows.map(r=>
+            currentMode==='rank'
+            ? r.NationRank
+            : r.NationPoints
+        );
 
         traces.push({
 
@@ -327,12 +321,14 @@ function animateChart(){
 
             textfont:{
                 size:nation==='FRA' ? 20 : 16,
-                color:nationColors[nation]
+                color:nationColors[nation],
+                family:'Arial Black'
             },
 
             line:{
                 color:nationColors[nation],
-                width:nation==='FRA' ? 7 : 2.5
+                width:nation==='FRA' ? 7 : 2.5,
+                shape:'hv'
             },
 
             opacity:
@@ -365,7 +361,7 @@ function animateChart(){
 
         margin:{
             l:80,
-            r:170,
+            r:190,
             t:20,
             b:60
         },
@@ -456,14 +452,14 @@ function animateChart(){
             update
         );
 
-        frame++;
+        frame += 3;
 
         if(frame>maxLength){
 
             clearInterval(interval);
         }
 
-    },70);
+    },35);
 }
 
 function buildRanking(data){
