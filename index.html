@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Classement mondial des nations</title>
 
@@ -12,8 +12,8 @@
 
 body{
     margin:0;
-    background:#f5f7fb;
     font-family:Arial, Helvetica, sans-serif;
+    background:#f4f6fb;
     color:#1d2a44;
 }
 
@@ -27,23 +27,71 @@ body{
 h1{
     text-align:center;
     font-size:54px;
-    margin-bottom:5px;
     font-weight:800;
+    margin-bottom:8px;
 }
 
 .subtitle{
     text-align:center;
-    font-size:24px;
-    color:#5f6f89;
+    font-size:22px;
+    color:#66748c;
     margin-bottom:28px;
 }
 
-.controls{
+.top{
+    background:white;
+    border-radius:24px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 5px 18px rgba(0,0,0,0.08);
+    border:3px solid #1f5fd0;
+}
+
+.focus{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.focusLeft h2{
+    margin:0;
+    font-size:42px;
+    color:#0f3fa3;
+}
+
+.focusLeft p{
+    margin-top:8px;
+    font-size:20px;
+    color:#6c7890;
+}
+
+.stats{
+    display:flex;
+    gap:28px;
+}
+
+.stat{
+    text-align:center;
+}
+
+.statValue{
+    font-size:52px;
+    font-weight:800;
+    color:#e63a63;
+}
+
+.statLabel{
+    font-size:18px;
+    color:#6c7890;
+}
+
+.buttons{
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
-    gap:12px;
-    margin-bottom:25px;
+    gap:14px;
+    margin-bottom:24px;
 }
 
 button{
@@ -59,7 +107,7 @@ button{
 }
 
 button.active{
-    background:#135ec9;
+    background:#145cc7;
     color:white;
 }
 
@@ -73,18 +121,15 @@ button.active{
 }
 
 .right{
-    width:350px;
+    width:360px;
 }
 
-.panel{
+.chartBox{
     background:white;
     border-radius:24px;
+    padding:24px;
+    height:900px;
     box-shadow:0 5px 18px rgba(0,0,0,0.08);
-    padding:20px;
-}
-
-.chartPanel{
-    height:880px;
 }
 
 canvas{
@@ -92,28 +137,26 @@ canvas{
     height:100% !important;
 }
 
-.sidebox{
-    background:#172d5d;
-    border-radius:24px;
+.side{
+    background:#182d5c;
     color:white;
-    height:880px;
+    border-radius:24px;
     padding:30px;
+    height:900px;
     box-sizing:border-box;
 }
 
-.year{
+.sideYear{
     text-align:center;
-    font-size:92px;
+    font-size:96px;
     font-weight:800;
-    margin-top:10px;
 }
 
 .sideTitle{
     text-align:center;
-    font-size:18px;
     letter-spacing:2px;
-    color:#b8c5df;
-    margin-bottom:35px;
+    color:#c7d3ea;
+    margin-bottom:30px;
 }
 
 .rankItem{
@@ -135,7 +178,17 @@ canvas{
 }
 
 .france{
-    background:linear-gradient(90deg,#204ea8,#d63c64);
+    background:linear-gradient(90deg,#214ba5,#d63f65);
+}
+
+.footer{
+    margin-top:18px;
+    background:white;
+    border-radius:18px;
+    padding:16px 20px;
+    color:#54627c;
+    font-size:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
 }
 
 </style>
@@ -151,10 +204,47 @@ canvas{
 Coupe du Monde de ski alpin · Evolution historique des meilleures nations
 </div>
 
-<div class="controls">
+<div class="top">
 
-<button id="rankBtn" class="active">Classement</button>
-<button id="pointsBtn">Points</button>
+<div class="focus">
+
+<div class="focusLeft">
+<h2>🇫🇷 FRANCE – Focus de l'analyse</h2>
+<p>Animation dynamique des classements mondiaux de 1970 à 2026</p>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<div class="statValue">6e</div>
+<div class="statLabel">Rang 2026</div>
+</div>
+
+<div class="stat">
+<div class="statValue">4177</div>
+<div class="statLabel">Points 2026</div>
+</div>
+
+<div class="stat">
+<div class="statValue">1er</div>
+<div class="statLabel">Meilleur</div>
+</div>
+
+<div class="stat">
+<div class="statValue">8e</div>
+<div class="statLabel">Pire</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="buttons">
+
+<button id="rankBtn" class="active">Par rang</button>
+<button id="pointsBtn">Par points</button>
 
 <button id="allBtn" class="active">Toutes nations</button>
 <button id="franceBtn">Focus France</button>
@@ -171,17 +261,22 @@ Coupe du Monde de ski alpin · Evolution historique des meilleures nations
 
 <div class="left">
 
-<div class="panel chartPanel">
+<div class="chartBox">
 <canvas id="chart"></canvas>
+</div>
+
+<div class="footer">
+<b>Comment lire :</b> évolution du rang mondial des meilleures nations de ski alpin.
+La France est mise en avant avec une courbe plus épaisse.
 </div>
 
 </div>
 
 <div class="right">
 
-<div class="sidebox">
+<div class="side">
 
-<div class="year">2026</div>
+<div class="sideYear">2026</div>
 
 <div class="sideTitle">
 CLASSEMENT FINAL
@@ -205,20 +300,20 @@ let currentMode = "rank";
 let currentView = "all";
 let currentGender = "overall";
 
-const nationColors = {
+const colors = {
     FRA:"#0057c8",
-    AUT:"#d62828",
+    AUT:"#e63946",
     SUI:"#2a9d8f",
     ITA:"#2b9348",
     USA:"#8d99ae",
     NOR:"#6c757d",
     SWE:"#9d4edd",
-    GER:"#333333",
+    GER:"#444444",
     CAN:"#f4a261",
-    BRA:"#6abf69"
+    BRA:"#7bc96f"
 };
 
-const nationNames = {
+const names = {
     FRA:"France",
     AUT:"Autriche",
     SUI:"Suisse",
@@ -231,7 +326,7 @@ const nationNames = {
     BRA:"Brésil"
 };
 
-const nationFlags = {
+const flags = {
     FRA:"🇫🇷",
     AUT:"🇦🇹",
     SUI:"🇨🇭",
@@ -248,8 +343,8 @@ async function loadData(){
 
     let file = "data.json";
 
-    if(currentGender === "men") file = "data M.json";
-    if(currentGender === "women") file = "data W.json";
+    if(currentGender==="men") file="data M.json";
+    if(currentGender==="women") file="data W.json";
 
     const response = await fetch(file);
 
@@ -268,8 +363,6 @@ async function buildChart(animated=true){
 
     nations.forEach(nation=>{
 
-        const isFrance = nation === "FRA";
-
         const values = seasons.map(season=>{
 
             const found = raw.find(
@@ -281,7 +374,10 @@ async function buildChart(animated=true){
             return currentMode==="rank"
                 ? found.NationRank
                 : found.NationPoints;
+
         });
+
+        const isFrance = nation==="FRA";
 
         datasets.push({
 
@@ -289,11 +385,11 @@ async function buildChart(animated=true){
 
             data:values,
 
-            borderColor:nationColors[nation],
+            borderColor:colors[nation],
 
-            backgroundColor:nationColors[nation],
+            backgroundColor:colors[nation],
 
-            borderWidth:isFrance ? 6 : 2.2,
+            borderWidth:isFrance ? 6 : 2,
 
             pointRadius:0,
 
@@ -335,6 +431,12 @@ async function buildChart(animated=true){
             plugins:{
                 legend:{
                     display:false
+                }
+            },
+
+            layout:{
+                padding:{
+                    right:220
                 }
             },
 
@@ -417,27 +519,27 @@ async function buildChart(animated=true){
 
                     let y = point.y;
 
-                    while(positions.some(p=>Math.abs(p-y)<32)){
-                        y += 28;
+                    while(positions.some(p=>Math.abs(p-y)<28)){
+                        y += 26;
                     }
 
                     positions.push(y);
 
                     const nation = dataset.label;
 
-                    const x = point.x + 40;
+                    const x = point.x + 30;
 
                     ctx.textAlign="left";
                     ctx.textBaseline="middle";
 
                     ctx.font = (nation==="FRA")
-                        ? "bold 24px Arial"
-                        : "bold 20px Arial";
+                        ? "bold 26px Arial"
+                        : "bold 18px Arial";
 
-                    ctx.fillStyle = nationColors[nation];
+                    ctx.fillStyle = colors[nation];
 
                     ctx.fillText(
-                        nationFlags[nation] + " " + nationNames[nation],
+                        flags[nation] + " " + names[nation],
                         x,
                         y
                     );
@@ -469,7 +571,7 @@ function buildRanking(raw){
 
         const div = document.createElement("div");
 
-        div.className = "rankItem";
+        div.className="rankItem";
 
         if(d.Nation==="FRA"){
             div.classList.add("france");
@@ -478,8 +580,8 @@ function buildRanking(raw){
         div.innerHTML=`
             <div class="rankLeft">
                 <div>${d.NationRank}</div>
-                <div>${nationFlags[d.Nation]}</div>
-                <div>${nationNames[d.Nation]}</div>
+                <div>${flags[d.Nation]}</div>
+                <div>${names[d.Nation]}</div>
             </div>
 
             <div>${d.NationPoints}</div>
@@ -491,9 +593,9 @@ function buildRanking(raw){
 
 }
 
-function resetButtons(group){
+function reset(ids){
 
-    group.forEach(id=>{
+    ids.forEach(id=>{
         document.getElementById(id).classList.remove("active");
     });
 
@@ -503,7 +605,7 @@ document.getElementById("rankBtn").onclick=()=>{
 
     currentMode="rank";
 
-    resetButtons(["rankBtn","pointsBtn"]);
+    reset(["rankBtn","pointsBtn"]);
 
     document.getElementById("rankBtn").classList.add("active");
 
@@ -514,7 +616,7 @@ document.getElementById("pointsBtn").onclick=()=>{
 
     currentMode="points";
 
-    resetButtons(["rankBtn","pointsBtn"]);
+    reset(["rankBtn","pointsBtn"]);
 
     document.getElementById("pointsBtn").classList.add("active");
 
@@ -525,7 +627,7 @@ document.getElementById("allBtn").onclick=()=>{
 
     currentView="all";
 
-    resetButtons(["allBtn","franceBtn"]);
+    reset(["allBtn","franceBtn"]);
 
     document.getElementById("allBtn").classList.add("active");
 
@@ -536,7 +638,7 @@ document.getElementById("franceBtn").onclick=()=>{
 
     currentView="france";
 
-    resetButtons(["allBtn","franceBtn"]);
+    reset(["allBtn","franceBtn"]);
 
     document.getElementById("franceBtn").classList.add("active");
 
@@ -547,7 +649,7 @@ document.getElementById("overallBtn").onclick=()=>{
 
     currentGender="overall";
 
-    resetButtons(["overallBtn","menBtn","womenBtn"]);
+    reset(["overallBtn","menBtn","womenBtn"]);
 
     document.getElementById("overallBtn").classList.add("active");
 
@@ -558,7 +660,7 @@ document.getElementById("menBtn").onclick=()=>{
 
     currentGender="men";
 
-    resetButtons(["overallBtn","menBtn","womenBtn"]);
+    reset(["overallBtn","menBtn","womenBtn"]);
 
     document.getElementById("menBtn").classList.add("active");
 
@@ -569,7 +671,7 @@ document.getElementById("womenBtn").onclick=()=>{
 
     currentGender="women";
 
-    resetButtons(["overallBtn","menBtn","womenBtn"]);
+    reset(["overallBtn","menBtn","womenBtn"]);
 
     document.getElementById("womenBtn").classList.add("active");
 
