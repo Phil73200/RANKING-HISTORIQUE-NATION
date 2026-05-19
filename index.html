@@ -168,14 +168,6 @@ PAR RANG
 PAR POINTS
 </button>
 
-<button onclick="changeSpeed(1200, this)">
-VITESSE NORMALE
-</button>
-
-<button onclick="changeSpeed(300, this)">
-VITESSE RAPIDE
-</button>
-
 </div>
 
 <div class="main">
@@ -206,7 +198,6 @@ let chart;
 
 let currentDataset = 'global';
 let currentMode = 'rank';
-let animationSpeed = 1200;
 
 const nationColors = {
     FRA:'#0057b8',
@@ -343,9 +334,7 @@ function buildChart(data){
 
             fill:false,
 
-            borderDash:nation==='FRA' ? [] : [5,5],
-
-            opacity:nation==='FRA' ? 1 : 0.2
+            borderDash:nation==='FRA' ? [] : [5,5]
 
         };
 
@@ -373,7 +362,7 @@ function buildChart(data){
             responsive:true,
 
             animation:{
-                duration:animationSpeed
+                duration:1200
             },
 
             interaction:{
@@ -516,16 +505,6 @@ function changeMode(mode, btn){
     currentMode = mode;
 
     loadData(currentDataset);
-
-    clearActiveButtons();
-
-    btn.classList.add('active');
-
-}
-
-function changeSpeed(speed, btn){
-
-    animationSpeed = speed;
 
     clearActiveButtons();
 
