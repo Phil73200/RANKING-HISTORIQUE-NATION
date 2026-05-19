@@ -157,6 +157,14 @@ Coupe du Monde de ski alpin • Evolution historique des meilleures nations
         Dames
     </button>
 
+    <button onclick="switchDisplay('rank')" class="active" id="btn-rank">
+        Classement
+    </button>
+
+    <button onclick="switchDisplay('points')" id="btn-points">
+        Points
+    </button>
+
 </div>
 
 <div class="main">
@@ -194,8 +202,7 @@ const COLORS = {
     NOR:"#6b7280",
     SWE:"#a855f7",
     GER:"#222222",
-    CAN:"#fb923c",
-    BRA:"#84cc16"
+    CAN:"#fb923c"
 };
 
 const LABELS = {
@@ -207,11 +214,25 @@ const LABELS = {
     NOR:"🇳🇴 Norvège",
     SWE:"🇸🇪 Suède",
     GER:"🇩🇪 Allemagne",
-    CAN:"🇨🇦 Canada",
-    BRA:"🇧🇷 Brésil"
+    CAN:"🇨🇦 Canada"
 };
 
+const NATIONS = [
+    "SUI",
+    "AUT",
+    "ITA",
+    "USA",
+    "NOR",
+    "FRA",
+    "GER",
+    "SWE",
+    "CAN"
+];
+
 let chart;
+
+let currentMode = "overall";
+let currentDisplay = "rank";
 
 let overallData = [];
 let menData = [];
@@ -236,11 +257,9 @@ async function loadAllData() {
 
 function switchData(mode) {
 
-    document.querySelectorAll(".controls button")
-        .forEach(btn => btn.classList.remove("active"));
+    currentMode = mode;
 
-    document.getElementById("btn-" + mode)
-        .classList.add("active");
+    updateButtons();
 
     if(mode === "overall") {
         buildChart(overallData);
@@ -255,17 +274,47 @@ function switchData(mode) {
     }
 }
 
+function switchDisplay(type){
+
+    currentDisplay = type;
+
+    updateButtons();
+
+    if(currentMode === "overall") {
+        buildChart(overallData);
+    }
+
+    if(currentMode === "men") {
+        buildChart(menData);
+    }
+
+    if(currentMode === "women") {
+        buildChart(womenData);
+    }
+}
+
+function updateButtons(){
+
+    document.querySelectorAll("button")
+        .forEach(btn => btn.classList.remove("active"));
+
+    document.getElementById("btn-" + currentMode)
+        .classList.add("active");
+
+    document.getElementById(
+        currentDisplay === "rank"
+        ? "btn-rank"
+        : "btn-points"
+    ).classList.add("active");
+}
+
 function buildChart(data){
 
     const years = [...new Set(
         data.map(d=>d.Season)
     )];
 
-    const nations = [...new Set(
-        data.map(d=>d.Nation)
-    )];
-
-    const datasets = nations.map(nation=>{
+    const datasets = NATIONS.map(nation=>{
 
         const values = years.map(year=>{
 
@@ -275,9 +324,13 @@ function buildChart(data){
                     d.Nation===nation
             );
 
-            return found
+            if(!found){
+                return null;
+            }
+
+            return currentDisplay==="rank"
                 ? found.NationRank
-                : null;
+                : found.NationPoints;
 
         });
 
@@ -290,7 +343,7 @@ function buildChart(data){
             data:values,
 
             borderColor:
-                COLORS[nation] || "#999",
+                COLORS[nation],
 
             backgroundColor:"transparent",
 
@@ -330,40 +383,54 @@ function buildChart(data){
                 maintainAspectRatio:false,
 
                 animation:{
-                    duration:1800,
+                    duration:1600,
                     easing:"easeOutQuart"
                 },
 
                 plugins:{
-
                     legend:{
                         display:false
                     }
-
                 },
 
                 scales:{
 
                     y:{
 
-                        reverse:true,
+                        reverse:
+                            currentDisplay==="rank",
 
-                        suggestedMin:1,
-                        suggestedMax:12,
+                        suggestedMin:
+                            currentDisplay==="rank"
+                            ? 1
+                            : 0,
+
+                        suggestedMax:
+                            currentDisplay==="rank"
+                            ? 10
+                            : undefined,
 
                         ticks:{
-                            stepSize:1,
+
                             color:"#111",
+
                             font:{
                                 size:18,
                                 weight:"bold"
                             }
+
                         },
 
                         title:{
                             display:true,
-                            text:"Rang mondial",
+
+                            text:
+                                currentDisplay==="rank"
+                                ? "Rang mondial"
+                                : "Points Coupe du Monde",
+
                             color:"#111",
+
                             font:{
                                 size:26,
                                 weight:"bold"
@@ -425,9 +492,7 @@ function buildChart(data){
 
                 afterDraw(chart){
 
-                    const {
-                        ctx
-                    } = chart;
+                    const { ctx } = chart;
 
                     ctx.save();
 
@@ -460,7 +525,7 @@ function buildChart(data){
 
                         ctx.fillText(
                             LABELS[dataset.label],
-                            point.x + 20,
+                            point.x + 18,
                             point.y + 6
                         );
 
@@ -482,7 +547,11 @@ function buildChart(data){
 function buildRanking(data){
 
     const final = data
-        .filter(d=>d.Season===2026)
+        .filter(
+            d =>
+                d.Season===2026 &&
+                NATIONS.includes(d.Nation)
+        )
         .sort((a,b)=>
             a.NationRank-b.NationRank
         );
