@@ -12,13 +12,12 @@
 
 body{
     margin:0;
-    padding:0;
+    background:#f5f7fb;
     font-family:Arial, Helvetica, sans-serif;
-    background:#f4f6fb;
     color:#1d2a44;
 }
 
-.container{
+.wrapper{
     width:96%;
     max-width:1700px;
     margin:auto;
@@ -27,31 +26,31 @@ body{
 
 h1{
     text-align:center;
-    font-size:52px;
-    margin-bottom:8px;
+    font-size:54px;
+    margin-bottom:5px;
     font-weight:800;
 }
 
 .subtitle{
     text-align:center;
     font-size:24px;
-    color:#56637a;
-    margin-bottom:30px;
+    color:#5f6f89;
+    margin-bottom:28px;
 }
 
-.topbar{
+.controls{
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
-    gap:14px;
+    gap:12px;
     margin-bottom:25px;
 }
 
 button{
     border:none;
     border-radius:14px;
-    padding:14px 24px;
-    font-size:20px;
+    padding:13px 22px;
+    font-size:18px;
     font-weight:700;
     cursor:pointer;
     background:#dfe5f1;
@@ -60,13 +59,13 @@ button{
 }
 
 button.active{
-    background:#145cc7;
+    background:#135ec9;
     color:white;
 }
 
 .layout{
     display:flex;
-    gap:24px;
+    gap:22px;
 }
 
 .left{
@@ -74,18 +73,18 @@ button.active{
 }
 
 .right{
-    width:360px;
+    width:350px;
 }
 
 .panel{
     background:white;
     border-radius:24px;
+    box-shadow:0 5px 18px rgba(0,0,0,0.08);
     padding:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.08);
 }
 
 .chartPanel{
-    height:900px;
+    height:880px;
 }
 
 canvas{
@@ -94,36 +93,37 @@ canvas{
 }
 
 .sidebox{
-    background:#182d5c;
-    color:white;
+    background:#172d5d;
     border-radius:24px;
+    color:white;
+    height:880px;
     padding:30px;
-    height:900px;
     box-sizing:border-box;
 }
 
-.sidebox h2{
+.year{
     text-align:center;
-    font-size:90px;
-    margin:0;
+    font-size:92px;
+    font-weight:800;
+    margin-top:10px;
 }
 
-.sidebox h3{
+.sideTitle{
     text-align:center;
-    margin-top:8px;
-    margin-bottom:35px;
-    color:#c7d3ea;
+    font-size:18px;
     letter-spacing:2px;
+    color:#b8c5df;
+    margin-bottom:35px;
 }
 
 .rankItem{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    background:rgba(255,255,255,0.08);
+    border-radius:14px;
     padding:14px 18px;
     margin-bottom:12px;
-    border-radius:14px;
-    background:rgba(255,255,255,0.08);
     font-size:22px;
     font-weight:700;
 }
@@ -135,7 +135,7 @@ canvas{
 }
 
 .france{
-    background:linear-gradient(90deg,#204ea8,#e53a5e);
+    background:linear-gradient(90deg,#204ea8,#d63c64);
 }
 
 </style>
@@ -143,7 +143,7 @@ canvas{
 
 <body>
 
-<div class="container">
+<div class="wrapper">
 
 <h1>Classement mondial des nations</h1>
 
@@ -151,18 +151,20 @@ canvas{
 Coupe du Monde de ski alpin · Evolution historique des meilleures nations
 </div>
 
-<div class="topbar">
-    <button id="btnRank" class="active">Classement</button>
-    <button id="btnPoints">Points</button>
+<div class="controls">
 
-    <button id="btnAll" class="active">Toutes nations</button>
-    <button id="btnFrance">Focus France</button>
+<button id="rankBtn" class="active">Classement</button>
+<button id="pointsBtn">Points</button>
 
-    <button id="btnOverall" class="active">Overall</button>
-    <button id="btnMen">Hommes</button>
-    <button id="btnWomen">Dames</button>
+<button id="allBtn" class="active">Toutes nations</button>
+<button id="franceBtn">Focus France</button>
 
-    <button id="btnReplay">Rejouer animation</button>
+<button id="overallBtn" class="active">Overall</button>
+<button id="menBtn">Hommes</button>
+<button id="womenBtn">Dames</button>
+
+<button id="replayBtn">Rejouer animation</button>
+
 </div>
 
 <div class="layout">
@@ -179,11 +181,13 @@ Coupe du Monde de ski alpin · Evolution historique des meilleures nations
 
 <div class="sidebox">
 
-<h2>2026</h2>
+<div class="year">2026</div>
 
-<h3>CLASSEMENT FINAL</h3>
+<div class="sideTitle">
+CLASSEMENT FINAL
+</div>
 
-<div id="rankingBox"></div>
+<div id="ranking"></div>
 
 </div>
 
@@ -197,11 +201,11 @@ Coupe du Monde de ski alpin · Evolution historique des meilleures nations
 
 let chart;
 
-let currentMode="rank";
-let currentView="all";
-let currentGender="overall";
+let currentMode = "rank";
+let currentView = "all";
+let currentGender = "overall";
 
-const nationColors={
+const nationColors = {
     FRA:"#0057c8",
     AUT:"#d62828",
     SUI:"#2a9d8f",
@@ -211,10 +215,10 @@ const nationColors={
     SWE:"#9d4edd",
     GER:"#333333",
     CAN:"#f4a261",
-    BRA:"#8ac926"
+    BRA:"#6abf69"
 };
 
-const nationNames={
+const nationNames = {
     FRA:"France",
     AUT:"Autriche",
     SUI:"Suisse",
@@ -227,7 +231,7 @@ const nationNames={
     BRA:"Brésil"
 };
 
-const nationFlags={
+const nationFlags = {
     FRA:"🇫🇷",
     AUT:"🇦🇹",
     SUI:"🇨🇭",
@@ -242,38 +246,33 @@ const nationFlags={
 
 async function loadData(){
 
-    let file="data.json";
+    let file = "data.json";
 
-    if(currentGender==="men") file="data M.json";
-    if(currentGender==="women") file="data W.json";
+    if(currentGender === "men") file = "data M.json";
+    if(currentGender === "women") file = "data W.json";
 
-    const response=await fetch(file);
+    const response = await fetch(file);
+
     return await response.json();
-}
-
-function activate(button){
-    document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
-}
-
-function setActive(id){
-    document.getElementById(id).classList.add("active");
 }
 
 async function buildChart(animated=true){
 
-    const raw=await loadData();
+    const raw = await loadData();
 
-    const nations=[...new Set(raw.map(d=>d.Nation))];
+    const nations = [...new Set(raw.map(d=>d.Nation))];
 
-    const seasons=[...new Set(raw.map(d=>d.Season))].sort((a,b)=>a-b);
+    const seasons = [...new Set(raw.map(d=>d.Season))].sort((a,b)=>a-b);
 
-    const datasets=[];
+    const datasets = [];
 
     nations.forEach(nation=>{
 
-        const data=seasons.map(season=>{
+        const isFrance = nation === "FRA";
 
-            const found=raw.find(
+        const values = seasons.map(season=>{
+
+            const found = raw.find(
                 d=>d.Season===season && d.Nation===nation
             );
 
@@ -282,52 +281,60 @@ async function buildChart(animated=true){
             return currentMode==="rank"
                 ? found.NationRank
                 : found.NationPoints;
-
         });
 
-        const isFrance=nation==="FRA";
-
         datasets.push({
+
             label:nation,
-            data:data,
+
+            data:values,
+
             borderColor:nationColors[nation],
+
             backgroundColor:nationColors[nation],
-            borderWidth:isFrance ? 8 : 3,
-            tension:0,
+
+            borderWidth:isFrance ? 6 : 2.2,
+
             pointRadius:0,
-            fill:false,
+
             stepped:true,
-            borderDash:[],
+
+            tension:0,
+
+            fill:false,
+
             hidden:(currentView==="france" && !isFrance)
+
         });
 
     });
 
     if(chart) chart.destroy();
 
-    const ctx=document.getElementById("chart");
+    const ctx = document.getElementById("chart");
 
-    chart=new Chart(ctx,{
+    chart = new Chart(ctx,{
+
         type:"line",
+
         data:{
             labels:seasons,
             datasets:datasets
         },
+
         options:{
+
             responsive:true,
             maintainAspectRatio:false,
 
             animation:animated ? {
-                duration:2400,
+                duration:1800,
                 easing:"easeOutQuart"
             } : false,
 
             plugins:{
                 legend:{
                     display:false
-                },
-                tooltip:{
-                    enabled:true
                 }
             },
 
@@ -335,12 +342,12 @@ async function buildChart(animated=true){
 
                 x:{
                     grid:{
-                        color:"#d8dde8"
+                        color:"#d7deea"
                     },
                     ticks:{
                         color:"#333",
                         font:{
-                            size:18,
+                            size:16,
                             weight:"700"
                         }
                     },
@@ -355,19 +362,21 @@ async function buildChart(animated=true){
                 },
 
                 y:{
+
                     reverse:(currentMode==="rank"),
 
                     min:(currentMode==="rank") ? 1 : 0,
+
                     max:(currentMode==="rank") ? 10 : undefined,
 
                     grid:{
-                        color:"#d8dde8"
+                        color:"#d7deea"
                     },
 
                     ticks:{
                         color:"#333",
                         font:{
-                            size:18,
+                            size:16,
                             weight:"700"
                         }
                     },
@@ -390,38 +399,45 @@ async function buildChart(animated=true){
 
             afterDraw(chart){
 
-                const {ctx}=chart;
+                const {ctx} = chart;
 
                 ctx.save();
+
+                const positions=[];
 
                 chart.data.datasets.forEach((dataset,i)=>{
 
                     if(dataset.hidden) return;
 
-                    const meta=chart.getDatasetMeta(i);
+                    const meta = chart.getDatasetMeta(i);
 
-                    if(!meta.data.length) return;
-
-                    const point=meta.data[meta.data.length-1];
+                    const point = meta.data[meta.data.length-1];
 
                     if(!point) return;
 
-                    const x=point.x + 20;
-                    const y=point.y;
+                    let y = point.y;
 
-                    const nation=dataset.label;
+                    while(positions.some(p=>Math.abs(p-y)<32)){
+                        y += 28;
+                    }
 
-                    ctx.font=(nation==="FRA")
-                        ? "bold 44px Arial"
-                        : "bold 32px Arial";
+                    positions.push(y);
 
-                    ctx.fillStyle=nationColors[nation];
+                    const nation = dataset.label;
+
+                    const x = point.x + 40;
 
                     ctx.textAlign="left";
                     ctx.textBaseline="middle";
 
+                    ctx.font = (nation==="FRA")
+                        ? "bold 24px Arial"
+                        : "bold 20px Arial";
+
+                    ctx.fillStyle = nationColors[nation];
+
                     ctx.fillText(
-                        nationFlags[nation]+" "+nationNames[nation],
+                        nationFlags[nation] + " " + nationNames[nation],
                         x,
                         y
                     );
@@ -441,19 +457,19 @@ async function buildChart(animated=true){
 
 function buildRanking(raw){
 
-    const box=document.getElementById("rankingBox");
-
-    const final=raw
+    const final = raw
         .filter(d=>d.Season===2026)
         .sort((a,b)=>a.NationRank-b.NationRank);
 
-    box.innerHTML="";
+    const ranking = document.getElementById("ranking");
+
+    ranking.innerHTML="";
 
     final.forEach(d=>{
 
-        const div=document.createElement("div");
+        const div = document.createElement("div");
 
-        div.className="rankItem";
+        div.className = "rankItem";
 
         if(d.Nation==="FRA"){
             div.classList.add("france");
@@ -469,53 +485,101 @@ function buildRanking(raw){
             <div>${d.NationPoints}</div>
         `;
 
-        box.appendChild(div);
+        ranking.appendChild(div);
 
     });
 
 }
 
-document.getElementById("btnRank").onclick=()=>{
+function resetButtons(group){
+
+    group.forEach(id=>{
+        document.getElementById(id).classList.remove("active");
+    });
+
+}
+
+document.getElementById("rankBtn").onclick=()=>{
+
     currentMode="rank";
-    activate();
-    setActive("btnRank");
+
+    resetButtons(["rankBtn","pointsBtn"]);
+
+    document.getElementById("rankBtn").classList.add("active");
+
     buildChart(false);
 };
 
-document.getElementById("btnPoints").onclick=()=>{
+document.getElementById("pointsBtn").onclick=()=>{
+
     currentMode="points";
-    activate();
-    setActive("btnPoints");
+
+    resetButtons(["rankBtn","pointsBtn"]);
+
+    document.getElementById("pointsBtn").classList.add("active");
+
     buildChart(false);
 };
 
-document.getElementById("btnAll").onclick=()=>{
+document.getElementById("allBtn").onclick=()=>{
+
     currentView="all";
+
+    resetButtons(["allBtn","franceBtn"]);
+
+    document.getElementById("allBtn").classList.add("active");
+
     buildChart(false);
 };
 
-document.getElementById("btnFrance").onclick=()=>{
+document.getElementById("franceBtn").onclick=()=>{
+
     currentView="france";
+
+    resetButtons(["allBtn","franceBtn"]);
+
+    document.getElementById("franceBtn").classList.add("active");
+
     buildChart(false);
 };
 
-document.getElementById("btnOverall").onclick=()=>{
+document.getElementById("overallBtn").onclick=()=>{
+
     currentGender="overall";
+
+    resetButtons(["overallBtn","menBtn","womenBtn"]);
+
+    document.getElementById("overallBtn").classList.add("active");
+
     buildChart(false);
 };
 
-document.getElementById("btnMen").onclick=()=>{
+document.getElementById("menBtn").onclick=()=>{
+
     currentGender="men";
+
+    resetButtons(["overallBtn","menBtn","womenBtn"]);
+
+    document.getElementById("menBtn").classList.add("active");
+
     buildChart(false);
 };
 
-document.getElementById("btnWomen").onclick=()=>{
+document.getElementById("womenBtn").onclick=()=>{
+
     currentGender="women";
+
+    resetButtons(["overallBtn","menBtn","womenBtn"]);
+
+    document.getElementById("womenBtn").classList.add("active");
+
     buildChart(false);
 };
 
-document.getElementById("btnReplay").onclick=()=>{
+document.getElementById("replayBtn").onclick=()=>{
+
     buildChart(true);
+
 };
 
 buildChart(true);
