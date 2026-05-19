@@ -13,23 +13,19 @@
 
 body{
     margin:0;
-    padding:0;
     background:#f5f6fa;
     font-family:Arial, Helvetica, sans-serif;
-    color:#1e293b;
 }
 
 .container{
     width:96%;
-    max-width:1800px;
     margin:auto;
     padding:20px;
 }
 
 h1{
     text-align:center;
-    font-size:52px;
-    margin-top:10px;
+    font-size:48px;
     margin-bottom:5px;
     color:#14213d;
 }
@@ -37,31 +33,25 @@ h1{
 .subtitle{
     text-align:center;
     color:#667085;
-    font-size:20px;
-    margin-bottom:25px;
+    margin-bottom:20px;
+    font-size:18px;
 }
 
 .top-controls{
     display:flex;
     justify-content:center;
-    gap:12px;
+    gap:10px;
     flex-wrap:wrap;
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 button{
     border:none;
-    border-radius:14px;
-    padding:12px 22px;
-    background:#e2e8f0;
+    border-radius:12px;
+    padding:10px 18px;
     cursor:pointer;
-    font-size:15px;
     font-weight:bold;
-    transition:0.2s;
-}
-
-button:hover{
-    opacity:0.9;
+    background:#dbe4f0;
 }
 
 button.active{
@@ -69,41 +59,39 @@ button.active{
     color:white;
 }
 
-.main-layout{
+.layout{
     display:flex;
-    gap:25px;
-    align-items:flex-start;
+    gap:20px;
 }
 
 .chart-card{
     flex:1;
     background:white;
-    border-radius:26px;
+    border-radius:24px;
     padding:20px;
     box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
 #chart{
     width:100%;
-    height:76vh;
+    height:78vh;
 }
 
 .sidepanel{
     width:320px;
     background:#14213d;
-    border-radius:26px;
-    padding:25px;
+    border-radius:24px;
+    padding:24px;
     color:white;
-    box-shadow:0 4px 20px rgba(0,0,0,0.15);
 }
 
-.sidepanel-title{
+.sidepanel h2{
     text-align:center;
-    font-size:28px;
-    margin-bottom:5px;
+    font-size:48px;
+    margin:0;
 }
 
-.sidepanel-sub{
+.sidepanel p{
     text-align:center;
     color:#cbd5e1;
     margin-bottom:25px;
@@ -112,37 +100,18 @@ button.active{
 .rank-item{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:12px 14px;
-    border-radius:14px;
-    margin-bottom:12px;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:10px;
     background:rgba(255,255,255,0.08);
-    font-size:18px;
-}
-
-.rank-left{
-    display:flex;
-    gap:12px;
-    align-items:center;
 }
 
 .france{
     background:linear-gradient(
         90deg,
-        rgba(0,87,184,0.65),
-        rgba(220,38,38,0.65)
+        rgba(0,87,184,0.6),
+        rgba(220,38,38,0.6)
     );
-}
-
-@media(max-width:1200px){
-
-    .main-layout{
-        flex-direction:column;
-    }
-
-    .sidepanel{
-        width:100%;
-    }
 }
 
 </style>
@@ -160,57 +129,31 @@ Coupe du Monde de ski alpin · Evolution historique des meilleures nations
 
 <div class="top-controls">
 
-<button id="btnRank" class="active">
-Classement
-</button>
+<button id="btnRank" class="active">Classement</button>
+<button id="btnPoints">Points</button>
 
-<button id="btnPoints">
-Points
-</button>
+<button id="btnAll" class="active">Toutes nations</button>
+<button id="btnFrance">Focus France</button>
 
-<button id="btnAll" class="active">
-Toutes nations
-</button>
+<button id="btnOverall" class="active">Overall</button>
+<button id="btnMen">Hommes</button>
+<button id="btnLadies">Dames</button>
 
-<button id="btnFrance">
-Focus France
-</button>
-
-<button id="btnOverall" class="active">
-Overall
-</button>
-
-<button id="btnMen">
-Hommes
-</button>
-
-<button id="btnLadies">
-Dames
-</button>
-
-<button id="btnReplay">
-Rejouer animation
-</button>
+<button id="btnReplay">Rejouer animation</button>
 
 </div>
 
-<div class="main-layout">
+<div class="layout">
 
 <div class="chart-card">
-
 <div id="chart"></div>
-
 </div>
 
 <div class="sidepanel">
 
-<div class="sidepanel-title">
-2026
-</div>
+<h2>2026</h2>
 
-<div class="sidepanel-sub">
-Classement final
-</div>
+<p>Classement final</p>
 
 <div id="ranking"></div>
 
@@ -226,46 +169,43 @@ let currentMode='rank';
 let currentGender='overall';
 let franceOnly=false;
 
-const nationColors={
-
-    FRA:'#0057b8',
-    AUT:'#d62828',
-    SUI:'#2a9d8f',
-    ITA:'#2b9348',
-    USA:'#7b8794',
-    NOR:'#8d99ae',
-    GER:'#111111',
-    CAN:'#ff8800',
-    SWE:'#9d4edd',
-    BRA:'#2dc653'
+const colors={
+FRA:'#0057b8',
+AUT:'#d62828',
+SUI:'#2a9d8f',
+ITA:'#43aa8b',
+USA:'#8d99ae',
+NOR:'#6c757d',
+GER:'#222222',
+CAN:'#f4a261',
+SWE:'#9d4edd',
+BRA:'#52b788'
 };
 
-const nationFlags={
-
-    FRA:'🇫🇷',
-    AUT:'🇦🇹',
-    SUI:'🇨🇭',
-    ITA:'🇮🇹',
-    USA:'🇺🇸',
-    NOR:'🇳🇴',
-    GER:'🇩🇪',
-    CAN:'🇨🇦',
-    SWE:'🇸🇪',
-    BRA:'🇧🇷'
+const flags={
+FRA:'🇫🇷',
+AUT:'🇦🇹',
+SUI:'🇨🇭',
+ITA:'🇮🇹',
+USA:'🇺🇸',
+NOR:'🇳🇴',
+GER:'🇩🇪',
+CAN:'🇨🇦',
+SWE:'🇸🇪',
+BRA:'🇧🇷'
 };
 
-const fullNames = {
-
-    FRA:'France',
-    AUT:'Autriche',
-    SUI:'Suisse',
-    ITA:'Italie',
-    USA:'États-Unis',
-    NOR:'Norvège',
-    GER:'Allemagne',
-    CAN:'Canada',
-    SWE:'Suède',
-    BRA:'Brésil'
+const names={
+FRA:'France',
+AUT:'Autriche',
+SUI:'Suisse',
+ITA:'Italie',
+USA:'États-Unis',
+NOR:'Norvège',
+GER:'Allemagne',
+CAN:'Canada',
+SWE:'Suède',
+BRA:'Brésil'
 };
 
 let fullData=[];
@@ -293,7 +233,7 @@ async function init(){
 
     animateChart();
 
-    buildRanking(fullData);
+    buildRanking();
 }
 
 function animateChart(){
@@ -304,6 +244,8 @@ function animateChart(){
 
     const traces=[];
 
+    const endLabels=[];
+
     nations.forEach(nation=>{
 
         if(franceOnly && nation!=='FRA'){
@@ -311,8 +253,8 @@ function animateChart(){
         }
 
         const rows=fullData
-            .filter(d=>d.Nation===nation)
-            .sort((a,b)=>a.Season-b.Season);
+        .filter(d=>d.Nation===nation)
+        .sort((a,b)=>a.Season-b.Season);
 
         const x=rows.map(r=>r.Season);
 
@@ -322,26 +264,23 @@ function animateChart(){
             : r.NationPoints
         );
 
+        const finalY=y[y.length-1];
+
+        endLabels.push({
+            nation,
+            y:finalY
+        });
+
         traces.push({
 
             x:[],
             y:[],
 
-            mode:'lines+text',
-
-            text:[],
-
-            textposition:'middle right',
-
-            textfont:{
-                size:nation==='FRA' ? 24 : 20,
-                color:nationColors[nation],
-                family:'Arial Black'
-            },
+            mode:'lines',
 
             line:{
-                color:nationColors[nation],
-                width:nation==='FRA' ? 7 : 2.5,
+                color:colors[nation],
+                width:nation==='FRA' ? 7 : 3,
                 shape:'hv'
             },
 
@@ -350,10 +289,10 @@ function animateChart(){
                 ? 1
                 : franceOnly
                     ? 0
-                    : 0.60,
+                    : 0.45,
 
             hovertemplate:
-                '<b>'+nation+'</b><br>'+
+                '<b>'+names[nation]+'</b><br>'+
                 'Saison %{x}<br>'+
                 (
                     currentMode==='rank'
@@ -365,7 +304,34 @@ function animateChart(){
 
         traces[traces.length-1].fullX=x;
         traces[traces.length-1].fullY=y;
-        traces[traces.length-1].nation=nation;
+    });
+
+    endLabels.sort((a,b)=>a.y-b.y);
+
+    const annotations=[];
+
+    endLabels.forEach((item,index)=>{
+
+        annotations.push({
+
+            x:2028,
+            y:item.y + (index*0.15),
+
+            text:
+                flags[item.nation]
+                +' <b>'
+                + names[item.nation]
+                + '</b>',
+
+            showarrow:false,
+
+            font:{
+                size:item.nation==='FRA' ? 24 : 18,
+                color:colors[item.nation]
+            },
+
+            xanchor:'left'
+        });
     });
 
     const layout={
@@ -375,19 +341,16 @@ function animateChart(){
 
         margin:{
             l:80,
-            r:240,
+            r:260,
             t:20,
             b:60
         },
 
+        annotations:annotations,
+
         xaxis:{
-
             title:'Saison',
-
             gridcolor:'#e5e7eb',
-
-            tickmode:'linear',
-
             dtick:5
         },
 
@@ -411,9 +374,7 @@ function animateChart(){
             gridcolor:'#e5e7eb'
         },
 
-        showlegend:false,
-
-        hovermode:'closest'
+        showlegend:false
     };
 
     Plotly.newPlot(
@@ -435,30 +396,19 @@ function animateChart(){
     const interval=setInterval(()=>{
 
         const update={
-
             x:[],
-            y:[],
-            text:[]
+            y:[]
         };
 
         traces.forEach(trace=>{
 
-            const xData=trace.fullX.slice(0,frame+1);
+            update.x.push(
+                trace.fullX.slice(0,frame+1)
+            );
 
-            const yData=trace.fullY.slice(0,frame+1);
-
-            let textArray=
-                new Array(xData.length).fill('');
-
-            if(frame >= trace.fullX.length-1){
-
-                textArray[textArray.length-1]=
-                    `${nationFlags[trace.nation]} ${fullNames[trace.nation]}`;
-            }
-
-            update.x.push(xData);
-            update.y.push(yData);
-            update.text.push(textArray);
+            update.y.push(
+                trace.fullY.slice(0,frame+1)
+            );
         });
 
         Plotly.update(
@@ -466,25 +416,24 @@ function animateChart(){
             update
         );
 
-        frame += 3;
+        frame+=4;
 
         if(frame>maxLength){
-
             clearInterval(interval);
         }
 
     },35);
 }
 
-function buildRanking(data){
+function buildRanking(){
 
     const ranking=document.getElementById('ranking');
 
     ranking.innerHTML='';
 
-    const final2026=data
-        .filter(d=>d.Season===2026)
-        .sort((a,b)=>a.NationRank-b.NationRank);
+    const final2026=fullData
+    .filter(d=>d.Season===2026)
+    .sort((a,b)=>a.NationRank-b.NationRank);
 
     final2026.forEach(row=>{
 
@@ -502,50 +451,40 @@ function buildRanking(data){
 
         div.innerHTML=`
 
-            <div class="rank-left">
+        <div>
+        <b>${row.NationRank}</b>
+        ${flags[row.Nation]}
+        ${names[row.Nation]}
+        </div>
 
-                <strong>${row.NationRank}</strong>
-
-                <span>
-                    ${nationFlags[row.Nation]}
-                    ${fullNames[row.Nation]}
-                </span>
-
-            </div>
-
-            <strong>
-                ${row.NationPoints}
-            </strong>
+        <b>${row.NationPoints}</b>
         `;
 
         ranking.appendChild(div);
     });
 }
 
-function activate(buttonId, group){
+function activate(id,list){
 
-    group.forEach(id=>{
+    list.forEach(btn=>{
 
         document
-            .getElementById(id)
-            .classList
-            .remove('active');
+        .getElementById(btn)
+        .classList
+        .remove('active');
     });
 
     document
-        .getElementById(buttonId)
-        .classList
-        .add('active');
+    .getElementById(id)
+    .classList
+    .add('active');
 }
 
 document.getElementById('btnRank').onclick=()=>{
 
     currentMode='rank';
 
-    activate(
-        'btnRank',
-        ['btnRank','btnPoints']
-    );
+    activate('btnRank',['btnRank','btnPoints']);
 
     animateChart();
 };
@@ -554,10 +493,7 @@ document.getElementById('btnPoints').onclick=()=>{
 
     currentMode='points';
 
-    activate(
-        'btnPoints',
-        ['btnRank','btnPoints']
-    );
+    activate('btnPoints',['btnRank','btnPoints']);
 
     animateChart();
 };
@@ -566,10 +502,7 @@ document.getElementById('btnAll').onclick=()=>{
 
     franceOnly=false;
 
-    activate(
-        'btnAll',
-        ['btnAll','btnFrance']
-    );
+    activate('btnAll',['btnAll','btnFrance']);
 
     animateChart();
 };
@@ -578,10 +511,7 @@ document.getElementById('btnFrance').onclick=()=>{
 
     franceOnly=true;
 
-    activate(
-        'btnFrance',
-        ['btnAll','btnFrance']
-    );
+    activate('btnFrance',['btnAll','btnFrance']);
 
     animateChart();
 };
