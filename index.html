@@ -1,590 +1,234 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<title>World Cup Nations Ranking 1970-2026</title>
 
-<title>Classement mondial des nations</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
 <style>
-
-body{
-    margin:0;
-    padding:0;
-    background:#f4f6fb;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    color:#1b2340;
-}
-
-.container{
-    width:min(1500px,95%);
-    margin:auto;
-    padding:20px;
-}
-
-h1{
-    text-align:center;
-    margin-bottom:5px;
-    font-size:42px;
-}
-
-.subtitle{
-    text-align:center;
-    color:#6f7690;
-    margin-bottom:25px;
-}
-
-.topbar{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-    align-items:stretch;
-}
-
-.left-panel{
-    flex:1;
-    min-width:320px;
-}
-
-.right-panel{
-    width:320px;
-    background:#162a52;
-    border-radius:24px;
-    padding:24px;
-    color:white;
-    box-shadow:0 10px 30px rgba(0,0,0,0.15);
-}
-
-.france-card{
-    background:white;
-    border-radius:22px;
-    padding:22px;
-    border:4px solid #1e5eff;
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
-}
-
-.france-title{
-    font-size:32px;
-    font-weight:800;
-    color:#0d2fa3;
-}
-
-.france-sub{
-    color:#6f7690;
-    margin-top:8px;
-}
-
-.stats{
-    display:flex;
-    gap:18px;
-    flex-wrap:wrap;
-    margin-top:18px;
-}
-
-.stat{
-    background:#f3f5fb;
-    padding:16px;
-    border-radius:16px;
-    min-width:120px;
-    text-align:center;
-}
-
-.stat-value{
-    font-size:32px;
-    font-weight:800;
-    color:#e12c51;
-}
-
-.stat-label{
-    color:#777;
-    margin-top:5px;
-    font-size:14px;
-}
-
-.controls{
-    margin-top:22px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-}
-
-button{
-    border:none;
-    background:white;
-    padding:12px 18px;
-    border-radius:14px;
-    cursor:pointer;
-    font-weight:700;
-    transition:0.2s;
-    box-shadow:0 2px 10px rgba(0,0,0,0.06);
-}
-
-button.active{
-    background:#0d2fa3;
-    color:white;
-}
-
-.chart-card{
-    margin-top:25px;
-    background:white;
-    border-radius:24px;
-    padding:20px;
-    box-shadow:0 6px 25px rgba(0,0,0,0.08);
-}
-
-canvas{
-    width:100% !important;
-    height:620px !important;
-}
-
-.rank-title{
-    text-align:center;
-    font-size:14px;
-    letter-spacing:2px;
-    opacity:0.7;
-}
-
-.season-big{
-    text-align:center;
-    font-size:70px;
-    font-weight:900;
-    margin-top:10px;
-    margin-bottom:5px;
-}
-
-.ranking{
-    margin-top:20px;
-}
-
-.rank-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:rgba(255,255,255,0.08);
-    padding:12px 16px;
-    border-radius:14px;
-    margin-bottom:10px;
-}
-
-.rank-left{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-weight:700;
-}
-
-.rank-number{
-    width:28px;
-    height:28px;
-    border-radius:50%;
-    background:#f5d03b;
-    color:#222;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:13px;
-    font-weight:900;
-}
-
-.rank-points{
-    opacity:0.9;
-}
-
-.france-highlight{
-    background:linear-gradient(90deg,#244cff,#e12c51);
-}
-
-.legend{
-    margin-top:12px;
-    color:#6f7690;
-    font-size:14px;
-}
-
-@media(max-width:900px){
-
-    h1{
-        font-size:28px;
+    body{
+        margin:0;
+        background:#111;
+        color:white;
+        font-family:Arial, Helvetica, sans-serif;
+        overflow:hidden;
     }
 
-    .topbar{
-        flex-direction:column;
+    #title{
+        position:absolute;
+        top:20px;
+        left:40px;
+        font-size:32px;
+        font-weight:bold;
     }
 
-    .right-panel{
-        width:auto;
+    #year{
+        position:absolute;
+        top:20px;
+        right:40px;
+        font-size:64px;
+        color:#666;
+        font-weight:bold;
     }
 
-    canvas{
-        height:420px !important;
+    svg{
+        width:100vw;
+        height:100vh;
     }
 
-    .france-title{
-        font-size:24px;
+    .line{
+        fill:none;
+        stroke-width:4;
+        opacity:0.9;
     }
 
-    .stat-value{
-        font-size:24px;
+    .label{
+        font-size:18px;
+        dominant-baseline:middle;
+        font-weight:bold;
     }
-
-}
 
 </style>
 </head>
+
 <body>
 
-<div class="container">
+<div id="title">ALPINE SKI WORLD CUP NATIONS</div>
+<div id="year">1970</div>
 
-    <h1>Classement mondial des nations</h1>
-
-    <div class="subtitle">
-        Coupe du Monde de ski alpin • Evolution historique des meilleures nations
-    </div>
-
-    <div class="topbar">
-
-        <div class="left-panel">
-
-            <div class="france-card">
-
-                <div class="france-title">
-                    🇫🇷 FRANCE — Focus de l'analyse
-                </div>
-
-                <div class="france-sub">
-                    Animation dynamique des classements mondiaux de 1970 à 2026
-                </div>
-
-                <div class="stats">
-
-                    <div class="stat">
-                        <div class="stat-value" id="frRank">6e</div>
-                        <div class="stat-label">Rang 2026</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-value" id="frPoints">4177</div>
-                        <div class="stat-label">Points 2026</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-value" id="frBest">1er</div>
-                        <div class="stat-label">Meilleur</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-value" id="frWorst">8e</div>
-                        <div class="stat-label">Pire</div>
-                    </div>
-
-                </div>
-
-                <div class="controls">
-
-                    <button id="playBtn" class="active">
-                        ▶ Rejouer l'animation
-                    </button>
-
-                    <button id="slowBtn">
-                        Lent
-                    </button>
-
-                    <button id="normalBtn" class="active">
-                        Normal
-                    </button>
-
-                    <button id="fastBtn">
-                        Rapide
-                    </button>
-
-                </div>
-
-            </div>
-
-            <div class="chart-card">
-
-                <canvas id="chart"></canvas>
-
-                <div class="legend">
-                    La France est mise en avant avec une courbe plus épaisse.
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="right-panel">
-
-            <div class="rank-title">
-                CLASSEMENT FINAL
-            </div>
-
-            <div class="season-big" id="seasonDisplay">
-                1970
-            </div>
-
-            <div style="text-align:center;opacity:0.7;">
-                Coupe des nations
-            </div>
-
-            <div class="ranking" id="ranking"></div>
-
-        </div>
-
-    </div>
-
-</div>
+<svg></svg>
 
 <script>
 
-// ==========================================
-// JSON
-// ==========================================
+const svg = d3.select("svg");
 
-const data = YOUR_JSON_HERE;
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-// ==========================================
-// TOP 10 FINAL 2026
-// ==========================================
-
-const top2026 = data
-.filter(d=>d.Season===2026)
-.sort((a,b)=>a.NationRank-b.NationRank)
-.map(d=>d.Nation);
-
-const filteredData = data.filter(d =>
-    top2026.includes(d.Nation)
-);
-
-// ==========================================
-// COLORS
-// ==========================================
-
-const colors = {
-    FRA:"#0055ff",
-    AUT:"#e53935",
-    SUI:"#1fa85b",
-    ITA:"#2dbb73",
-    USA:"#8c8c8c",
-    NOR:"#9c27b0",
-    SWE:"#f39c12",
-    GER:"#444",
-    CAN:"#ff6b6b",
-    SLO:"#00bcd4"
+const margin = {
+    top:100,
+    right:150,
+    bottom:50,
+    left:80
 };
 
-// ==========================================
-// SEASONS
-// ==========================================
+const chartWidth = width - margin.left - margin.right;
+const chartHeight = height - margin.top - margin.bottom;
 
-const seasons = [...new Set(filteredData.map(d=>d.Season))]
-.sort((a,b)=>a-b);
+const g = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
-// ==========================================
-// CHART
-// ==========================================
+const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-const ctx = document.getElementById('chart');
+fetch("data.json")
+.then(r => r.json())
+.then(data => {
 
-let currentSeasonIndex = 0;
-let speed = 450;
-let chart;
+    data.forEach(d => {
+        d.Season = +d.Season;
+        d.NationRank = +d.NationRank;
+    });
 
-function buildDatasets(maxSeason){
+    const nations = [...new Set(data.map(d => d.Nation))];
 
-    return top2026.map(nation=>{
+    const seasons = [...new Set(data.map(d => d.Season))]
+        .sort((a,b)=>a-b);
 
-        const nationData = filteredData
-        .filter(d=>d.Nation===nation && d.Season<=maxSeason);
+    const x = d3.scaleLinear()
+        .domain([1970, 2026])
+        .range([0, chartWidth]);
+
+    const y = d3.scaleLinear()
+        .domain([10,1])
+        .range([chartHeight,0]);
+
+    const line = d3.line()
+        .defined(d => d.NationRank !== null)
+        .x(d => x(d.Season))
+        .y(d => y(d.NationRank))
+        .curve(d3.curveMonotoneX);
+
+    // AXES
+
+    g.append("g")
+        .attr("transform", `translate(0,${chartHeight})`)
+        .call(
+            d3.axisBottom(x)
+                .tickFormat(d3.format("d"))
+        )
+        .selectAll("text")
+        .style("fill","white");
+
+    g.append("g")
+        .call(
+            d3.axisLeft(y)
+                .ticks(10)
+        )
+        .selectAll("text")
+        .style("fill","white");
+
+    g.selectAll(".domain,line")
+        .style("stroke","#666");
+
+    // PREP DATA
+
+    const nationData = nations.map(nation => {
+
+        const values = seasons.map(season => {
+
+            const found = data.find(d =>
+                d.Nation === nation &&
+                d.Season === season
+            );
+
+            return {
+                Season: season,
+                NationRank: found ? found.NationRank : null
+            };
+
+        });
 
         return {
-
-            label:nation,
-
-            data:nationData.map(d=>({
-                x:d.Season,
-                y:d.NationRank
-            })),
-
-            borderColor:colors[nation] || "#999",
-
-            backgroundColor:colors[nation] || "#999",
-
-            borderWidth:nation==="FRA" ? 6 : 2,
-
-            pointRadius:nation==="FRA" ? 5 : 2,
-
-            tension:0.25
-
+            nation,
+            values
         };
-
     });
 
-}
+    // LINES
 
-function renderChart(season){
+    const paths = g.selectAll(".nationLine")
+        .data(nationData)
+        .enter()
+        .append("path")
+        .attr("class","line")
+        .attr("stroke",(d,i)=>colors(i))
+        .datum(d=>d.values)
+        .attr("d", line);
 
-    if(chart){
-        chart.destroy();
+    // LABELS
+
+    const labels = g.selectAll(".nationLabel")
+        .data(nationData)
+        .enter()
+        .append("text")
+        .attr("class","label")
+        .style("fill",(d,i)=>colors(i))
+        .text(d=>d.nation);
+
+    // ANIMATION
+
+    let currentYear = 1970;
+
+    function update(year){
+
+        d3.select("#year").text(year);
+
+        paths.attr("d", d => {
+
+            const filtered = d.filter(v => v.Season <= year);
+
+            return line(filtered);
+
+        });
+
+        labels
+            .attr("x", d => {
+
+                const point = d.values.find(v => v.Season === year);
+
+                return point
+                    ? x(point.Season) + 10
+                    : -999;
+
+            })
+            .attr("y", d => {
+
+                const point = d.values.find(v => v.Season === year);
+
+                return point
+                    ? y(point.NationRank)
+                    : -999;
+
+            });
+
     }
 
-    chart = new Chart(ctx,{
-        type:'line',
+    update(1970);
 
-        data:{
-            datasets:buildDatasets(season)
-        },
+    setInterval(() => {
 
-        options:{
+        currentYear++;
 
-            responsive:true,
-            maintainAspectRatio:false,
-
-            animation:{
-                duration:500
-            },
-
-            parsing:false,
-
-            plugins:{
-                legend:{
-                    position:'right'
-                }
-            },
-
-            scales:{
-
-                x:{
-                    type:'linear',
-                    min:1970,
-                    max:2026,
-                    ticks:{
-                        stepSize:5
-                    }
-                },
-
-                y:{
-                    reverse:true,
-                    min:1,
-                    max:10,
-                    ticks:{
-                        stepSize:1
-                    },
-                    title:{
-                        display:true,
-                        text:'Rang mondial'
-                    }
-                }
-
-            }
-
+        if(currentYear > 2026){
+            currentYear = 1970;
         }
 
-    });
+        update(currentYear);
 
-}
+    }, 1200);
 
-// ==========================================
-// RANKING PANEL
-// ==========================================
-
-function renderRanking(season){
-
-    document.getElementById("seasonDisplay").innerText = season;
-
-    const ranking = filteredData
-    .filter(d=>d.Season===season)
-    .sort((a,b)=>a.NationRank-b.NationRank);
-
-    const container = document.getElementById("ranking");
-
-    container.innerHTML = '';
-
-    ranking.forEach(r=>{
-
-        const div = document.createElement("div");
-
-        div.className = "rank-item";
-
-        if(r.Nation==="FRA"){
-            div.classList.add("france-highlight");
-        }
-
-        div.innerHTML = `
-            <div class="rank-left">
-                <div class="rank-number">${r.NationRank}</div>
-                <div>${r.Nation}</div>
-            </div>
-
-            <div class="rank-points">
-                ${r.NationPoints}
-            </div>
-        `;
-
-        container.appendChild(div);
-
-    });
-
-}
-
-// ==========================================
-// ANIMATION
-// ==========================================
-
-let timer;
-
-function startAnimation(){
-
-    clearInterval(timer);
-
-    currentSeasonIndex = 0;
-
-    timer = setInterval(()=>{
-
-        const season = seasons[currentSeasonIndex];
-
-        renderChart(season);
-
-        renderRanking(season);
-
-        currentSeasonIndex++;
-
-        if(currentSeasonIndex >= seasons.length){
-            clearInterval(timer);
-        }
-
-    },speed);
-
-}
-
-// ==========================================
-// BUTTONS
-// ==========================================
-
-document.getElementById("playBtn")
-.addEventListener("click",startAnimation);
-
-document.getElementById("slowBtn")
-.addEventListener("click",()=>{
-    speed=900;
 });
-
-document.getElementById("normalBtn")
-.addEventListener("click",()=>{
-    speed=450;
-});
-
-document.getElementById("fastBtn")
-.addEventListener("click",()=>{
-    speed=180;
-});
-
-// ==========================================
-// START
-// ==========================================
-
-startAnimation();
 
 </script>
 
