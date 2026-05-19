@@ -396,10 +396,16 @@ function buildChart(data){
                 responsive:true,
                 maintainAspectRatio:false,
 
-                animation:{
-                    duration:1500,
-                    easing:"easeOutQuart"
-                },
+               animation:{
+    x:{
+        duration:0
+    },
+    y:{
+        duration:1800,
+        easing:"easeOutQuart",
+        from:0
+    }
+},
 
                 layout:{
                     padding:{
