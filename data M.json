@@ -1,0 +1,2828 @@
+[
+  {
+    "Season": 1970,
+    "Nation": "FRA",
+    "NationRank": 1,
+    "NationPoints": 626
+  },
+  {
+    "Season": 1970,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 469
+  },
+  {
+    "Season": 1970,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 347
+  },
+  {
+    "Season": 1970,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 160
+  },
+  {
+    "Season": 1970,
+    "Nation": "USA",
+    "NationRank": 5,
+    "NationPoints": 147
+  },
+  {
+    "Season": 1970,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 14
+  },
+  {
+    "Season": 1970,
+    "Nation": "NOR",
+    "NationRank": 10,
+    "NationPoints": 13
+  },
+  {
+    "Season": 1971,
+    "Nation": "FRA",
+    "NationRank": 1,
+    "NationPoints": 505
+  },
+  {
+    "Season": 1971,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 388
+  },
+  {
+    "Season": 1971,
+    "Nation": "AUT",
+    "NationRank": 3,
+    "NationPoints": 361
+  },
+  {
+    "Season": 1971,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 223
+  },
+  {
+    "Season": 1971,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 128
+  },
+  {
+    "Season": 1971,
+    "Nation": "NOR",
+    "NationRank": 10,
+    "NationPoints": 4
+  },
+  {
+    "Season": 1971,
+    "Nation": "CAN",
+    "NationRank": 11,
+    "NationPoints": 2
+  },
+  {
+    "Season": 1972,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 534
+  },
+  {
+    "Season": 1972,
+    "Nation": "FRA",
+    "NationRank": 2,
+    "NationPoints": 375
+  },
+  {
+    "Season": 1972,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 307
+  },
+  {
+    "Season": 1972,
+    "Nation": "AUT",
+    "NationRank": 4,
+    "NationPoints": 297
+  },
+  {
+    "Season": 1972,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 125
+  },
+  {
+    "Season": 1972,
+    "Nation": "NOR",
+    "NationRank": 8,
+    "NationPoints": 52
+  },
+  {
+    "Season": 1972,
+    "Nation": "CAN",
+    "NationRank": 11,
+    "NationPoints": 2
+  },
+  {
+    "Season": 1973,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 635
+  },
+  {
+    "Season": 1973,
+    "Nation": "ITA",
+    "NationRank": 2,
+    "NationPoints": 505
+  },
+  {
+    "Season": 1973,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 449
+  },
+  {
+    "Season": 1973,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 230
+  },
+  {
+    "Season": 1973,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 108
+  },
+  {
+    "Season": 1973,
+    "Nation": "NOR",
+    "NationRank": 7,
+    "NationPoints": 72
+  },
+  {
+    "Season": 1973,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 11
+  },
+  {
+    "Season": 1974,
+    "Nation": "ITA",
+    "NationRank": 1,
+    "NationPoints": 705
+  },
+  {
+    "Season": 1974,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 696
+  },
+  {
+    "Season": 1974,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 280
+  },
+  {
+    "Season": 1974,
+    "Nation": "USA",
+    "NationRank": 8,
+    "NationPoints": 26
+  },
+  {
+    "Season": 1974,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 25
+  },
+  {
+    "Season": 1974,
+    "Nation": "NOR",
+    "NationRank": 10,
+    "NationPoints": 17
+  },
+  {
+    "Season": 1974,
+    "Nation": "FRA",
+    "NationRank": 12,
+    "NationPoints": 9
+  },
+  {
+    "Season": 1975,
+    "Nation": "ITA",
+    "NationRank": 1,
+    "NationPoints": 726
+  },
+  {
+    "Season": 1975,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 618
+  },
+  {
+    "Season": 1975,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 334
+  },
+  {
+    "Season": 1975,
+    "Nation": "NOR",
+    "NationRank": 6,
+    "NationPoints": 147
+  },
+  {
+    "Season": 1975,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 85
+  },
+  {
+    "Season": 1975,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 36
+  },
+  {
+    "Season": 1975,
+    "Nation": "FRA",
+    "NationRank": 13,
+    "NationPoints": 15
+  },
+  {
+    "Season": 1976,
+    "Nation": "ITA",
+    "NationRank": 1,
+    "NationPoints": 649
+  },
+  {
+    "Season": 1976,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 523
+  },
+  {
+    "Season": 1976,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 464
+  },
+  {
+    "Season": 1976,
+    "Nation": "CAN",
+    "NationRank": 5,
+    "NationPoints": 165
+  },
+  {
+    "Season": 1976,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 151
+  },
+  {
+    "Season": 1976,
+    "Nation": "NOR",
+    "NationRank": 8,
+    "NationPoints": 46
+  },
+  {
+    "Season": 1976,
+    "Nation": "FRA",
+    "NationRank": 9,
+    "NationPoints": 10
+  },
+  {
+    "Season": 1977,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 1001
+  },
+  {
+    "Season": 1977,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 602
+  },
+  {
+    "Season": 1977,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 567
+  },
+  {
+    "Season": 1977,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 144
+  },
+  {
+    "Season": 1977,
+    "Nation": "NOR",
+    "NationRank": 9,
+    "NationPoints": 21
+  },
+  {
+    "Season": 1977,
+    "Nation": "CAN",
+    "NationRank": 11,
+    "NationPoints": 4
+  },
+  {
+    "Season": 1977,
+    "Nation": "FRA",
+    "NationRank": 14,
+    "NationPoints": 1
+  },
+  {
+    "Season": 1978,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 460
+  },
+  {
+    "Season": 1978,
+    "Nation": "ITA",
+    "NationRank": 2,
+    "NationPoints": 293
+  },
+  {
+    "Season": 1978,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 227
+  },
+  {
+    "Season": 1978,
+    "Nation": "USA",
+    "NationRank": 4,
+    "NationPoints": 154
+  },
+  {
+    "Season": 1978,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 85
+  },
+  {
+    "Season": 1978,
+    "Nation": "NOR",
+    "NationRank": 10,
+    "NationPoints": 37
+  },
+  {
+    "Season": 1978,
+    "Nation": "FRA",
+    "NationRank": 12,
+    "NationPoints": 12
+  },
+  {
+    "Season": 1979,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 916
+  },
+  {
+    "Season": 1979,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 729
+  },
+  {
+    "Season": 1979,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 604
+  },
+  {
+    "Season": 1979,
+    "Nation": "USA",
+    "NationRank": 4,
+    "NationPoints": 320
+  },
+  {
+    "Season": 1979,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 168
+  },
+  {
+    "Season": 1979,
+    "Nation": "NOR",
+    "NationRank": 12,
+    "NationPoints": 65
+  },
+  {
+    "Season": 1979,
+    "Nation": "FRA",
+    "NationRank": 15,
+    "NationPoints": 27
+  },
+  {
+    "Season": 1980,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 717
+  },
+  {
+    "Season": 1980,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 449
+  },
+  {
+    "Season": 1980,
+    "Nation": "USA",
+    "NationRank": 3,
+    "NationPoints": 284
+  },
+  {
+    "Season": 1980,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 265
+  },
+  {
+    "Season": 1980,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 184
+  },
+  {
+    "Season": 1980,
+    "Nation": "NOR",
+    "NationRank": 9,
+    "NationPoints": 154
+  },
+  {
+    "Season": 1980,
+    "Nation": "FRA",
+    "NationRank": 15,
+    "NationPoints": 25
+  },
+  {
+    "Season": 1981,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 972
+  },
+  {
+    "Season": 1981,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 643
+  },
+  {
+    "Season": 1981,
+    "Nation": "USA",
+    "NationRank": 3,
+    "NationPoints": 487
+  },
+  {
+    "Season": 1981,
+    "Nation": "ITA",
+    "NationRank": 6,
+    "NationPoints": 316
+  },
+  {
+    "Season": 1981,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 207
+  },
+  {
+    "Season": 1981,
+    "Nation": "NOR",
+    "NationRank": 10,
+    "NationPoints": 170
+  },
+  {
+    "Season": 1981,
+    "Nation": "FRA",
+    "NationRank": 15,
+    "NationPoints": 22
+  },
+  {
+    "Season": 1982,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 884
+  },
+  {
+    "Season": 1982,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 805
+  },
+  {
+    "Season": 1982,
+    "Nation": "USA",
+    "NationRank": 3,
+    "NationPoints": 502
+  },
+  {
+    "Season": 1982,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 271
+  },
+  {
+    "Season": 1982,
+    "Nation": "CAN",
+    "NationRank": 6,
+    "NationPoints": 258
+  },
+  {
+    "Season": 1982,
+    "Nation": "NOR",
+    "NationRank": 10,
+    "NationPoints": 97
+  },
+  {
+    "Season": 1982,
+    "Nation": "FRA",
+    "NationRank": 12,
+    "NationPoints": 57
+  },
+  {
+    "Season": 1983,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 1183
+  },
+  {
+    "Season": 1983,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 921
+  },
+  {
+    "Season": 1983,
+    "Nation": "USA",
+    "NationRank": 4,
+    "NationPoints": 408
+  },
+  {
+    "Season": 1983,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 358
+  },
+  {
+    "Season": 1983,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 210
+  },
+  {
+    "Season": 1983,
+    "Nation": "FRA",
+    "NationRank": 10,
+    "NationPoints": 116
+  },
+  {
+    "Season": 1983,
+    "Nation": "NOR",
+    "NationRank": 14,
+    "NationPoints": 24
+  },
+  {
+    "Season": 1984,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 1141
+  },
+  {
+    "Season": 1984,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 1074
+  },
+  {
+    "Season": 1984,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 344
+  },
+  {
+    "Season": 1984,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 237
+  },
+  {
+    "Season": 1984,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 166
+  },
+  {
+    "Season": 1984,
+    "Nation": "FRA",
+    "NationRank": 12,
+    "NationPoints": 76
+  },
+  {
+    "Season": 1984,
+    "Nation": "NOR",
+    "NationRank": 18,
+    "NationPoints": 8
+  },
+  {
+    "Season": 1985,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 1351
+  },
+  {
+    "Season": 1985,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 798
+  },
+  {
+    "Season": 1985,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 622
+  },
+  {
+    "Season": 1985,
+    "Nation": "FRA",
+    "NationRank": 9,
+    "NationPoints": 162
+  },
+  {
+    "Season": 1985,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 80
+  },
+  {
+    "Season": 1985,
+    "Nation": "USA",
+    "NationRank": 11,
+    "NationPoints": 67
+  },
+  {
+    "Season": 1985,
+    "Nation": "NOR",
+    "NationRank": 16,
+    "NationPoints": 13
+  },
+  {
+    "Season": 1986,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 1255
+  },
+  {
+    "Season": 1986,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 1234
+  },
+  {
+    "Season": 1986,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 699
+  },
+  {
+    "Season": 1986,
+    "Nation": "FRA",
+    "NationRank": 8,
+    "NationPoints": 259
+  },
+  {
+    "Season": 1986,
+    "Nation": "USA",
+    "NationRank": 10,
+    "NationPoints": 150
+  },
+  {
+    "Season": 1986,
+    "Nation": "CAN",
+    "NationRank": 11,
+    "NationPoints": 46
+  },
+  {
+    "Season": 1986,
+    "Nation": "NOR",
+    "NationRank": 13,
+    "NationPoints": 38
+  },
+  {
+    "Season": 1987,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 931
+  },
+  {
+    "Season": 1987,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 818
+  },
+  {
+    "Season": 1987,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 605
+  },
+  {
+    "Season": 1987,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 115
+  },
+  {
+    "Season": 1987,
+    "Nation": "FRA",
+    "NationRank": 10,
+    "NationPoints": 82
+  },
+  {
+    "Season": 1987,
+    "Nation": "NOR",
+    "NationRank": 11,
+    "NationPoints": 36
+  },
+  {
+    "Season": 1987,
+    "Nation": "USA",
+    "NationRank": 12,
+    "NationPoints": 35
+  },
+  {
+    "Season": 1988,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 980
+  },
+  {
+    "Season": 1988,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 891
+  },
+  {
+    "Season": 1988,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 687
+  },
+  {
+    "Season": 1988,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 247
+  },
+  {
+    "Season": 1988,
+    "Nation": "CAN",
+    "NationRank": 6,
+    "NationPoints": 246
+  },
+  {
+    "Season": 1988,
+    "Nation": "USA",
+    "NationRank": 10,
+    "NationPoints": 85
+  },
+  {
+    "Season": 1988,
+    "Nation": "NOR",
+    "NationRank": 11,
+    "NationPoints": 77
+  },
+  {
+    "Season": 1989,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 1037
+  },
+  {
+    "Season": 1989,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 928
+  },
+  {
+    "Season": 1989,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 413
+  },
+  {
+    "Season": 1989,
+    "Nation": "NOR",
+    "NationRank": 7,
+    "NationPoints": 256
+  },
+  {
+    "Season": 1989,
+    "Nation": "FRA",
+    "NationRank": 8,
+    "NationPoints": 170
+  },
+  {
+    "Season": 1989,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 84
+  },
+  {
+    "Season": 1989,
+    "Nation": "USA",
+    "NationRank": 11,
+    "NationPoints": 74
+  },
+  {
+    "Season": 1990,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 1272
+  },
+  {
+    "Season": 1990,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 1058
+  },
+  {
+    "Season": 1990,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 551
+  },
+  {
+    "Season": 1990,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 462
+  },
+  {
+    "Season": 1990,
+    "Nation": "FRA",
+    "NationRank": 7,
+    "NationPoints": 228
+  },
+  {
+    "Season": 1990,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 88
+  },
+  {
+    "Season": 1990,
+    "Nation": "USA",
+    "NationRank": 9,
+    "NationPoints": 81
+  },
+  {
+    "Season": 1991,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 923
+  },
+  {
+    "Season": 1991,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 676
+  },
+  {
+    "Season": 1991,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 607
+  },
+  {
+    "Season": 1991,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 522
+  },
+  {
+    "Season": 1991,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 260
+  },
+  {
+    "Season": 1991,
+    "Nation": "FRA",
+    "NationRank": 8,
+    "NationPoints": 155
+  },
+  {
+    "Season": 1991,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 92
+  },
+  {
+    "Season": 1991,
+    "Nation": "USA",
+    "NationRank": 10,
+    "NationPoints": 42
+  },
+  {
+    "Season": 1992,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 6687
+  },
+  {
+    "Season": 1992,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 4877
+  },
+  {
+    "Season": 1992,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 4454
+  },
+  {
+    "Season": 1992,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 3689
+  },
+  {
+    "Season": 1992,
+    "Nation": "GER",
+    "NationRank": 5,
+    "NationPoints": 2166
+  },
+  {
+    "Season": 1992,
+    "Nation": "FRA",
+    "NationRank": 6,
+    "NationPoints": 1748
+  },
+  {
+    "Season": 1992,
+    "Nation": "USA",
+    "NationRank": 8,
+    "NationPoints": 1002
+  },
+  {
+    "Season": 1992,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 406
+  },
+  {
+    "Season": 1992,
+    "Nation": "FIN",
+    "NationRank": 18,
+    "NationPoints": 3
+  },
+  {
+    "Season": 1993,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5398
+  },
+  {
+    "Season": 1993,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 4243
+  },
+  {
+    "Season": 1993,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3734
+  },
+  {
+    "Season": 1993,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 3125
+  },
+  {
+    "Season": 1993,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 1729
+  },
+  {
+    "Season": 1993,
+    "Nation": "GER",
+    "NationRank": 8,
+    "NationPoints": 1159
+  },
+  {
+    "Season": 1993,
+    "Nation": "USA",
+    "NationRank": 9,
+    "NationPoints": 617
+  },
+  {
+    "Season": 1993,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 466
+  },
+  {
+    "Season": 1993,
+    "Nation": "FIN",
+    "NationRank": 13,
+    "NationPoints": 23
+  },
+  {
+    "Season": 1994,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5251
+  },
+  {
+    "Season": 1994,
+    "Nation": "NOR",
+    "NationRank": 2,
+    "NationPoints": 4335
+  },
+  {
+    "Season": 1994,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 3101
+  },
+  {
+    "Season": 1994,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 2924
+  },
+  {
+    "Season": 1994,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 1633
+  },
+  {
+    "Season": 1994,
+    "Nation": "CAN",
+    "NationRank": 6,
+    "NationPoints": 1444
+  },
+  {
+    "Season": 1994,
+    "Nation": "GER",
+    "NationRank": 7,
+    "NationPoints": 1267
+  },
+  {
+    "Season": 1994,
+    "Nation": "USA",
+    "NationRank": 8,
+    "NationPoints": 1089
+  },
+  {
+    "Season": 1994,
+    "Nation": "FIN",
+    "NationRank": 14,
+    "NationPoints": 72
+  },
+  {
+    "Season": 1995,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5884
+  },
+  {
+    "Season": 1995,
+    "Nation": "ITA",
+    "NationRank": 2,
+    "NationPoints": 3741
+  },
+  {
+    "Season": 1995,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3137
+  },
+  {
+    "Season": 1995,
+    "Nation": "SUI",
+    "NationRank": 4,
+    "NationPoints": 2157
+  },
+  {
+    "Season": 1995,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 1976
+  },
+  {
+    "Season": 1995,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 1233
+  },
+  {
+    "Season": 1995,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 486
+  },
+  {
+    "Season": 1995,
+    "Nation": "GER",
+    "NationRank": 11,
+    "NationPoints": 386
+  },
+  {
+    "Season": 1995,
+    "Nation": "FIN",
+    "NationRank": 14,
+    "NationPoints": 81
+  },
+  {
+    "Season": 1996,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5900
+  },
+  {
+    "Season": 1996,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 3846
+  },
+  {
+    "Season": 1996,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3628
+  },
+  {
+    "Season": 1996,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 3342
+  },
+  {
+    "Season": 1996,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2571
+  },
+  {
+    "Season": 1996,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 803
+  },
+  {
+    "Season": 1996,
+    "Nation": "GER",
+    "NationRank": 9,
+    "NationPoints": 607
+  },
+  {
+    "Season": 1996,
+    "Nation": "USA",
+    "NationRank": 10,
+    "NationPoints": 449
+  },
+  {
+    "Season": 1996,
+    "Nation": "FIN",
+    "NationRank": 13,
+    "NationPoints": 117
+  },
+  {
+    "Season": 1997,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 8623
+  },
+  {
+    "Season": 1997,
+    "Nation": "ITA",
+    "NationRank": 2,
+    "NationPoints": 3627
+  },
+  {
+    "Season": 1997,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3611
+  },
+  {
+    "Season": 1997,
+    "Nation": "SUI",
+    "NationRank": 4,
+    "NationPoints": 3341
+  },
+  {
+    "Season": 1997,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2649
+  },
+  {
+    "Season": 1997,
+    "Nation": "CAN",
+    "NationRank": 7,
+    "NationPoints": 691
+  },
+  {
+    "Season": 1997,
+    "Nation": "USA",
+    "NationRank": 9,
+    "NationPoints": 572
+  },
+  {
+    "Season": 1997,
+    "Nation": "GER",
+    "NationRank": 10,
+    "NationPoints": 535
+  },
+  {
+    "Season": 1997,
+    "Nation": "FIN",
+    "NationRank": 12,
+    "NationPoints": 84
+  },
+  {
+    "Season": 1998,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 9959
+  },
+  {
+    "Season": 1998,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 3468
+  },
+  {
+    "Season": 1998,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 2928
+  },
+  {
+    "Season": 1998,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 2911
+  },
+  {
+    "Season": 1998,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2380
+  },
+  {
+    "Season": 1998,
+    "Nation": "CAN",
+    "NationRank": 7,
+    "NationPoints": 711
+  },
+  {
+    "Season": 1998,
+    "Nation": "GER",
+    "NationRank": 9,
+    "NationPoints": 472
+  },
+  {
+    "Season": 1998,
+    "Nation": "USA",
+    "NationRank": 10,
+    "NationPoints": 434
+  },
+  {
+    "Season": 1998,
+    "Nation": "FIN",
+    "NationRank": 14,
+    "NationPoints": 70
+  },
+  {
+    "Season": 1999,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 9105
+  },
+  {
+    "Season": 1999,
+    "Nation": "NOR",
+    "NationRank": 2,
+    "NationPoints": 4409
+  },
+  {
+    "Season": 1999,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 3162
+  },
+  {
+    "Season": 1999,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 2239
+  },
+  {
+    "Season": 1999,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 1545
+  },
+  {
+    "Season": 1999,
+    "Nation": "USA",
+    "NationRank": 8,
+    "NationPoints": 607
+  },
+  {
+    "Season": 1999,
+    "Nation": "GER",
+    "NationRank": 9,
+    "NationPoints": 454
+  },
+  {
+    "Season": 1999,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 321
+  },
+  {
+    "Season": 1999,
+    "Nation": "FIN",
+    "NationRank": 11,
+    "NationPoints": 240
+  },
+  {
+    "Season": 2000,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 11653
+  },
+  {
+    "Season": 2000,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 3394
+  },
+  {
+    "Season": 2000,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3077
+  },
+  {
+    "Season": 2000,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 2543
+  },
+  {
+    "Season": 2000,
+    "Nation": "FRA",
+    "NationRank": 6,
+    "NationPoints": 1429
+  },
+  {
+    "Season": 2000,
+    "Nation": "USA",
+    "NationRank": 8,
+    "NationPoints": 787
+  },
+  {
+    "Season": 2000,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 560
+  },
+  {
+    "Season": 2000,
+    "Nation": "FIN",
+    "NationRank": 11,
+    "NationPoints": 461
+  },
+  {
+    "Season": 2000,
+    "Nation": "GER",
+    "NationRank": 12,
+    "NationPoints": 430
+  },
+  {
+    "Season": 2001,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 9067
+  },
+  {
+    "Season": 2001,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 3280
+  },
+  {
+    "Season": 2001,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 2803
+  },
+  {
+    "Season": 2001,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 1652
+  },
+  {
+    "Season": 2001,
+    "Nation": "ITA",
+    "NationRank": 6,
+    "NationPoints": 1183
+  },
+  {
+    "Season": 2001,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1159
+  },
+  {
+    "Season": 2001,
+    "Nation": "GER",
+    "NationRank": 10,
+    "NationPoints": 479
+  },
+  {
+    "Season": 2001,
+    "Nation": "FIN",
+    "NationRank": 12,
+    "NationPoints": 213
+  },
+  {
+    "Season": 2001,
+    "Nation": "CAN",
+    "NationRank": 14,
+    "NationPoints": 178
+  },
+  {
+    "Season": 2002,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 7643
+  },
+  {
+    "Season": 2002,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 3533
+  },
+  {
+    "Season": 2002,
+    "Nation": "FRA",
+    "NationRank": 3,
+    "NationPoints": 2594
+  },
+  {
+    "Season": 2002,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 2556
+  },
+  {
+    "Season": 2002,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 2410
+  },
+  {
+    "Season": 2002,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 1553
+  },
+  {
+    "Season": 2002,
+    "Nation": "FIN",
+    "NationRank": 10,
+    "NationPoints": 562
+  },
+  {
+    "Season": 2002,
+    "Nation": "CAN",
+    "NationRank": 11,
+    "NationPoints": 243
+  },
+  {
+    "Season": 2002,
+    "Nation": "GER",
+    "NationRank": 12,
+    "NationPoints": 140
+  },
+  {
+    "Season": 2003,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 9041
+  },
+  {
+    "Season": 2003,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 3702
+  },
+  {
+    "Season": 2003,
+    "Nation": "USA",
+    "NationRank": 3,
+    "NationPoints": 2516
+  },
+  {
+    "Season": 2003,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 2514
+  },
+  {
+    "Season": 2003,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2116
+  },
+  {
+    "Season": 2003,
+    "Nation": "ITA",
+    "NationRank": 6,
+    "NationPoints": 1812
+  },
+  {
+    "Season": 2003,
+    "Nation": "FIN",
+    "NationRank": 7,
+    "NationPoints": 792
+  },
+  {
+    "Season": 2003,
+    "Nation": "CAN",
+    "NationRank": 12,
+    "NationPoints": 394
+  },
+  {
+    "Season": 2003,
+    "Nation": "GER",
+    "NationRank": 13,
+    "NationPoints": 208
+  },
+  {
+    "Season": 2004,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 10631
+  },
+  {
+    "Season": 2004,
+    "Nation": "ITA",
+    "NationRank": 2,
+    "NationPoints": 3031
+  },
+  {
+    "Season": 2004,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 2660
+  },
+  {
+    "Season": 2004,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 2569
+  },
+  {
+    "Season": 2004,
+    "Nation": "USA",
+    "NationRank": 5,
+    "NationPoints": 2540
+  },
+  {
+    "Season": 2004,
+    "Nation": "FRA",
+    "NationRank": 6,
+    "NationPoints": 1658
+  },
+  {
+    "Season": 2004,
+    "Nation": "FIN",
+    "NationRank": 7,
+    "NationPoints": 1076
+  },
+  {
+    "Season": 2004,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 657
+  },
+  {
+    "Season": 2004,
+    "Nation": "GER",
+    "NationRank": 11,
+    "NationPoints": 326
+  },
+  {
+    "Season": 2005,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 8538
+  },
+  {
+    "Season": 2005,
+    "Nation": "USA",
+    "NationRank": 2,
+    "NationPoints": 3157
+  },
+  {
+    "Season": 2005,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3032
+  },
+  {
+    "Season": 2005,
+    "Nation": "SUI",
+    "NationRank": 4,
+    "NationPoints": 2704
+  },
+  {
+    "Season": 2005,
+    "Nation": "NOR",
+    "NationRank": 5,
+    "NationPoints": 1594
+  },
+  {
+    "Season": 2005,
+    "Nation": "CAN",
+    "NationRank": 6,
+    "NationPoints": 1433
+  },
+  {
+    "Season": 2005,
+    "Nation": "FRA",
+    "NationRank": 7,
+    "NationPoints": 1028
+  },
+  {
+    "Season": 2005,
+    "Nation": "GER",
+    "NationRank": 9,
+    "NationPoints": 612
+  },
+  {
+    "Season": 2005,
+    "Nation": "FIN",
+    "NationRank": 10,
+    "NationPoints": 606
+  },
+  {
+    "Season": 2006,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 7301
+  },
+  {
+    "Season": 2006,
+    "Nation": "USA",
+    "NationRank": 2,
+    "NationPoints": 3179
+  },
+  {
+    "Season": 2006,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3017
+  },
+  {
+    "Season": 2006,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 2264
+  },
+  {
+    "Season": 2006,
+    "Nation": "SUI",
+    "NationRank": 5,
+    "NationPoints": 2143
+  },
+  {
+    "Season": 2006,
+    "Nation": "CAN",
+    "NationRank": 6,
+    "NationPoints": 1784
+  },
+  {
+    "Season": 2006,
+    "Nation": "FRA",
+    "NationRank": 7,
+    "NationPoints": 1700
+  },
+  {
+    "Season": 2006,
+    "Nation": "FIN",
+    "NationRank": 9,
+    "NationPoints": 816
+  },
+  {
+    "Season": 2006,
+    "Nation": "GER",
+    "NationRank": 13,
+    "NationPoints": 274
+  },
+  {
+    "Season": 2007,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 6610
+  },
+  {
+    "Season": 2007,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 3982
+  },
+  {
+    "Season": 2007,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3080
+  },
+  {
+    "Season": 2007,
+    "Nation": "CAN",
+    "NationRank": 4,
+    "NationPoints": 2258
+  },
+  {
+    "Season": 2007,
+    "Nation": "USA",
+    "NationRank": 5,
+    "NationPoints": 2154
+  },
+  {
+    "Season": 2007,
+    "Nation": "FRA",
+    "NationRank": 7,
+    "NationPoints": 1793
+  },
+  {
+    "Season": 2007,
+    "Nation": "NOR",
+    "NationRank": 8,
+    "NationPoints": 1382
+  },
+  {
+    "Season": 2007,
+    "Nation": "FIN",
+    "NationRank": 11,
+    "NationPoints": 579
+  },
+  {
+    "Season": 2007,
+    "Nation": "GER",
+    "NationRank": 12,
+    "NationPoints": 491
+  },
+  {
+    "Season": 2008,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 7003
+  },
+  {
+    "Season": 2008,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 4064
+  },
+  {
+    "Season": 2008,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3721
+  },
+  {
+    "Season": 2008,
+    "Nation": "USA",
+    "NationRank": 4,
+    "NationPoints": 3202
+  },
+  {
+    "Season": 2008,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2382
+  },
+  {
+    "Season": 2008,
+    "Nation": "CAN",
+    "NationRank": 6,
+    "NationPoints": 2046
+  },
+  {
+    "Season": 2008,
+    "Nation": "FIN",
+    "NationRank": 10,
+    "NationPoints": 516
+  },
+  {
+    "Season": 2008,
+    "Nation": "GER",
+    "NationRank": 12,
+    "NationPoints": 435
+  },
+  {
+    "Season": 2008,
+    "Nation": "NOR",
+    "NationRank": 13,
+    "NationPoints": 425
+  },
+  {
+    "Season": 2009,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5982
+  },
+  {
+    "Season": 2009,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 4238
+  },
+  {
+    "Season": 2009,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3626
+  },
+  {
+    "Season": 2009,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 2771
+  },
+  {
+    "Season": 2009,
+    "Nation": "USA",
+    "NationRank": 5,
+    "NationPoints": 1881
+  },
+  {
+    "Season": 2009,
+    "Nation": "CAN",
+    "NationRank": 6,
+    "NationPoints": 1663
+  },
+  {
+    "Season": 2009,
+    "Nation": "NOR",
+    "NationRank": 7,
+    "NationPoints": 1393
+  },
+  {
+    "Season": 2009,
+    "Nation": "GER",
+    "NationRank": 11,
+    "NationPoints": 270
+  },
+  {
+    "Season": 2009,
+    "Nation": "FIN",
+    "NationRank": 13,
+    "NationPoints": 111
+  },
+  {
+    "Season": 2010,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5467
+  },
+  {
+    "Season": 2010,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 4502
+  },
+  {
+    "Season": 2010,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 2903
+  },
+  {
+    "Season": 2010,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 2024
+  },
+  {
+    "Season": 2010,
+    "Nation": "CAN",
+    "NationRank": 5,
+    "NationPoints": 1852
+  },
+  {
+    "Season": 2010,
+    "Nation": "NOR",
+    "NationRank": 6,
+    "NationPoints": 1601
+  },
+  {
+    "Season": 2010,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1532
+  },
+  {
+    "Season": 2010,
+    "Nation": "GER",
+    "NationRank": 11,
+    "NationPoints": 439
+  },
+  {
+    "Season": 2011,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5804
+  },
+  {
+    "Season": 2011,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 4264
+  },
+  {
+    "Season": 2011,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3196
+  },
+  {
+    "Season": 2011,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 3066
+  },
+  {
+    "Season": 2011,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1495
+  },
+  {
+    "Season": 2011,
+    "Nation": "NOR",
+    "NationRank": 8,
+    "NationPoints": 1478
+  },
+  {
+    "Season": 2011,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 1284
+  },
+  {
+    "Season": 2011,
+    "Nation": "GER",
+    "NationRank": 10,
+    "NationPoints": 943
+  },
+  {
+    "Season": 2011,
+    "Nation": "FIN",
+    "NationRank": 13,
+    "NationPoints": 146
+  },
+  {
+    "Season": 2012,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 7767
+  },
+  {
+    "Season": 2012,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 4472
+  },
+  {
+    "Season": 2012,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3861
+  },
+  {
+    "Season": 2012,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 3736
+  },
+  {
+    "Season": 2012,
+    "Nation": "NOR",
+    "NationRank": 5,
+    "NationPoints": 2247
+  },
+  {
+    "Season": 2012,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 2219
+  },
+  {
+    "Season": 2012,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 1727
+  },
+  {
+    "Season": 2012,
+    "Nation": "GER",
+    "NationRank": 9,
+    "NationPoints": 1327
+  },
+  {
+    "Season": 2012,
+    "Nation": "FIN",
+    "NationRank": 12,
+    "NationPoints": 383
+  },
+  {
+    "Season": 2013,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 6089
+  },
+  {
+    "Season": 2013,
+    "Nation": "ITA",
+    "NationRank": 2,
+    "NationPoints": 3983
+  },
+  {
+    "Season": 2013,
+    "Nation": "FRA",
+    "NationRank": 3,
+    "NationPoints": 3219
+  },
+  {
+    "Season": 2013,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 2013
+  },
+  {
+    "Season": 2013,
+    "Nation": "GER",
+    "NationRank": 5,
+    "NationPoints": 1923
+  },
+  {
+    "Season": 2013,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 1648
+  },
+  {
+    "Season": 2013,
+    "Nation": "SUI",
+    "NationRank": 8,
+    "NationPoints": 975
+  },
+  {
+    "Season": 2013,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 896
+  },
+  {
+    "Season": 2013,
+    "Nation": "FIN",
+    "NationRank": 12,
+    "NationPoints": 397
+  },
+  {
+    "Season": 2014,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5393
+  },
+  {
+    "Season": 2014,
+    "Nation": "FRA",
+    "NationRank": 2,
+    "NationPoints": 3689
+  },
+  {
+    "Season": 2014,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3253
+  },
+  {
+    "Season": 2014,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 2955
+  },
+  {
+    "Season": 2014,
+    "Nation": "USA",
+    "NationRank": 5,
+    "NationPoints": 2780
+  },
+  {
+    "Season": 2014,
+    "Nation": "SUI",
+    "NationRank": 6,
+    "NationPoints": 2417
+  },
+  {
+    "Season": 2014,
+    "Nation": "GER",
+    "NationRank": 7,
+    "NationPoints": 1679
+  },
+  {
+    "Season": 2014,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 1057
+  },
+  {
+    "Season": 2014,
+    "Nation": "FIN",
+    "NationRank": 12,
+    "NationPoints": 124
+  },
+  {
+    "Season": 2015,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5768
+  },
+  {
+    "Season": 2015,
+    "Nation": "FRA",
+    "NationRank": 2,
+    "NationPoints": 3874
+  },
+  {
+    "Season": 2015,
+    "Nation": "ITA",
+    "NationRank": 3,
+    "NationPoints": 3412
+  },
+  {
+    "Season": 2015,
+    "Nation": "SUI",
+    "NationRank": 4,
+    "NationPoints": 3158
+  },
+  {
+    "Season": 2015,
+    "Nation": "NOR",
+    "NationRank": 5,
+    "NationPoints": 2592
+  },
+  {
+    "Season": 2015,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 2151
+  },
+  {
+    "Season": 2015,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1910
+  },
+  {
+    "Season": 2015,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 755
+  },
+  {
+    "Season": 2015,
+    "Nation": "FIN",
+    "NationRank": 14,
+    "NationPoints": 158
+  },
+  {
+    "Season": 2016,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5804
+  },
+  {
+    "Season": 2016,
+    "Nation": "FRA",
+    "NationRank": 2,
+    "NationPoints": 5603
+  },
+  {
+    "Season": 2016,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 4833
+  },
+  {
+    "Season": 2016,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 4512
+  },
+  {
+    "Season": 2016,
+    "Nation": "SUI",
+    "NationRank": 5,
+    "NationPoints": 2940
+  },
+  {
+    "Season": 2016,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 2327
+  },
+  {
+    "Season": 2016,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 2154
+  },
+  {
+    "Season": 2016,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 744
+  },
+  {
+    "Season": 2016,
+    "Nation": "FIN",
+    "NationRank": 12,
+    "NationPoints": 202
+  },
+  {
+    "Season": 2017,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 4988
+  },
+  {
+    "Season": 2017,
+    "Nation": "FRA",
+    "NationRank": 2,
+    "NationPoints": 3548
+  },
+  {
+    "Season": 2017,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3529
+  },
+  {
+    "Season": 2017,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 3396
+  },
+  {
+    "Season": 2017,
+    "Nation": "SUI",
+    "NationRank": 5,
+    "NationPoints": 2678
+  },
+  {
+    "Season": 2017,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 1944
+  },
+  {
+    "Season": 2017,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1143
+  },
+  {
+    "Season": 2017,
+    "Nation": "CAN",
+    "NationRank": 9,
+    "NationPoints": 986
+  },
+  {
+    "Season": 2017,
+    "Nation": "FIN",
+    "NationRank": 17,
+    "NationPoints": 52
+  },
+  {
+    "Season": 2018,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5739
+  },
+  {
+    "Season": 2018,
+    "Nation": "NOR",
+    "NationRank": 2,
+    "NationPoints": 4536
+  },
+  {
+    "Season": 2018,
+    "Nation": "SUI",
+    "NationRank": 3,
+    "NationPoints": 3629
+  },
+  {
+    "Season": 2018,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 2868
+  },
+  {
+    "Season": 2018,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 2640
+  },
+  {
+    "Season": 2018,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 2026
+  },
+  {
+    "Season": 2018,
+    "Nation": "USA",
+    "NationRank": 8,
+    "NationPoints": 861
+  },
+  {
+    "Season": 2018,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 538
+  },
+  {
+    "Season": 2018,
+    "Nation": "FIN",
+    "NationRank": 15,
+    "NationPoints": 39
+  },
+  {
+    "Season": 2019,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 6042
+  },
+  {
+    "Season": 2019,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 4450
+  },
+  {
+    "Season": 2019,
+    "Nation": "FRA",
+    "NationRank": 3,
+    "NationPoints": 4142
+  },
+  {
+    "Season": 2019,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 3594
+  },
+  {
+    "Season": 2019,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 2821
+  },
+  {
+    "Season": 2019,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 1251
+  },
+  {
+    "Season": 2019,
+    "Nation": "GER",
+    "NationRank": 7,
+    "NationPoints": 1222
+  },
+  {
+    "Season": 2019,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 403
+  },
+  {
+    "Season": 2019,
+    "Nation": "FIN",
+    "NationRank": 19,
+    "NationPoints": 8
+  },
+  {
+    "Season": 2020,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 4979
+  },
+  {
+    "Season": 2020,
+    "Nation": "NOR",
+    "NationRank": 2,
+    "NationPoints": 4399
+  },
+  {
+    "Season": 2020,
+    "Nation": "FRA",
+    "NationRank": 3,
+    "NationPoints": 4197
+  },
+  {
+    "Season": 2020,
+    "Nation": "AUT",
+    "NationRank": 4,
+    "NationPoints": 3879
+  },
+  {
+    "Season": 2020,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 2205
+  },
+  {
+    "Season": 2020,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 1700
+  },
+  {
+    "Season": 2020,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1597
+  },
+  {
+    "Season": 2020,
+    "Nation": "CAN",
+    "NationRank": 11,
+    "NationPoints": 396
+  },
+  {
+    "Season": 2020,
+    "Nation": "FIN",
+    "NationRank": 20,
+    "NationPoints": 1
+  },
+  {
+    "Season": 2021,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 5239
+  },
+  {
+    "Season": 2021,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 5138
+  },
+  {
+    "Season": 2021,
+    "Nation": "FRA",
+    "NationRank": 3,
+    "NationPoints": 4141
+  },
+  {
+    "Season": 2021,
+    "Nation": "NOR",
+    "NationRank": 4,
+    "NationPoints": 2868
+  },
+  {
+    "Season": 2021,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 1872
+  },
+  {
+    "Season": 2021,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 1707
+  },
+  {
+    "Season": 2021,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1079
+  },
+  {
+    "Season": 2021,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 377
+  },
+  {
+    "Season": 2021,
+    "Nation": "FIN",
+    "NationRank": 18,
+    "NationPoints": 7
+  },
+  {
+    "Season": 2022,
+    "Nation": "AUT",
+    "NationRank": 1,
+    "NationPoints": 5522
+  },
+  {
+    "Season": 2022,
+    "Nation": "SUI",
+    "NationRank": 2,
+    "NationPoints": 5505
+  },
+  {
+    "Season": 2022,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 4128
+  },
+  {
+    "Season": 2022,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 2528
+  },
+  {
+    "Season": 2022,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2161
+  },
+  {
+    "Season": 2022,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 1535
+  },
+  {
+    "Season": 2022,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 1376
+  },
+  {
+    "Season": 2022,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 1120
+  },
+  {
+    "Season": 2022,
+    "Nation": "FIN",
+    "NationRank": 22,
+    "NationPoints": 2
+  },
+  {
+    "Season": 2023,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 6138
+  },
+  {
+    "Season": 2023,
+    "Nation": "NOR",
+    "NationRank": 2,
+    "NationPoints": 5072
+  },
+  {
+    "Season": 2023,
+    "Nation": "AUT",
+    "NationRank": 3,
+    "NationPoints": 4636
+  },
+  {
+    "Season": 2023,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 2420
+  },
+  {
+    "Season": 2023,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2415
+  },
+  {
+    "Season": 2023,
+    "Nation": "GER",
+    "NationRank": 6,
+    "NationPoints": 1650
+  },
+  {
+    "Season": 2023,
+    "Nation": "CAN",
+    "NationRank": 7,
+    "NationPoints": 1156
+  },
+  {
+    "Season": 2023,
+    "Nation": "USA",
+    "NationRank": 8,
+    "NationPoints": 1125
+  },
+  {
+    "Season": 2023,
+    "Nation": "FIN",
+    "NationRank": 21,
+    "NationPoints": 22
+  },
+  {
+    "Season": 2024,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 6238
+  },
+  {
+    "Season": 2024,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 4310
+  },
+  {
+    "Season": 2024,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3065
+  },
+  {
+    "Season": 2024,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 2745
+  },
+  {
+    "Season": 2024,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 2464
+  },
+  {
+    "Season": 2024,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 1322
+  },
+  {
+    "Season": 2024,
+    "Nation": "GER",
+    "NationRank": 7,
+    "NationPoints": 1104
+  },
+  {
+    "Season": 2024,
+    "Nation": "CAN",
+    "NationRank": 8,
+    "NationPoints": 911
+  },
+  {
+    "Season": 2024,
+    "Nation": "FIN",
+    "NationRank": 17,
+    "NationPoints": 94
+  },
+  {
+    "Season": 2025,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 6695
+  },
+  {
+    "Season": 2025,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 3967
+  },
+  {
+    "Season": 2025,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3735
+  },
+  {
+    "Season": 2025,
+    "Nation": "FRA",
+    "NationRank": 4,
+    "NationPoints": 2575
+  },
+  {
+    "Season": 2025,
+    "Nation": "ITA",
+    "NationRank": 5,
+    "NationPoints": 2143
+  },
+  {
+    "Season": 2025,
+    "Nation": "USA",
+    "NationRank": 6,
+    "NationPoints": 1275
+  },
+  {
+    "Season": 2025,
+    "Nation": "CAN",
+    "NationRank": 7,
+    "NationPoints": 975
+  },
+  {
+    "Season": 2025,
+    "Nation": "GER",
+    "NationRank": 9,
+    "NationPoints": 761
+  },
+  {
+    "Season": 2025,
+    "Nation": "BRA",
+    "NationRank": 10,
+    "NationPoints": 714
+  },
+  {
+    "Season": 2025,
+    "Nation": "FIN",
+    "NationRank": 17,
+    "NationPoints": 152
+  },
+  {
+    "Season": 2026,
+    "Nation": "SUI",
+    "NationRank": 1,
+    "NationPoints": 5633
+  },
+  {
+    "Season": 2026,
+    "Nation": "AUT",
+    "NationRank": 2,
+    "NationPoints": 4321
+  },
+  {
+    "Season": 2026,
+    "Nation": "NOR",
+    "NationRank": 3,
+    "NationPoints": 3457
+  },
+  {
+    "Season": 2026,
+    "Nation": "ITA",
+    "NationRank": 4,
+    "NationPoints": 3113
+  },
+  {
+    "Season": 2026,
+    "Nation": "FRA",
+    "NationRank": 5,
+    "NationPoints": 2916
+  },
+  {
+    "Season": 2026,
+    "Nation": "BRA",
+    "NationRank": 6,
+    "NationPoints": 1058
+  },
+  {
+    "Season": 2026,
+    "Nation": "USA",
+    "NationRank": 7,
+    "NationPoints": 971
+  },
+  {
+    "Season": 2026,
+    "Nation": "GER",
+    "NationRank": 8,
+    "NationPoints": 940
+  },
+  {
+    "Season": 2026,
+    "Nation": "FIN",
+    "NationRank": 9,
+    "NationPoints": 440
+  },
+  {
+    "Season": 2026,
+    "Nation": "CAN",
+    "NationRank": 10,
+    "NationPoints": 439
+  }
+]
