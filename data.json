@@ -1,621 +1,2456 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Classement mondial des nations</title>
-
-<script src="https://d3js.org/d3.v7.min.js"></script>
-
-<style>
-
-body{
-    margin:0;
-    background:#f3f4f7;
-    font-family:Arial, Helvetica, sans-serif;
-    color:#1d2d5b;
-}
-
-.container{
-    width:1400px;
-    margin:auto;
-    padding-top:30px;
-}
-
-.title{
-    text-align:center;
-    font-size:58px;
-    font-weight:800;
-    margin-bottom:10px;
-}
-
-.subtitle{
-    text-align:center;
-    font-size:24px;
-    color:#66718f;
-    margin-bottom:30px;
-}
-
-.topCard{
-    background:white;
-    border-radius:24px;
-    border:3px solid #2a54ff;
-    padding:25px 35px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.franceTitle{
-    font-size:28px;
-    font-weight:800;
-    color:#1736b6;
-}
-
-.franceSub{
-    margin-top:8px;
-    color:#6d7893;
-    font-size:20px;
-}
-
-.stats{
-    display:flex;
-    gap:40px;
-}
-
-.stat{
-    text-align:center;
-}
-
-.statValue{
-    font-size:54px;
-    font-weight:800;
-    color:#ef3340;
-}
-
-.statLabel{
-    font-size:18px;
-    color:#6d7893;
-}
-
-.controls{
-    display:flex;
-    justify-content:center;
-    gap:18px;
-    margin-bottom:25px;
-}
-
-button{
-    border:none;
-    padding:14px 24px;
-    border-radius:30px;
-    cursor:pointer;
-    font-size:18px;
-    font-weight:700;
-}
-
-.btnPrimary{
-    background:linear-gradient(90deg,#1736b6,#ef3340);
-    color:white;
-}
-
-.btnSecondary{
-    background:#e8ecf5;
-    color:#1d2d5b;
-}
-
-.main{
-    display:flex;
-    gap:25px;
-}
-
-.chartContainer{
-    flex:1;
-    background:white;
-    border-radius:24px;
-    padding:20px;
-    box-shadow:0 0 10px rgba(0,0,0,0.05);
-}
-
-.sidePanel{
-    width:300px;
-    background:#1d3564;
-    border-radius:24px;
-    padding:30px;
-    color:white;
-}
-
-.sideTitle{
-    text-align:center;
-    letter-spacing:3px;
-    font-size:14px;
-    opacity:0.8;
-}
-
-.sideYear{
-    text-align:center;
-    font-size:78px;
-    font-weight:800;
-    margin-top:15px;
-    margin-bottom:25px;
-    color:#b9dcb8;
-}
-
-.rankItem{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:14px 16px;
-    border-radius:14px;
-    margin-bottom:12px;
-    background:rgba(255,255,255,0.08);
-    font-size:20px;
-}
-
-.rankFrance{
-    background:linear-gradient(90deg,#243d9c,#9b304c);
-    border:2px solid rgba(255,255,255,0.4);
-}
-
-.footer{
-    margin-top:20px;
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    color:#5d6785;
-    font-size:18px;
-}
-
-svg{
-    width:100%;
-    height:700px;
-}
-
-.axis text{
-    fill:#6d7893;
-    font-size:14px;
-}
-
-.axis line,
-.axis path{
-    stroke:#d9dfea;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="title">
-        Classement mondial des nations
-    </div>
-
-    <div class="subtitle">
-        Coupe du Monde de ski alpin · top 10 actuel sur 57 saisons (1970 - 2026)
-    </div>
-
-    <div class="topCard">
-
-        <div>
-            <div class="franceTitle">
-                🇫🇷 FRANCE - Focus de l'analyse
-            </div>
-
-            <div class="franceSub">
-                Evolution historique dynamique du classement mondial
-            </div>
-        </div>
-
-        <div class="stats">
-
-            <div class="stat">
-                <div class="statValue">6e</div>
-                <div class="statLabel">Rang 2026</div>
-            </div>
-
-            <div class="stat">
-                <div class="statValue">4177</div>
-                <div class="statLabel">Points 2026</div>
-            </div>
-
-            <div class="stat">
-                <div class="statValue">1er</div>
-                <div class="statLabel">Meilleur</div>
-            </div>
-
-            <div class="stat">
-                <div class="statValue">8e</div>
-                <div class="statLabel">Pire</div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="controls">
-
-        <button class="btnPrimary" onclick="restartAnimation()">
-            ▶ Rejouer l'animation
-        </button>
-
-        <button class="btnSecondary" onclick="setMode('rank')">
-            Par rang
-        </button>
-
-        <button class="btnSecondary" onclick="setMode('points')">
-            Par points
-        </button>
-
-        <button class="btnSecondary" onclick="setSpeed('normal')">
-            Vitesse normale
-        </button>
-
-        <button class="btnSecondary" onclick="setSpeed('fast')">
-            Vitesse rapide
-        </button>
-
-    </div>
-
-    <div class="main">
-
-        <div class="chartContainer">
-            <svg></svg>
-        </div>
-
-        <div class="sidePanel">
-
-            <div class="sideTitle">
-                CLASSEMENT FINAL
-            </div>
-
-            <div class="sideYear">
-                2026
-            </div>
-
-            <div id="rankingList"></div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-        <b>Comment lire :</b>
-        Le graphique trace l’évolution des meilleures nations du ski alpin
-        entre 1970 et 2026. La France est volontairement mise en avant.
-    </div>
-
-</div>
-
-<script>
-
-let mode = "rank";
-let speed = 350;
-let timer;
-
-function setMode(newMode){
-
-    mode = newMode;
-
-    currentYear = 1970;
-
-    update(currentYear);
-
-}
-
-function setSpeed(type){
-
-    speed = type === "fast"
-        ? 90
-        : 350;
-
-    restartAnimation();
-
-}
-
-function restartAnimation(){
-
-    clearInterval(timer);
-
-    currentYear = 1970;
-
-    update(currentYear);
-
-    startAnimation();
-
-}
-
-const svg = d3.select("svg");
-
-const width = 1000;
-const height = 700;
-
-const margin = {
-    top:30,
-    right:120,
-    bottom:60,
-    left:80
-};
-
-const chartWidth =
-    width - margin.left - margin.right;
-
-const chartHeight =
-    height - margin.top - margin.bottom;
-
-const g = svg.append("g")
-    .attr(
-        "transform",
-        `translate(${margin.left},${margin.top})`
-    );
-
-fetch("./data.json")
-
-.then(r => r.json())
-
-.then(data => {
-
-    data.forEach(d => {
-
-        d.Season = +d.Season;
-        d.NationRank = +d.NationRank;
-        d.NationPoints = +d.NationPoints;
-
-    });
-
-    const nations =
-        [...new Set(data.map(d => d.Nation))];
-
-    const seasons =
-        [...new Set(data.map(d => d.Season))]
-        .sort((a,b)=>a-b);
-
-    const ranking2026 =
-        data
-        .filter(d => d.Season === 2026)
-        .sort((a,b)=>a.NationRank-b.NationRank);
-
-    document.getElementById("rankingList")
-        .innerHTML =
-            ranking2026.map(d => `
-
-                <div class="rankItem ${d.Nation === 'FRA' ? 'rankFrance' : ''}">
-
-                    <div>
-                        ${d.NationRank}. ${d.Nation}
-                    </div>
-
-                    <div>
-                        ${d.NationPoints}
-                    </div>
-
-                </div>
-
-            `).join("");
-
-    const x = d3.scaleLinear()
-        .domain([1970,2026])
-        .range([0, chartWidth]);
-
-    let y = d3.scaleLinear()
-        .domain([10,1])
-        .range([chartHeight,0]);
-
-    const line = d3.line()
-        .defined(d => d.value !== null)
-        .x(d => x(d.Season))
-        .y(d => y(d.value))
-        .curve(d3.curveMonotoneX);
-
-    const xAxis = g.append("g")
-        .attr(
-            "transform",
-            `translate(0,${chartHeight})`
-        )
-        .attr("class","axis");
-
-    const yAxis = g.append("g")
-        .attr("class","axis");
-
-    function drawAxes(){
-
-        xAxis.call(
-            d3.axisBottom(x)
-            .tickFormat(d3.format("d"))
-        );
-
-        yAxis.call(
-            d3.axisLeft(y)
-        );
-
-    }
-
-    drawAxes();
-
-    const nationData = nations.map(nation => {
-
-        return {
-
-            nation,
-
-            values: seasons.map(season => {
-
-                const found = data.find(d =>
-
-                    d.Nation === nation &&
-                    d.Season === season
-
-                );
-
-                return {
-
-                    Season: season,
-
-                    rank: found
-                        ? found.NationRank
-                        : null,
-
-                    points: found
-                        ? found.NationPoints
-                        : null
-
-                };
-
-            })
-
-        };
-
-    });
-
-    const paths = g.selectAll(".line")
-        .data(nationData)
-        .enter()
-        .append("path")
-        .attr("fill","none")
-        .attr("stroke", d =>
-
-            d.nation === "FRA"
-                ? "#0f5cc0"
-                : "#cdd5e8"
-
-        )
-        .attr("stroke-width", d =>
-
-            d.nation === "FRA"
-                ? 6
-                : 2
-
-        );
-
-    const labels = g.selectAll(".label")
-        .data(nationData)
-        .enter()
-        .append("text")
-        .attr("font-weight","700")
-        .attr("fill", d =>
-
-            d.nation === "FRA"
-                ? "#0f5cc0"
-                : "#aeb9d3"
-
-        )
-        .attr("font-size", d =>
-
-            d.nation === "FRA"
-                ? "24px"
-                : "16px"
-
-        )
-        .text(d => d.nation);
-
-    window.currentYear = 1970;
-
-    function update(year){
-
-        if(mode === "rank"){
-
-            y = d3.scaleLinear()
-                .domain([10,1])
-                .range([chartHeight,0]);
-
-        }else{
-
-            y = d3.scaleLinear()
-                .domain([
-                    0,
-                    d3.max(data,d=>d.NationPoints)
-                ])
-                .range([chartHeight,0]);
-
-        }
-
-        drawAxes();
-
-        paths.attr("d", d => {
-
-            const filtered =
-                d.values
-                .filter(v => v.Season <= year)
-                .map(v => ({
-
-                    Season: v.Season,
-
-                    value:
-                        mode === "rank"
-                        ? v.rank
-                        : v.points
-
-                }));
-
-            return line(filtered);
-
-        });
-
-        labels
-            .attr("x", d => {
-
-                const point =
-                    d.values.find(v =>
-                        v.Season === year
-                    );
-
-                return point
-                    ? x(point.Season) + 10
-                    : -999;
-
-            })
-            .attr("y", d => {
-
-                const point =
-                    d.values.find(v =>
-                        v.Season === year
-                    );
-
-                if(!point) return -999;
-
-                return y(
-
-                    mode === "rank"
-                    ? point.rank
-                    : point.points
-
-                );
-
-            });
-
-    }
-
-    function startAnimation(){
-
-        timer = setInterval(() => {
-
-            currentYear++;
-
-            if(currentYear > 2026){
-
-                clearInterval(timer);
-
-                return;
-
-            }
-
-            update(currentYear);
-
-        }, speed);
-
-    }
-
-    update(1970);
-
-    startAnimation();
-
-});
-
-</script>
-
-</body>
-</html>
+	
+0	
+Season	1970
+Nation	"FRA"
+NationRank	1
+NationPoints	1552
+1	
+Season	1970
+Nation	"AUT"
+NationRank	2
+NationPoints	766
+2	
+Season	1970
+Nation	"USA"
+NationRank	3
+NationPoints	462
+3	
+Season	1970
+Nation	"SUI"
+NationRank	4
+NationPoints	380
+4	
+Season	1970
+Nation	"ITA"
+NationRank	6
+NationPoints	165
+5	
+Season	1970
+Nation	"CAN"
+NationRank	7
+NationPoints	135
+6	
+Season	1970
+Nation	"NOR"
+NationRank	10
+NationPoints	31
+7	
+Season	1970
+Nation	"SWE"
+NationRank	12
+NationPoints	9
+8	
+Season	1971
+Nation	"FRA"
+NationRank	1
+NationPoints	1333
+9	
+Season	1971
+Nation	"AUT"
+NationRank	2
+NationPoints	892
+10	
+Season	1971
+Nation	"SUI"
+NationRank	3
+NationPoints	396
+11	
+Season	1971
+Nation	"USA"
+NationRank	4
+NationPoints	373
+12	
+Season	1971
+Nation	"ITA"
+NationRank	6
+NationPoints	226
+13	
+Season	1971
+Nation	"CAN"
+NationRank	7
+NationPoints	99
+14	
+Season	1971
+Nation	"NOR"
+NationRank	12
+NationPoints	4
+15	
+Season	1972
+Nation	"FRA"
+NationRank	1
+NationPoints	1146
+16	
+Season	1972
+Nation	"AUT"
+NationRank	2
+NationPoints	842
+17	
+Season	1972
+Nation	"SUI"
+NationRank	3
+NationPoints	660
+18	
+Season	1972
+Nation	"USA"
+NationRank	4
+NationPoints	333
+19	
+Season	1972
+Nation	"ITA"
+NationRank	6
+NationPoints	308
+20	
+Season	1972
+Nation	"CAN"
+NationRank	8
+NationPoints	66
+21	
+Season	1972
+Nation	"NOR"
+NationRank	9
+NationPoints	58
+22	
+Season	1973
+Nation	"AUT"
+NationRank	1
+NationPoints	1526
+23	
+Season	1973
+Nation	"FRA"
+NationRank	2
+NationPoints	716
+24	
+Season	1973
+Nation	"SUI"
+NationRank	3
+NationPoints	585
+25	
+Season	1973
+Nation	"ITA"
+NationRank	4
+NationPoints	544
+26	
+Season	1973
+Nation	"USA"
+NationRank	6
+NationPoints	255
+27	
+Season	1973
+Nation	"CAN"
+NationRank	7
+NationPoints	117
+28	
+Season	1973
+Nation	"NOR"
+NationRank	9
+NationPoints	97
+29	
+Season	1974
+Nation	"AUT"
+NationRank	1
+NationPoints	1315
+30	
+Season	1974
+Nation	"ITA"
+NationRank	2
+NationPoints	766
+31	
+Season	1974
+Nation	"SUI"
+NationRank	3
+NationPoints	501
+32	
+Season	1974
+Nation	"FRA"
+NationRank	5
+NationPoints	236
+33	
+Season	1974
+Nation	"USA"
+NationRank	6
+NationPoints	168
+34	
+Season	1974
+Nation	"CAN"
+NationRank	8
+NationPoints	134
+35	
+Season	1974
+Nation	"SWE"
+NationRank	9
+NationPoints	62
+36	
+Season	1974
+Nation	"NOR"
+NationRank	12
+NationPoints	19
+37	
+Season	1975
+Nation	"AUT"
+NationRank	1
+NationPoints	1276
+38	
+Season	1975
+Nation	"SUI"
+NationRank	2
+NationPoints	782
+39	
+Season	1975
+Nation	"ITA"
+NationRank	3
+NationPoints	772
+40	
+Season	1975
+Nation	"FRA"
+NationRank	5
+NationPoints	297
+41	
+Season	1975
+Nation	"USA"
+NationRank	6
+NationPoints	249
+42	
+Season	1975
+Nation	"SWE"
+NationRank	7
+NationPoints	245
+43	
+Season	1975
+Nation	"NOR"
+NationRank	9
+NationPoints	164
+44	
+Season	1975
+Nation	"CAN"
+NationRank	10
+NationPoints	140
+45	
+Season	1976
+Nation	"AUT"
+NationRank	1
+NationPoints	1108
+46	
+Season	1976
+Nation	"SUI"
+NationRank	2
+NationPoints	956
+47	
+Season	1976
+Nation	"ITA"
+NationRank	3
+NationPoints	740
+48	
+Season	1976
+Nation	"FRA"
+NationRank	5
+NationPoints	375
+49	
+Season	1976
+Nation	"USA"
+NationRank	6
+NationPoints	359
+50	
+Season	1976
+Nation	"SWE"
+NationRank	7
+NationPoints	251
+51	
+Season	1976
+Nation	"CAN"
+NationRank	8
+NationPoints	223
+52	
+Season	1976
+Nation	"NOR"
+NationRank	10
+NationPoints	46
+53	
+Season	1977
+Nation	"AUT"
+NationRank	1
+NationPoints	1903
+54	
+Season	1977
+Nation	"SUI"
+NationRank	2
+NationPoints	1151
+55	
+Season	1977
+Nation	"ITA"
+NationRank	3
+NationPoints	688
+56	
+Season	1977
+Nation	"SWE"
+NationRank	5
+NationPoints	364
+57	
+Season	1977
+Nation	"FRA"
+NationRank	7
+NationPoints	309
+58	
+Season	1977
+Nation	"USA"
+NationRank	8
+NationPoints	300
+59	
+Season	1977
+Nation	"CAN"
+NationRank	9
+NationPoints	69
+60	
+Season	1977
+Nation	"NOR"
+NationRank	12
+NationPoints	21
+61	
+Season	1978
+Nation	"AUT"
+NationRank	1
+NationPoints	849
+62	
+Season	1978
+Nation	"SUI"
+NationRank	2
+NationPoints	499
+63	
+Season	1978
+Nation	"USA"
+NationRank	3
+NationPoints	378
+64	
+Season	1978
+Nation	"ITA"
+NationRank	5
+NationPoints	303
+65	
+Season	1978
+Nation	"FRA"
+NationRank	7
+NationPoints	218
+66	
+Season	1978
+Nation	"SWE"
+NationRank	8
+NationPoints	150
+67	
+Season	1978
+Nation	"CAN"
+NationRank	9
+NationPoints	97
+68	
+Season	1978
+Nation	"NOR"
+NationRank	11
+NationPoints	37
+69	
+Season	1979
+Nation	"AUT"
+NationRank	1
+NationPoints	1726
+70	
+Season	1979
+Nation	"SUI"
+NationRank	2
+NationPoints	1246
+71	
+Season	1979
+Nation	"ITA"
+NationRank	3
+NationPoints	954
+72	
+Season	1979
+Nation	"USA"
+NationRank	4
+NationPoints	924
+73	
+Season	1979
+Nation	"FRA"
+NationRank	7
+NationPoints	443
+74	
+Season	1979
+Nation	"SWE"
+NationRank	8
+NationPoints	245
+75	
+Season	1979
+Nation	"CAN"
+NationRank	11
+NationPoints	187
+76	
+Season	1979
+Nation	"NOR"
+NationRank	14
+NationPoints	65
+77	
+Season	1980
+Nation	"AUT"
+NationRank	1
+NationPoints	1225
+78	
+Season	1980
+Nation	"SUI"
+NationRank	2
+NationPoints	908
+79	
+Season	1980
+Nation	"USA"
+NationRank	3
+NationPoints	674
+80	
+Season	1980
+Nation	"ITA"
+NationRank	5
+NationPoints	601
+81	
+Season	1980
+Nation	"FRA"
+NationRank	7
+NationPoints	388
+82	
+Season	1980
+Nation	"SWE"
+NationRank	8
+NationPoints	270
+83	
+Season	1980
+Nation	"CAN"
+NationRank	9
+NationPoints	261
+84	
+Season	1980
+Nation	"NOR"
+NationRank	11
+NationPoints	190
+85	
+Season	1981
+Nation	"SUI"
+NationRank	1
+NationPoints	1541
+86	
+Season	1981
+Nation	"AUT"
+NationRank	2
+NationPoints	1274
+87	
+Season	1981
+Nation	"USA"
+NationRank	3
+NationPoints	1214
+88	
+Season	1981
+Nation	"ITA"
+NationRank	4
+NationPoints	722
+89	
+Season	1981
+Nation	"FRA"
+NationRank	7
+NationPoints	480
+90	
+Season	1981
+Nation	"SWE"
+NationRank	9
+NationPoints	374
+91	
+Season	1981
+Nation	"CAN"
+NationRank	10
+NationPoints	314
+92	
+Season	1981
+Nation	"NOR"
+NationRank	12
+NationPoints	232
+93	
+Season	1982
+Nation	"AUT"
+NationRank	1
+NationPoints	1407
+94	
+Season	1982
+Nation	"SUI"
+NationRank	2
+NationPoints	1383
+95	
+Season	1982
+Nation	"USA"
+NationRank	3
+NationPoints	1148
+96	
+Season	1982
+Nation	"ITA"
+NationRank	5
+NationPoints	545
+97	
+Season	1982
+Nation	"FRA"
+NationRank	6
+NationPoints	515
+98	
+Season	1982
+Nation	"CAN"
+NationRank	8
+NationPoints	433
+99	
+Season	1982
+Nation	"SWE"
+NationRank	9
+NationPoints	343
+100	
+Season	1982
+Nation	"NOR"
+NationRank	12
+NationPoints	119
+101	
+Season	1983
+Nation	"SUI"
+NationRank	1
+NationPoints	1837
+102	
+Season	1983
+Nation	"AUT"
+NationRank	2
+NationPoints	1476
+103	
+Season	1983
+Nation	"USA"
+NationRank	3
+NationPoints	928
+104	
+Season	1983
+Nation	"FRA"
+NationRank	4
+NationPoints	653
+105	
+Season	1983
+Nation	"ITA"
+NationRank	5
+NationPoints	558
+106	
+Season	1983
+Nation	"SWE"
+NationRank	7
+NationPoints	436
+107	
+Season	1983
+Nation	"CAN"
+NationRank	9
+NationPoints	326
+108	
+Season	1983
+Nation	"NOR"
+NationRank	16
+NationPoints	24
+109	
+Season	1984
+Nation	"SUI"
+NationRank	1
+NationPoints	1933
+110	
+Season	1984
+Nation	"AUT"
+NationRank	2
+NationPoints	1678
+111	
+Season	1984
+Nation	"USA"
+NationRank	3
+NationPoints	779
+112	
+Season	1984
+Nation	"ITA"
+NationRank	5
+NationPoints	502
+113	
+Season	1984
+Nation	"FRA"
+NationRank	7
+NationPoints	462
+114	
+Season	1984
+Nation	"SWE"
+NationRank	8
+NationPoints	424
+115	
+Season	1984
+Nation	"CAN"
+NationRank	9
+NationPoints	408
+116	
+Season	1984
+Nation	"NOR"
+NationRank	20
+NationPoints	8
+117	
+Season	1985
+Nation	"SUI"
+NationRank	1
+NationPoints	2589
+118	
+Season	1985
+Nation	"AUT"
+NationRank	2
+NationPoints	1273
+119	
+Season	1985
+Nation	"ITA"
+NationRank	4
+NationPoints	814
+120	
+Season	1985
+Nation	"FRA"
+NationRank	5
+NationPoints	554
+121	
+Season	1985
+Nation	"USA"
+NationRank	6
+NationPoints	477
+122	
+Season	1985
+Nation	"SWE"
+NationRank	8
+NationPoints	285
+123	
+Season	1985
+Nation	"CAN"
+NationRank	11
+NationPoints	247
+124	
+Season	1985
+Nation	"NOR"
+NationRank	19
+NationPoints	13
+125	
+Season	1986
+Nation	"SUI"
+NationRank	1
+NationPoints	2669
+126	
+Season	1986
+Nation	"AUT"
+NationRank	2
+NationPoints	2173
+127	
+Season	1986
+Nation	"ITA"
+NationRank	4
+NationPoints	892
+128	
+Season	1986
+Nation	"FRA"
+NationRank	5
+NationPoints	618
+129	
+Season	1986
+Nation	"SWE"
+NationRank	7
+NationPoints	483
+130	
+Season	1986
+Nation	"USA"
+NationRank	8
+NationPoints	441
+131	
+Season	1986
+Nation	"CAN"
+NationRank	9
+NationPoints	381
+132	
+Season	1986
+Nation	"NOR"
+NationRank	15
+NationPoints	38
+133	
+Season	1987
+Nation	"SUI"
+NationRank	1
+NationPoints	2293
+134	
+Season	1987
+Nation	"AUT"
+NationRank	2
+NationPoints	1539
+135	
+Season	1987
+Nation	"ITA"
+NationRank	4
+NationPoints	719
+136	
+Season	1987
+Nation	"FRA"
+NationRank	6
+NationPoints	309
+137	
+Season	1987
+Nation	"CAN"
+NationRank	7
+NationPoints	298
+138	
+Season	1987
+Nation	"SWE"
+NationRank	7
+NationPoints	298
+139	
+Season	1987
+Nation	"USA"
+NationRank	9
+NationPoints	273
+140	
+Season	1987
+Nation	"NOR"
+NationRank	13
+NationPoints	36
+141	
+Season	1988
+Nation	"AUT"
+NationRank	1
+NationPoints	2004
+142	
+Season	1988
+Nation	"SUI"
+NationRank	2
+NationPoints	1975
+143	
+Season	1988
+Nation	"ITA"
+NationRank	4
+NationPoints	727
+144	
+Season	1988
+Nation	"FRA"
+NationRank	5
+NationPoints	578
+145	
+Season	1988
+Nation	"CAN"
+NationRank	6
+NationPoints	471
+146	
+Season	1988
+Nation	"SWE"
+NationRank	8
+NationPoints	290
+147	
+Season	1988
+Nation	"USA"
+NationRank	9
+NationPoints	191
+148	
+Season	1988
+Nation	"NOR"
+NationRank	12
+NationPoints	77
+149	
+Season	1989
+Nation	"SUI"
+NationRank	1
+NationPoints	2219
+150	
+Season	1989
+Nation	"AUT"
+NationRank	2
+NationPoints	1967
+151	
+Season	1989
+Nation	"FRA"
+NationRank	4
+NationPoints	609
+152	
+Season	1989
+Nation	"ITA"
+NationRank	5
+NationPoints	413
+153	
+Season	1989
+Nation	"SWE"
+NationRank	7
+NationPoints	366
+154	
+Season	1989
+Nation	"CAN"
+NationRank	9
+NationPoints	275
+155	
+Season	1989
+Nation	"NOR"
+NationRank	10
+NationPoints	256
+156	
+Season	1989
+Nation	"USA"
+NationRank	11
+NationPoints	217
+157	
+Season	1990
+Nation	"AUT"
+NationRank	1
+NationPoints	2816
+158	
+Season	1990
+Nation	"SUI"
+NationRank	2
+NationPoints	1968
+159	
+Season	1990
+Nation	"FRA"
+NationRank	4
+NationPoints	671
+160	
+Season	1990
+Nation	"ITA"
+NationRank	5
+NationPoints	572
+161	
+Season	1990
+Nation	"NOR"
+NationRank	6
+NationPoints	516
+162	
+Season	1990
+Nation	"SWE"
+NationRank	7
+NationPoints	469
+163	
+Season	1990
+Nation	"USA"
+NationRank	8
+NationPoints	367
+164	
+Season	1990
+Nation	"CAN"
+NationRank	10
+NationPoints	178
+165	
+Season	1991
+Nation	"AUT"
+NationRank	1
+NationPoints	2313
+166	
+Season	1991
+Nation	"SUI"
+NationRank	2
+NationPoints	1233
+167	
+Season	1991
+Nation	"GER"
+NationRank	3
+NationPoints	752
+168	
+Season	1991
+Nation	"NOR"
+NationRank	4
+NationPoints	676
+169	
+Season	1991
+Nation	"FRA"
+NationRank	5
+NationPoints	556
+170	
+Season	1991
+Nation	"ITA"
+NationRank	6
+NationPoints	542
+171	
+Season	1991
+Nation	"SWE"
+NationRank	7
+NationPoints	535
+172	
+Season	1991
+Nation	"USA"
+NationRank	8
+NationPoints	299
+173	
+Season	1991
+Nation	"CAN"
+NationRank	9
+NationPoints	282
+174	
+Season	1992
+Nation	"AUT"
+NationRank	1
+NationPoints	11012
+175	
+Season	1992
+Nation	"SUI"
+NationRank	2
+NationPoints	10242
+176	
+Season	1992
+Nation	"GER"
+NationRank	3
+NationPoints	6063
+177	
+Season	1992
+Nation	"ITA"
+NationRank	4
+NationPoints	5709
+178	
+Season	1992
+Nation	"NOR"
+NationRank	5
+NationPoints	4461
+179	
+Season	1992
+Nation	"FRA"
+NationRank	6
+NationPoints	3589
+180	
+Season	1992
+Nation	"USA"
+NationRank	7
+NationPoints	3230
+181	
+Season	1992
+Nation	"SWE"
+NationRank	8
+NationPoints	2391
+182	
+Season	1992
+Nation	"CAN"
+NationRank	9
+NationPoints	1104
+183	
+Season	1993
+Nation	"AUT"
+NationRank	1
+NationPoints	10842
+184	
+Season	1993
+Nation	"SUI"
+NationRank	2
+NationPoints	6878
+185	
+Season	1993
+Nation	"GER"
+NationRank	3
+NationPoints	5358
+186	
+Season	1993
+Nation	"ITA"
+NationRank	4
+NationPoints	5208
+187	
+Season	1993
+Nation	"NOR"
+NationRank	5
+NationPoints	4753
+188	
+Season	1993
+Nation	"FRA"
+NationRank	6
+NationPoints	4003
+189	
+Season	1993
+Nation	"SWE"
+NationRank	7
+NationPoints	2198
+190	
+Season	1993
+Nation	"USA"
+NationRank	8
+NationPoints	1914
+191	
+Season	1993
+Nation	"CAN"
+NationRank	9
+NationPoints	1458
+192	
+Season	1994
+Nation	"AUT"
+NationRank	1
+NationPoints	8780
+193	
+Season	1994
+Nation	"SUI"
+NationRank	2
+NationPoints	6273
+194	
+Season	1994
+Nation	"ITA"
+NationRank	3
+NationPoints	6038
+195	
+Season	1994
+Nation	"NOR"
+NationRank	4
+NationPoints	5438
+196	
+Season	1994
+Nation	"GER"
+NationRank	5
+NationPoints	5066
+197	
+Season	1994
+Nation	"FRA"
+NationRank	6
+NationPoints	3729
+198	
+Season	1994
+Nation	"USA"
+NationRank	7
+NationPoints	2767
+199	
+Season	1994
+Nation	"SWE"
+NationRank	9
+NationPoints	2641
+200	
+Season	1994
+Nation	"CAN"
+NationRank	10
+NationPoints	2340
+201	
+Season	1995
+Nation	"AUT"
+NationRank	1
+NationPoints	8862
+202	
+Season	1995
+Nation	"SUI"
+NationRank	2
+NationPoints	6015
+203	
+Season	1995
+Nation	"ITA"
+NationRank	3
+NationPoints	5949
+204	
+Season	1995
+Nation	"NOR"
+NationRank	4
+NationPoints	4387
+205	
+Season	1995
+Nation	"GER"
+NationRank	5
+NationPoints	3894
+206	
+Season	1995
+Nation	"FRA"
+NationRank	6
+NationPoints	3885
+207	
+Season	1995
+Nation	"USA"
+NationRank	7
+NationPoints	3314
+208	
+Season	1995
+Nation	"SWE"
+NationRank	9
+NationPoints	2030
+209	
+Season	1995
+Nation	"CAN"
+NationRank	10
+NationPoints	764
+210	
+Season	1996
+Nation	"AUT"
+NationRank	1
+NationPoints	11071
+211	
+Season	1996
+Nation	"SUI"
+NationRank	2
+NationPoints	7181
+212	
+Season	1996
+Nation	"ITA"
+NationRank	3
+NationPoints	6284
+213	
+Season	1996
+Nation	"GER"
+NationRank	4
+NationPoints	4602
+214	
+Season	1996
+Nation	"NOR"
+NationRank	5
+NationPoints	4509
+215	
+Season	1996
+Nation	"FRA"
+NationRank	6
+NationPoints	3866
+216	
+Season	1996
+Nation	"SWE"
+NationRank	7
+NationPoints	2898
+217	
+Season	1996
+Nation	"USA"
+NationRank	9
+NationPoints	1809
+218	
+Season	1996
+Nation	"CAN"
+NationRank	10
+NationPoints	982
+219	
+Season	1997
+Nation	"AUT"
+NationRank	1
+NationPoints	11959
+220	
+Season	1997
+Nation	"ITA"
+NationRank	2
+NationPoints	6921
+221	
+Season	1997
+Nation	"SUI"
+NationRank	3
+NationPoints	5846
+222	
+Season	1997
+Nation	"FRA"
+NationRank	4
+NationPoints	4951
+223	
+Season	1997
+Nation	"GER"
+NationRank	5
+NationPoints	4840
+224	
+Season	1997
+Nation	"NOR"
+NationRank	6
+NationPoints	4327
+225	
+Season	1997
+Nation	"SWE"
+NationRank	7
+NationPoints	3148
+226	
+Season	1997
+Nation	"USA"
+NationRank	9
+NationPoints	1085
+227	
+Season	1997
+Nation	"CAN"
+NationRank	11
+NationPoints	844
+228	
+Season	1998
+Nation	"AUT"
+NationRank	1
+NationPoints	13566
+229	
+Season	1998
+Nation	"GER"
+NationRank	2
+NationPoints	6077
+230	
+Season	1998
+Nation	"ITA"
+NationRank	3
+NationPoints	6001
+231	
+Season	1998
+Nation	"SUI"
+NationRank	4
+NationPoints	5610
+232	
+Season	1998
+Nation	"FRA"
+NationRank	5
+NationPoints	5024
+233	
+Season	1998
+Nation	"NOR"
+NationRank	6
+NationPoints	4069
+234	
+Season	1998
+Nation	"SWE"
+NationRank	7
+NationPoints	2286
+235	
+Season	1998
+Nation	"USA"
+NationRank	9
+NationPoints	1243
+236	
+Season	1998
+Nation	"CAN"
+NationRank	10
+NationPoints	905
+237	
+Season	1999
+Nation	"AUT"
+NationRank	1
+NationPoints	15995
+238	
+Season	1999
+Nation	"NOR"
+NationRank	2
+NationPoints	6228
+239	
+Season	1999
+Nation	"SUI"
+NationRank	3
+NationPoints	5547
+240	
+Season	1999
+Nation	"ITA"
+NationRank	4
+NationPoints	4252
+241	
+Season	1999
+Nation	"FRA"
+NationRank	5
+NationPoints	3986
+242	
+Season	1999
+Nation	"GER"
+NationRank	6
+NationPoints	3596
+243	
+Season	1999
+Nation	"SWE"
+NationRank	7
+NationPoints	3155
+244	
+Season	1999
+Nation	"USA"
+NationRank	9
+NationPoints	1464
+245	
+Season	1999
+Nation	"CAN"
+NationRank	11
+NationPoints	580
+246	
+Season	2000
+Nation	"AUT"
+NationRank	1
+NationPoints	19110
+247	
+Season	2000
+Nation	"ITA"
+NationRank	2
+NationPoints	5906
+248	
+Season	2000
+Nation	"SUI"
+NationRank	3
+NationPoints	5414
+249	
+Season	2000
+Nation	"FRA"
+NationRank	4
+NationPoints	5012
+250	
+Season	2000
+Nation	"NOR"
+NationRank	5
+NationPoints	4283
+251	
+Season	2000
+Nation	"SWE"
+NationRank	7
+NationPoints	2872
+252	
+Season	2000
+Nation	"GER"
+NationRank	8
+NationPoints	2854
+253	
+Season	2000
+Nation	"USA"
+NationRank	9
+NationPoints	1963
+254	
+Season	2000
+Nation	"CAN"
+NationRank	10
+NationPoints	1569
+255	
+Season	2001
+Nation	"AUT"
+NationRank	1
+NationPoints	14055
+256	
+Season	2001
+Nation	"SUI"
+NationRank	2
+NationPoints	5826
+257	
+Season	2001
+Nation	"FRA"
+NationRank	3
+NationPoints	4721
+258	
+Season	2001
+Nation	"NOR"
+NationRank	4
+NationPoints	3995
+259	
+Season	2001
+Nation	"ITA"
+NationRank	5
+NationPoints	3399
+260	
+Season	2001
+Nation	"USA"
+NationRank	6
+NationPoints	3030
+261	
+Season	2001
+Nation	"GER"
+NationRank	8
+NationPoints	2260
+262	
+Season	2001
+Nation	"SWE"
+NationRank	9
+NationPoints	1823
+263	
+Season	2001
+Nation	"CAN"
+NationRank	10
+NationPoints	1461
+264	
+Season	2002
+Nation	"AUT"
+NationRank	1
+NationPoints	12922
+265	
+Season	2002
+Nation	"SUI"
+NationRank	2
+NationPoints	6388
+266	
+Season	2002
+Nation	"ITA"
+NationRank	3
+NationPoints	4811
+267	
+Season	2002
+Nation	"FRA"
+NationRank	4
+NationPoints	4728
+268	
+Season	2002
+Nation	"NOR"
+NationRank	5
+NationPoints	3723
+269	
+Season	2002
+Nation	"USA"
+NationRank	6
+NationPoints	3640
+270	
+Season	2002
+Nation	"SWE"
+NationRank	7
+NationPoints	3112
+271	
+Season	2002
+Nation	"GER"
+NationRank	8
+NationPoints	2138
+272	
+Season	2002
+Nation	"CAN"
+NationRank	12
+NationPoints	1139
+273	
+Season	2003
+Nation	"AUT"
+NationRank	1
+NationPoints	14373
+274	
+Season	2003
+Nation	"SUI"
+NationRank	2
+NationPoints	5589
+275	
+Season	2003
+Nation	"USA"
+NationRank	3
+NationPoints	4707
+276	
+Season	2003
+Nation	"ITA"
+NationRank	4
+NationPoints	4629
+277	
+Season	2003
+Nation	"FRA"
+NationRank	5
+NationPoints	4138
+278	
+Season	2003
+Nation	"NOR"
+NationRank	6
+NationPoints	3205
+279	
+Season	2003
+Nation	"GER"
+NationRank	7
+NationPoints	2470
+280	
+Season	2003
+Nation	"SWE"
+NationRank	9
+NationPoints	2066
+281	
+Season	2003
+Nation	"CAN"
+NationRank	11
+NationPoints	1339
+282	
+Season	2004
+Nation	"AUT"
+NationRank	1
+NationPoints	17027
+283	
+Season	2004
+Nation	"ITA"
+NationRank	2
+NationPoints	4961
+284	
+Season	2004
+Nation	"USA"
+NationRank	3
+NationPoints	4897
+285	
+Season	2004
+Nation	"SUI"
+NationRank	4
+NationPoints	4844
+286	
+Season	2004
+Nation	"GER"
+NationRank	5
+NationPoints	4056
+287	
+Season	2004
+Nation	"FRA"
+NationRank	6
+NationPoints	3780
+288	
+Season	2004
+Nation	"NOR"
+NationRank	7
+NationPoints	3280
+289	
+Season	2004
+Nation	"SWE"
+NationRank	8
+NationPoints	3128
+290	
+Season	2004
+Nation	"CAN"
+NationRank	10
+NationPoints	1552
+291	
+Season	2005
+Nation	"AUT"
+NationRank	1
+NationPoints	14453
+292	
+Season	2005
+Nation	"USA"
+NationRank	2
+NationPoints	6516
+293	
+Season	2005
+Nation	"ITA"
+NationRank	3
+NationPoints	4685
+294	
+Season	2005
+Nation	"SUI"
+NationRank	4
+NationPoints	3697
+295	
+Season	2005
+Nation	"SWE"
+NationRank	5
+NationPoints	3013
+296	
+Season	2005
+Nation	"GER"
+NationRank	6
+NationPoints	2870
+297	
+Season	2005
+Nation	"CAN"
+NationRank	7
+NationPoints	2589
+298	
+Season	2005
+Nation	"FRA"
+NationRank	8
+NationPoints	2475
+299	
+Season	2005
+Nation	"NOR"
+NationRank	10
+NationPoints	1755
+300	
+Season	2006
+Nation	"AUT"
+NationRank	1
+NationPoints	15049
+301	
+Season	2006
+Nation	"USA"
+NationRank	2
+NationPoints	6221
+302	
+Season	2006
+Nation	"ITA"
+NationRank	3
+NationPoints	4748
+303	
+Season	2006
+Nation	"SWE"
+NationRank	4
+NationPoints	4482
+304	
+Season	2006
+Nation	"SUI"
+NationRank	5
+NationPoints	3771
+305	
+Season	2006
+Nation	"CAN"
+NationRank	6
+NationPoints	3060
+306	
+Season	2006
+Nation	"FRA"
+NationRank	7
+NationPoints	2584
+307	
+Season	2006
+Nation	"NOR"
+NationRank	9
+NationPoints	2333
+308	
+Season	2006
+Nation	"GER"
+NationRank	10
+NationPoints	1529
+309	
+Season	2007
+Nation	"AUT"
+NationRank	1
+NationPoints	14735
+310	
+Season	2007
+Nation	"SUI"
+NationRank	2
+NationPoints	5861
+311	
+Season	2007
+Nation	"USA"
+NationRank	3
+NationPoints	5297
+312	
+Season	2007
+Nation	"ITA"
+NationRank	4
+NationPoints	5136
+313	
+Season	2007
+Nation	"SWE"
+NationRank	5
+NationPoints	4177
+314	
+Season	2007
+Nation	"CAN"
+NationRank	6
+NationPoints	3714
+315	
+Season	2007
+Nation	"FRA"
+NationRank	7
+NationPoints	3338
+316	
+Season	2007
+Nation	"GER"
+NationRank	8
+NationPoints	1961
+317	
+Season	2007
+Nation	"NOR"
+NationRank	9
+NationPoints	1529
+318	
+Season	2008
+Nation	"AUT"
+NationRank	1
+NationPoints	13560
+319	
+Season	2008
+Nation	"SUI"
+NationRank	2
+NationPoints	6458
+320	
+Season	2008
+Nation	"ITA"
+NationRank	3
+NationPoints	6324
+321	
+Season	2008
+Nation	"USA"
+NationRank	4
+NationPoints	5965
+322	
+Season	2008
+Nation	"FRA"
+NationRank	5
+NationPoints	3815
+323	
+Season	2008
+Nation	"CAN"
+NationRank	6
+NationPoints	3637
+324	
+Season	2008
+Nation	"SWE"
+NationRank	7
+NationPoints	3221
+325	
+Season	2008
+Nation	"GER"
+NationRank	8
+NationPoints	2535
+326	
+Season	2008
+Nation	"NOR"
+NationRank	13
+NationPoints	636
+327	
+Season	2009
+Nation	"AUT"
+NationRank	1
+NationPoints	10740
+328	
+Season	2009
+Nation	"SUI"
+NationRank	2
+NationPoints	7786
+329	
+Season	2009
+Nation	"ITA"
+NationRank	3
+NationPoints	6374
+330	
+Season	2009
+Nation	"FRA"
+NationRank	4
+NationPoints	4670
+331	
+Season	2009
+Nation	"USA"
+NationRank	5
+NationPoints	4158
+332	
+Season	2009
+Nation	"SWE"
+NationRank	6
+NationPoints	3912
+333	
+Season	2009
+Nation	"GER"
+NationRank	7
+NationPoints	2820
+334	
+Season	2009
+Nation	"CAN"
+NationRank	8
+NationPoints	2554
+335	
+Season	2009
+Nation	"NOR"
+NationRank	10
+NationPoints	1479
+336	
+Season	2010
+Nation	"AUT"
+NationRank	1
+NationPoints	9207
+337	
+Season	2010
+Nation	"SUI"
+NationRank	2
+NationPoints	7263
+338	
+Season	2010
+Nation	"ITA"
+NationRank	3
+NationPoints	5093
+339	
+Season	2010
+Nation	"FRA"
+NationRank	4
+NationPoints	4428
+340	
+Season	2010
+Nation	"USA"
+NationRank	5
+NationPoints	4131
+341	
+Season	2010
+Nation	"GER"
+NationRank	6
+NationPoints	4000
+342	
+Season	2010
+Nation	"SWE"
+NationRank	7
+NationPoints	3006
+343	
+Season	2010
+Nation	"CAN"
+NationRank	8
+NationPoints	2723
+344	
+Season	2010
+Nation	"NOR"
+NationRank	10
+NationPoints	1724
+345	
+Season	2011
+Nation	"AUT"
+NationRank	1
+NationPoints	10644
+346	
+Season	2011
+Nation	"SUI"
+NationRank	2
+NationPoints	6576
+347	
+Season	2011
+Nation	"ITA"
+NationRank	3
+NationPoints	5488
+348	
+Season	2011
+Nation	"FRA"
+NationRank	4
+NationPoints	5119
+349	
+Season	2011
+Nation	"USA"
+NationRank	5
+NationPoints	4931
+350	
+Season	2011
+Nation	"GER"
+NationRank	6
+NationPoints	4623
+351	
+Season	2011
+Nation	"SWE"
+NationRank	7
+NationPoints	3566
+352	
+Season	2011
+Nation	"CAN"
+NationRank	9
+NationPoints	1872
+353	
+Season	2011
+Nation	"NOR"
+NationRank	11
+NationPoints	1555
+354	
+Season	2012
+Nation	"AUT"
+NationRank	1
+NationPoints	13676
+355	
+Season	2012
+Nation	"ITA"
+NationRank	2
+NationPoints	6907
+356	
+Season	2012
+Nation	"SUI"
+NationRank	3
+NationPoints	6503
+357	
+Season	2012
+Nation	"USA"
+NationRank	4
+NationPoints	6276
+358	
+Season	2012
+Nation	"FRA"
+NationRank	5
+NationPoints	6131
+359	
+Season	2012
+Nation	"GER"
+NationRank	6
+NationPoints	4297
+360	
+Season	2012
+Nation	"SWE"
+NationRank	7
+NationPoints	3805
+361	
+Season	2012
+Nation	"NOR"
+NationRank	8
+NationPoints	2425
+362	
+Season	2012
+Nation	"CAN"
+NationRank	9
+NationPoints	2370
+363	
+Season	2013
+Nation	"AUT"
+NationRank	1
+NationPoints	11103
+364	
+Season	2013
+Nation	"ITA"
+NationRank	2
+NationPoints	5815
+365	
+Season	2013
+Nation	"USA"
+NationRank	3
+NationPoints	5185
+366	
+Season	2013
+Nation	"FRA"
+NationRank	4
+NationPoints	5076
+367	
+Season	2013
+Nation	"GER"
+NationRank	5
+NationPoints	4818
+368	
+Season	2013
+Nation	"SWE"
+NationRank	6
+NationPoints	3494
+369	
+Season	2013
+Nation	"SUI"
+NationRank	7
+NationPoints	3399
+370	
+Season	2013
+Nation	"NOR"
+NationRank	9
+NationPoints	2335
+371	
+Season	2013
+Nation	"CAN"
+NationRank	10
+NationPoints	1646
+372	
+Season	2014
+Nation	"AUT"
+NationRank	1
+NationPoints	11489
+373	
+Season	2014
+Nation	"SUI"
+NationRank	2
+NationPoints	5773
+374	
+Season	2014
+Nation	"ITA"
+NationRank	3
+NationPoints	5335
+375	
+Season	2014
+Nation	"FRA"
+NationRank	4
+NationPoints	4825
+376	
+Season	2014
+Nation	"USA"
+NationRank	5
+NationPoints	4801
+377	
+Season	2014
+Nation	"SWE"
+NationRank	6
+NationPoints	4467
+378	
+Season	2014
+Nation	"NOR"
+NationRank	7
+NationPoints	3787
+379	
+Season	2014
+Nation	"GER"
+NationRank	8
+NationPoints	3708
+380	
+Season	2014
+Nation	"CAN"
+NationRank	9
+NationPoints	1867
+381	
+Season	2015
+Nation	"AUT"
+NationRank	1
+NationPoints	11617
+382	
+Season	2015
+Nation	"ITA"
+NationRank	2
+NationPoints	6145
+383	
+Season	2015
+Nation	"SUI"
+NationRank	3
+NationPoints	5362
+384	
+Season	2015
+Nation	"USA"
+NationRank	4
+NationPoints	5069
+385	
+Season	2015
+Nation	"FRA"
+NationRank	5
+NationPoints	5007
+386	
+Season	2015
+Nation	"SWE"
+NationRank	6
+NationPoints	3877
+387	
+Season	2015
+Nation	"NOR"
+NationRank	7
+NationPoints	3180
+388	
+Season	2015
+Nation	"GER"
+NationRank	8
+NationPoints	3035
+389	
+Season	2015
+Nation	"CAN"
+NationRank	10
+NationPoints	1535
+390	
+Season	2016
+Nation	"AUT"
+NationRank	1
+NationPoints	10591
+391	
+Season	2016
+Nation	"ITA"
+NationRank	2
+NationPoints	8770
+392	
+Season	2016
+Nation	"FRA"
+NationRank	3
+NationPoints	7733
+393	
+Season	2016
+Nation	"SUI"
+NationRank	4
+NationPoints	7195
+394	
+Season	2016
+Nation	"NOR"
+NationRank	5
+NationPoints	5929
+395	
+Season	2016
+Nation	"USA"
+NationRank	6
+NationPoints	5231
+396	
+Season	2016
+Nation	"GER"
+NationRank	7
+NationPoints	3966
+397	
+Season	2016
+Nation	"SWE"
+NationRank	8
+NationPoints	3527
+398	
+Season	2016
+Nation	"CAN"
+NationRank	9
+NationPoints	2126
+399	
+Season	2017
+Nation	"AUT"
+NationRank	1
+NationPoints	8846
+400	
+Season	2017
+Nation	"ITA"
+NationRank	2
+NationPoints	8207
+401	
+Season	2017
+Nation	"SUI"
+NationRank	3
+NationPoints	6172
+402	
+Season	2017
+Nation	"FRA"
+NationRank	4
+NationPoints	5045
+403	
+Season	2017
+Nation	"NOR"
+NationRank	5
+NationPoints	4812
+404	
+Season	2017
+Nation	"USA"
+NationRank	6
+NationPoints	4225
+405	
+Season	2017
+Nation	"GER"
+NationRank	7
+NationPoints	3182
+406	
+Season	2017
+Nation	"SWE"
+NationRank	9
+NationPoints	2333
+407	
+Season	2017
+Nation	"CAN"
+NationRank	10
+NationPoints	1621
+408	
+Season	2018
+Nation	"AUT"
+NationRank	1
+NationPoints	10525
+409	
+Season	2018
+Nation	"SUI"
+NationRank	2
+NationPoints	8321
+410	
+Season	2018
+Nation	"ITA"
+NationRank	3
+NationPoints	6562
+411	
+Season	2018
+Nation	"NOR"
+NationRank	4
+NationPoints	6204
+412	
+Season	2018
+Nation	"FRA"
+NationRank	5
+NationPoints	4270
+413	
+Season	2018
+Nation	"USA"
+NationRank	6
+NationPoints	4263
+414	
+Season	2018
+Nation	"GER"
+NationRank	7
+NationPoints	3806
+415	
+Season	2018
+Nation	"SWE"
+NationRank	8
+NationPoints	2717
+416	
+Season	2018
+Nation	"CAN"
+NationRank	12
+NationPoints	848
+417	
+Season	2019
+Nation	"AUT"
+NationRank	1
+NationPoints	11461
+418	
+Season	2019
+Nation	"SUI"
+NationRank	2
+NationPoints	7702
+419	
+Season	2019
+Nation	"ITA"
+NationRank	3
+NationPoints	5565
+420	
+Season	2019
+Nation	"FRA"
+NationRank	4
+NationPoints	5423
+421	
+Season	2019
+Nation	"NOR"
+NationRank	5
+NationPoints	5396
+422	
+Season	2019
+Nation	"USA"
+NationRank	6
+NationPoints	3749
+423	
+Season	2019
+Nation	"GER"
+NationRank	7
+NationPoints	3027
+424	
+Season	2019
+Nation	"SWE"
+NationRank	8
+NationPoints	2381
+425	
+Season	2019
+Nation	"CAN"
+NationRank	11
+NationPoints	1345
+426	
+Season	2020
+Nation	"SUI"
+NationRank	1
+NationPoints	8732
+427	
+Season	2020
+Nation	"AUT"
+NationRank	2
+NationPoints	7694
+428	
+Season	2020
+Nation	"ITA"
+NationRank	3
+NationPoints	6274
+429	
+Season	2020
+Nation	"NOR"
+NationRank	4
+NationPoints	5644
+430	
+Season	2020
+Nation	"FRA"
+NationRank	5
+NationPoints	5283
+431	
+Season	2020
+Nation	"USA"
+NationRank	6
+NationPoints	3316
+432	
+Season	2020
+Nation	"GER"
+NationRank	7
+NationPoints	2994
+433	
+Season	2020
+Nation	"SWE"
+NationRank	9
+NationPoints	1474
+434	
+Season	2020
+Nation	"CAN"
+NationRank	11
+NationPoints	833
+435	
+Season	2021
+Nation	"SUI"
+NationRank	1
+NationPoints	9907
+436	
+Season	2021
+Nation	"AUT"
+NationRank	2
+NationPoints	8971
+437	
+Season	2021
+Nation	"ITA"
+NationRank	3
+NationPoints	5607
+438	
+Season	2021
+Nation	"FRA"
+NationRank	4
+NationPoints	4991
+439	
+Season	2021
+Nation	"NOR"
+NationRank	5
+NationPoints	4191
+440	
+Season	2021
+Nation	"USA"
+NationRank	6
+NationPoints	3161
+441	
+Season	2021
+Nation	"GER"
+NationRank	7
+NationPoints	2341
+442	
+Season	2021
+Nation	"CAN"
+NationRank	10
+NationPoints	1089
+443	
+Season	2021
+Nation	"SWE"
+NationRank	12
+NationPoints	759
+444	
+Season	2022
+Nation	"AUT"
+NationRank	1
+NationPoints	10347
+445	
+Season	2022
+Nation	"SUI"
+NationRank	2
+NationPoints	10010
+446	
+Season	2022
+Nation	"ITA"
+NationRank	3
+NationPoints	6367
+447	
+Season	2022
+Nation	"NOR"
+NationRank	4
+NationPoints	5874
+448	
+Season	2022
+Nation	"FRA"
+NationRank	5
+NationPoints	4014
+449	
+Season	2022
+Nation	"USA"
+NationRank	6
+NationPoints	3644
+450	
+Season	2022
+Nation	"GER"
+NationRank	7
+NationPoints	2486
+451	
+Season	2022
+Nation	"CAN"
+NationRank	8
+NationPoints	2081
+452	
+Season	2022
+Nation	"SWE"
+NationRank	10
+NationPoints	1385
+453	
+Season	2023
+Nation	"SUI"
+NationRank	1
+NationPoints	10998
+454	
+Season	2023
+Nation	"AUT"
+NationRank	2
+NationPoints	8489
+455	
+Season	2023
+Nation	"NOR"
+NationRank	3
+NationPoints	7211
+456	
+Season	2023
+Nation	"ITA"
+NationRank	4
+NationPoints	6518
+457	
+Season	2023
+Nation	"USA"
+NationRank	5
+NationPoints	4389
+458	
+Season	2023
+Nation	"FRA"
+NationRank	6
+NationPoints	3674
+459	
+Season	2023
+Nation	"GER"
+NationRank	7
+NationPoints	2964
+460	
+Season	2023
+Nation	"CAN"
+NationRank	8
+NationPoints	2075
+461	
+Season	2023
+Nation	"SWE"
+NationRank	10
+NationPoints	1677
+462	
+Season	2024
+Nation	"SUI"
+NationRank	1
+NationPoints	10882
+463	
+Season	2024
+Nation	"AUT"
+NationRank	2
+NationPoints	9287
+464	
+Season	2024
+Nation	"ITA"
+NationRank	3
+NationPoints	6817
+465	
+Season	2024
+Nation	"NOR"
+NationRank	4
+NationPoints	5190
+466	
+Season	2024
+Nation	"USA"
+NationRank	5
+NationPoints	3998
+467	
+Season	2024
+Nation	"FRA"
+NationRank	6
+NationPoints	3808
+468	
+Season	2024
+Nation	"GER"
+NationRank	7
+NationPoints	2212
+469	
+Season	2024
+Nation	"CAN"
+NationRank	8
+NationPoints	1861
+470	
+Season	2024
+Nation	"SWE"
+NationRank	9
+NationPoints	1738
+471	
+Season	2025
+Nation	"SUI"
+NationRank	1
+NationPoints	10823
+472	
+Season	2025
+Nation	"AUT"
+NationRank	2
+NationPoints	7459
+473	
+Season	2025
+Nation	"ITA"
+NationRank	3
+NationPoints	6399
+474	
+Season	2025
+Nation	"NOR"
+NationRank	4
+NationPoints	5098
+475	
+Season	2025
+Nation	"USA"
+NationRank	5
+NationPoints	4179
+476	
+Season	2025
+Nation	"FRA"
+NationRank	6
+NationPoints	3347
+477	
+Season	2025
+Nation	"GER"
+NationRank	7
+NationPoints	2107
+478	
+Season	2025
+Nation	"SWE"
+NationRank	8
+NationPoints	1884
+479	
+Season	2025
+Nation	"CAN"
+NationRank	10
+NationPoints	1567
+480	
+Season	2025
+Nation	"BRA"
+NationRank	12
+NationPoints	714
+481	
+Season	2026
+Nation	"SUI"
+NationRank	1
+NationPoints	9110
+482	
+Season	2026
+Nation	"AUT"
+NationRank	2
+NationPoints	8404
+483	
+Season	2026
+Nation	"ITA"
+NationRank	3
+NationPoints	6680
+484	
+Season	2026
+Nation	"USA"
+NationRank	4
+NationPoints	5519
+485	
+Season	2026
+Nation	"NOR"
+NationRank	5
+NationPoints	4762
+486	
+Season	2026
+Nation	"FRA"
+NationRank	6
+NationPoints	4177
+487	
+Season	2026
+Nation	"GER"
+NationRank	7
+NationPoints	3350
+488	
+Season	2026
+Nation	"SWE"
+NationRank	8
+NationPoints	1710
+489	
+Season	2026
+Nation	"CAN"
+NationRank	9
+NationPoints	1159
+490	
+Season	2026
+Nation	"BRA"
+NationRank	10
+NationPoints	1058
