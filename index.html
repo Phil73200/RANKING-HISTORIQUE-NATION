@@ -1,181 +1,87 @@
 <!DOCTYPE html>
-<html lang="fr">
-
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>FIS Alpine Nations Ranking</title>
+<title>WC Nations</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 body{
-    margin:0;
-    padding:0;
+    font-family:Arial;
     background:white;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-.container{
-    width:95%;
-    margin:auto;
+    margin:0;
     padding:20px;
 }
 
-h1{
-    text-align:center;
-    font-size:34px;
-    margin-bottom:8px;
+#chartBox{
+    width:100%;
+    height:90vh;
 }
-
-.subtitle{
-    text-align:center;
-    color:#666;
-    margin-bottom:25px;
-    font-size:16px;
-}
-
-.controls{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin-bottom:20px;
-    flex-wrap:wrap;
-}
-
-button{
-    padding:10px 18px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    background:#e9ecef;
-    font-size:14px;
-    transition:0.2s;
-}
-
-button:hover{
-    opacity:0.9;
-}
-
-button.active{
-    background:#0057b8;
-    color:white;
-}
-
-.chart-container{
-    height:82vh;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<h2>FIS Alpine Nations Ranking</h2>
 
-    <h1>FIS Alpine Nations Ranking</h1>
-
-    <div class="subtitle">
-        Evolution des meilleures nations alpines de 1970 à 2026
-    </div>
-
-    <div class="controls">
-        <button id="btnRank" class="active">Classement</button>
-        <button id="btnPoints">Points</button>
-    </div>
-
-    <div class="chart-container">
-        <canvas id="chart"></canvas>
-    </div>
-
-</div>
+<canvas id="chartBox"></canvas>
 
 <script>
 
-let currentMode='rank';
+fetch('data_overall.json')
+.then(r=>r.json())
+.then(data=>{
 
-const nationColors={
-
-    FRA:'#0057b8',
-    AUT:'#d62828',
-    SUI:'#2a9d8f',
-    ITA:'#2b9348',
-    USA:'#7b8794',
-    NOR:'#8d99ae',
-    GER:'#111111',
-    CAN:'#ff8800',
-    SWE:'#9d4edd',
-    BRA:'#2dc653'
-};
-
-async function loadData(){
-
-    const response=await fetch('data_overall.json');
-
-    return await response.json();
-}
-
-let chart;
-
-async function buildChart(){
-
-    const data=await loadData();
-
-    const nations=[
-        ...new Set(data.map(d=>d.Nation))
-    ];
+    const nations=[...new Set(data.map(d=>d.Nation))];
 
     const seasons=[
         ...new Set(data.map(d=>d.Season))
     ].sort((a,b)=>a-b);
 
+    const colors={
+        FRA:'#0057b8',
+        AUT:'#d62828',
+        SUI:'#2a9d8f',
+        ITA:'#2b9348',
+        USA:'#7b8794',
+        NOR:'#8d99ae',
+        GER:'#111111',
+        CAN:'#ff8800',
+        SWE:'#9d4edd',
+        BRA:'#2dc653'
+    };
+
     const datasets=nations.map(nation=>{
-
-        const values=seasons.map(season=>{
-
-            const found=data.find(
-                d=>
-                    d.Season===season
-                    && d.Nation===nation
-            );
-
-            if(!found){
-                return null;
-            }
-
-            return currentMode==='rank'
-                ? found.NationRank
-                : found.NationPoints;
-        });
 
         return{
 
             label:nation,
 
-            data:values,
+            data:seasons.map(season=>{
 
-            borderColor:nationColors[nation] || '#999',
+                const row=data.find(
+                    d=>
+                        d.Season===season
+                        && d.Nation===nation
+                );
 
-            backgroundColor:nationColors[nation] || '#999',
+                return row ? row.NationRank : null;
+            }),
+
+            borderColor:colors[nation] || '#999',
 
             borderWidth:nation==='FRA' ? 5 : 2,
 
             pointRadius:0,
 
-            tension:0.2,
-
-            spanGaps:false
+            tension:0.2
         };
     });
 
-    if(chart){
-        chart.destroy();
-    }
-
-    chart=new Chart(
-        document.getElementById('chart'),
+    new Chart(
+        document.getElementById('chartBox'),
         {
 
             type:'line',
@@ -188,114 +94,35 @@ async function buildChart(){
             options:{
 
                 responsive:true,
+
                 maintainAspectRatio:false,
 
                 animation:false,
 
-                interaction:{
-                    mode:'nearest',
-                    intersect:false
-                },
-
                 plugins:{
-
                     legend:{
-                        position:'right',
-                        labels:{
-                            font:{
-                                size:13
-                            }
-                        }
-                    },
-
-                    tooltip:{
-                        callbacks:{
-
-                            label:function(context){
-
-                                const nation=context.dataset.label;
-                                const value=context.raw;
-
-                                if(currentMode==='rank'){
-                                    return nation + ' : Rank ' + value;
-                                }
-
-                                return nation + ' : ' + value + ' pts';
-                            }
-                        }
+                        position:'right'
                     }
                 },
 
                 scales:{
-
                     y:{
-
-                        reverse:currentMode==='rank',
-
-                        min:currentMode==='rank'
-                            ? 1
-                            : undefined,
-
-                        max:currentMode==='rank'
-                            ? 20
-                            : undefined,
-
-                        ticks:{
-
-                            stepSize:1,
-
-                            color:'#444'
-                        },
-
-                        grid:{
-                            color:'#e5e5e5'
-                        }
-                    },
-
-                    x:{
-
-                        ticks:{
-                            color:'#444',
-                            maxTicksLimit:20
-                        },
-
-                        grid:{
-                            color:'#f3f3f3'
-                        }
+                        reverse:true,
+                        min:1,
+                        max:20
                     }
                 }
             }
         }
     );
-}
 
-document.getElementById('btnRank').onclick=()=>{
-
-    currentMode='rank';
-
-    document.getElementById('btnRank')
-        .classList.add('active');
-
-    document.getElementById('btnPoints')
-        .classList.remove('active');
-
-    buildChart();
-};
-
-document.getElementById('btnPoints').onclick=()=>{
-
-    currentMode='points';
-
-    document.getElementById('btnPoints')
-        .classList.add('active');
-
-    document.getElementById('btnRank')
-        .classList.remove('active');
-
-    buildChart();
-};
-
-buildChart();
+})
+.catch(err=>{
+    document.body.innerHTML +=
+        '<h3 style="color:red;">ERREUR : '
+        + err +
+        '</h3>';
+});
 
 </script>
 
