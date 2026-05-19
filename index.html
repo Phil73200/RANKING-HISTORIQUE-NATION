@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FIS Alpine Nations Ranking</title>
 
@@ -13,7 +13,7 @@
 body{
     margin:0;
     padding:0;
-    background:#ffffff;
+    background:white;
     font-family:Arial, Helvetica, sans-serif;
 }
 
@@ -51,7 +51,6 @@ button{
     cursor:pointer;
     font-size:15px;
     background:#e9ecef;
-    transition:0.2s;
 }
 
 button.active{
@@ -136,6 +135,7 @@ async function loadData(){
     }
 
     const response=await fetch(file);
+
     return await response.json();
 }
 
@@ -192,8 +192,6 @@ async function buildChart(){
 
             tension:0.25,
 
-            borderDash:[],
-
             spanGaps:false
         };
     });
@@ -217,6 +215,8 @@ async function buildChart(){
 
             responsive:true,
             maintainAspectRatio:false,
+
+            animation:false,
 
             interaction:{
                 mode:'nearest',
@@ -257,41 +257,19 @@ async function buildChart(){
                     max:currentMode==='rank' ? 10 : undefined,
 
                     ticks:{
-                        stepSize:1,
-                        color:'#444',
-                        font:{
-                            size:13
-                        }
-                    },
-
-                    grid:{
-                        color:'#e5e5e5'
-                    }
-                },
-
-                x:{
-
-                    ticks:{
-                        color:'#444',
-                        maxTicksLimit:20
-                    },
-
-                    grid:{
-                        color:'#f2f2f2'
+                        stepSize:1
                     }
                 }
-            },
-
-            animation:false
+            }
         },
 
         plugins:[{
 
-            id:'labels',
+            id:'nationLabels',
 
-            afterDatasetsDraw(chart,args,pluginOptions){
+            afterDraw(chart){
 
-                const {ctx}=chart;
+                const ctx=chart.ctx;
 
                 ctx.save();
 
@@ -299,14 +277,23 @@ async function buildChart(){
 
                     const meta=chart.getDatasetMeta(i);
 
-                    if(!meta.data.length){
+                    if(!meta || !meta.data || meta.data.length===0){
                         return;
                     }
 
-                    const lastPoint=
-                        meta.data[meta.data.length-1];
+                    let lastValidPoint=null;
 
-                    if(!lastPoint){
+                    for(let j=meta.data.length-1;j>=0;j--){
+
+                        const point=meta.data[j];
+
+                        if(point && point.y !== undefined){
+                            lastValidPoint=point;
+                            break;
+                        }
+                    }
+
+                    if(!lastValidPoint){
                         return;
                     }
 
@@ -317,14 +304,14 @@ async function buildChart(){
                     ctx.font=
                         nation==='FRA'
                         ? 'bold 18px Arial'
-                        : '14px Arial';
+                        : '13px Arial';
 
                     ctx.textAlign='left';
 
                     ctx.fillText(
                         `${nationFlags[nation] || ''} ${nation}`,
-                        lastPoint.x + 10,
-                        lastPoint.y + 5
+                        lastValidPoint.x + 10,
+                        lastValidPoint.y + 4
                     );
                 });
 
